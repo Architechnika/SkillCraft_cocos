@@ -149,22 +149,22 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0,
+      "y": 1
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 200
+      "width": 640,
+      "height": 640
     },
     "_rotationX": 0,
     "_rotationY": 0,
     "_scaleX": 1,
-    "_scaleY": 1,
+    "_scaleY": 0.97,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -128,
-      "y": 0
+      "x": -387,
+      "y": 336
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -333,6 +333,7 @@
         "__uuid__": "c9cf14da-b027-4d29-81ef-e33c434f53c6"
       }
     ],
+    "globalPrefFieldArray": [],
     "globalFieldArray": []
   },
   {
@@ -380,7 +381,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": -100,
       "y": 0
     },
     "_skewX": 0,

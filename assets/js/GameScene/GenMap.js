@@ -10,6 +10,7 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        globalPrefFieldArray: [],
         globalFieldArray: [],
     },
 
@@ -20,24 +21,53 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        this.initField();
+        //this.initField(3);
     },
 
     update(dt) {
-
+        this.initField(3);
     },
     
-    initField() {
-        this.globalFieldArray = this.generateMap(500, 500, 3);
-        //Instantiating all prefabs
-        for (var i = 0; i < this.globalFieldArray.length; i++) {
-            for (var j = 0; j < this.globalFieldArray[i].length; j++) {
-                //Creating the element
-                var element = cc.instantiate(this.globalFieldArray[i][j]);
+    initField(elementsInLine) {
+        this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
+        this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
+        var element = cc.instantiate(this.globalPrefFieldArray[0][0]);
+                element.anchorX = 0;
+                element.anchorY = 1;
+                element.x = 100;
+                element.y = 100;
+                //element.setSize(500,500);
+        this.node.addChild(element);
+        /*for(var i = 0 ; i < this.globalFieldArray.length; i++){
+            this.node.removeChild(this.globalFieldArray[i],true);
+        }
+        this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
+        this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
+        //Рассчитываем какой шаг по оси для каждого элемента нам нужен
+        var stepX = this.node.width / elementsInLine;
+        var stepY = this.node.height / elementsInLine;
+        var elemSize = stepX;
+        //Задаем анкор на экране для отрисовки с левого верънего угла
+        var stX=0,stY=0;
+        //Создаем элементы из массива префабов
+        for (var i = 0; i < elementsInLine; i++) {
+            for (var j = 0; j < elementsInLine; j++) {
+                var element = cc.instantiate(this.globalPrefFieldArray[i][j]);
+                element.anchorX = 0;
+                element.anchorY = 1;
+                element.x = stX;
+                element.y = stY;
+                element.width = elemSize;
+                element.height = elemSize;
                 //Adding the element to this node's child
                 this.node.addChild(element);
+                this.globalFieldArray.push(element);
+                stX+= stepX;
             }
-        }
+            stY += stepY;
+            stX = 0;
+        }*/
+        //Возвращаем анкор в центр для ресайзов и сдвигов
     },
 
     generateMap(w, h, labSize) {
