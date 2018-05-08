@@ -6,6 +6,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        fields: {
+            default: [],
+            type: cc.Prefab
+        }
         roadCode : '7', //Представление элемента дороги в виде числа
         borderCode : '0', //Представление элемента внешних стенок в виде числа
         entryCode : '8', //Представление элемента входа в лаюиринт в виде числа
