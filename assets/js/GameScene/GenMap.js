@@ -20,8 +20,16 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        var ss = this.generateMap(500, 3, 2);
-        console.log(ss);
+        globalFieldArray = this.generateMap(500, 3, 2);
+        //Instantiating all prefabs
+        for(var i = 0 ; i < globalFieldArray.length; i++){
+            for(var j = 0 ; j < globalFieldArray[i].length; j++){
+                //Creating the element
+                var element = cc.instantiate(globalFieldArray[i][j]);
+                //Adding the element to this node's child
+                this.node.addChild(element);
+            }
+        }
     },
 
     update (dt) {
@@ -387,70 +395,70 @@ cc.Class({
 
                     if (isLeftRoad && isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 12
-                        newArr[i][j] = "2";
+                        newArr[i][j] = this.fields[24];
                         continue;
                     }
                     if (isLeftRoad && isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 13
-                        newArr[i][j] = "3";
+                        newArr[i][j] = this.fields[30];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && isBottomRoad && isTopRoad) {
                         //картинка 14
-                        newArr[i][j] = "4";
+                        newArr[i][j] = this.fields[27];
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && isBottomRoad && isTopRoad) {
                         //картинка 15
-                        newArr[i][j] = "5";
+                        newArr[i][j] = this.fields[26];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 16
-                        newArr[i][j] = "6";
+                        newArr[i][j] = this.fields[42];
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 17
-                        newArr[i][j] = "777";
+                        newArr[i][j] = this.fields[40];
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 18
-                        newArr[i][j] = "888";
+                        newArr[i][j] = this.fields[39];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 19
-                        newArr[i][j] = "999";
+                        newArr[i][j] = this.fields[41];
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && !isBottomRoad && isTopRoad) {
-                        newArr[i][j] = "37";
+                        newArr[i][j] = this.fields[16];
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = "38";
+                        newArr[i][j] = this.fields[19];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = "39";
+                        newArr[i][j] = this.fields[17];
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = "40";
+                        newArr[i][j] = this.fields[18];
                         continue;
                     }
                     if (isLeftRoad && isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = "41";
+                        newArr[i][j] = this.fields[49];
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && isBottomRoad && isTopRoad) {
-                        newArr[i][j] = "42";
+                        newArr[i][j] = this.fields[47];
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = "43";
+                        newArr[i][j] = this.fields[48];
                         continue;
                     }
                 }
