@@ -6,21 +6,27 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        fields: {
+        fields: {//Префабы всех игровых элементов
             default: [],
             type: cc.Prefab
         },
+        globalFieldArray:[],
     },
+    
+    
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
     start() {
-        var ss = this.generateMap(500, 15, 15);
+        var ss = this.generateMap(500, 3, 2);
+        console.log(ss);
     },
 
-    // update (dt) {},
+    update (dt) {
+        this.graphicsMapSort(this.genBin(3, 3, [], [], [0, 0]),3);
+    },
 
     generateMap(w, h, labSize) {
         //Получаем массив сгенерированного поля
@@ -149,7 +155,15 @@ cc.Class({
         var isTopRoad = false;
         var isBottomRoad = false;
 
-        var newArr = getCopyOfObj(arr);
+        var roadCode = '7'; //Представление элемента дороги в виде числа
+        var borderCode = '0'; //Представление элемента внешних стенок в виде числа
+        var entryCode = '8'; //Представление элемента входа в лаюиринт в виде числа
+        var exitCode = '9'; //Представление элемента выхода из лабиринта в виде числа
+        var wallCode = '1'; //Всего доступно 3 типа стенок внутри игры КОДЫ 1,2,3
+        //Коды игровых предметов
+        var coinCode = '4'; //КОД МОНЕТКИ
+        
+        var newArr = arr;
         for (var i = 0; i < rouColCount; i++) {
             for (var j = 0; j < rouColCount; j++) {
                 isLeftWall = false;
@@ -163,39 +177,39 @@ cc.Class({
 
                 if (newArr[i][j] == entryCode || newArr[i][j] == exitCode) {
                     if (newArr[i][j] == entryCode) {
-                        if (i == 0) {
-                            newArr[i][j] = "44";
+                        if (i == 0) {//Верх
+                            newArr[i][j] = this.fields[34];
                             continue;
                         }
-                        if (i == rouColCount - 1) {
-                            newArr[i][j] = "45";
+                        if (i == rouColCount - 1) {//Низ
+                            newArr[i][j] = this.fields[31];
                             continue;
                         }
-                        if (j == 0) {
-                            newArr[i][j] = "47";
+                        if (j == 0) {//Лево
+                            newArr[i][j] = this.fields[32];
                             continue;
                         }
-                        if (j == rouColCount - 1) {
-                            newArr[i][j] = "46";
+                        if (j == rouColCount - 1) {//Право
+                            newArr[i][j] = this.fields[33];
                             continue;
                         }
 
                     }
                     if (newArr[i][j] == exitCode) {
                         if (i == 0) {
-                            newArr[i][j] = "48";
+                            newArr[i][j] = this.fields[15];
                             continue;
                         }
                         if (i == rouColCount - 1) {
-                            newArr[i][j] = "49";
+                            newArr[i][j] = this.fields[12];
                             continue;
                         }
                         if (j == 0) {
-                            newArr[i][j] = "51";
+                            newArr[i][j] = this.fields[13];
                             continue;
                         }
                         if (j == rouColCount - 1) {
-                            newArr[i][j] = "50";
+                            newArr[i][j] = this.fields[14];
                             continue;
                         }
 
