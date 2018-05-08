@@ -44,7 +44,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 63,
+      "width": 64,
       "height": 64
     },
     "_rotationX": 0,
@@ -75,7 +75,7 @@
       "__uuid__": "400bd367-7bab-4623-83b2-68f031525c8e"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -115,7 +115,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "b1fc86ae-15c8-4faf-aff5-08f2c75b0859"
     },
     "fileId": "c1hRm1/RdBb7213ySXZaUa",
     "sync": false

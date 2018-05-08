@@ -14,46 +14,42 @@ cc.Class({
         globalFieldArray: [],
     },
 
-
-
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
-
+    onLoad() {
+        this.node.on('mousewheel', function(event){
+            var diff = event.deltaY < 0 ? 0.05 : -0.05;            
+            this.scaleX = this.scaleX + diff;
+            this.scaleY = this.scaleY + diff;
+        });
+    },
+    
     start() {
         this.initField(7);
     },
 
-    update(dt) {
+    /*update(dt) {
         //this.initField(3);
-    },
-    
+    },*/
+
     initField(elementsInLine) {
-        /*this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
-        this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
-        var element = cc.instantiate(this.globalPrefFieldArray[0][0]);
-                element.anchorX = 0;
-                element.anchorY = 1;
-                element.x = 231;
-                element.y = 0;
-                element.width = 231;
-                element.height = 231;    
-        this.node.addChild(element);*/
         //Удаляем старое поле
-        for(var i = 0 ; i < this.globalFieldArray.length; i++){
-            this.node.removeChild(this.globalFieldArray[i],true);
+        for (var i = 0; i < this.globalFieldArray.length; i++) {
+            this.node.removeChild(this.globalFieldArray[i], true);
         }
-        this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
+        this.globalFieldArray.splice(0, this.globalFieldArray.length - 1);
         //Генерим новое
         this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
         //Рассчитываем какой шаг по оси для каждого элемента нам нужен
         var stepX = this.node.width / elementsInLine;
         var stepY = this.node.height / elementsInLine;
-        var elemSize = stepX;
+        var elemSizeX = stepX;
+        var elemSizeY = stepY;
         //Задаем анкор на экране для отрисовки с левого верънего угла
         this.node.anchorX = 0;
         this.node.anchorY = 1;
-        var stX=0,stY=0;
+        var stX = 0,
+            stY = 0;
         //Создаем элементы из массива префабов
         for (var i = 0; i < elementsInLine; i++) {
             for (var j = 0; j < elementsInLine; j++) {
@@ -62,12 +58,13 @@ cc.Class({
                 element.anchorY = 1;
                 element.x = stX;
                 element.y = stY;
-                element.width = elemSize;
-                element.height = elemSize;
+                //var spriteCompRect = element.getComponent(cc.Sprite).spriteFrame.getRect();
+                element.scaleX = elemSizeX / element.width;
+                element.scaleY = elemSizeY / element.height;
                 //Adding the element to this node's child
                 this.node.addChild(element);
                 this.globalFieldArray.push(element);
-                stX+= stepX;
+                stX += stepX;
             }
             stY -= stepY;
             stX = 0;
@@ -280,7 +277,7 @@ cc.Class({
                     }
                     if (i == rouColCount - 1) {
                         //картинка 23
-                        newArr[i][j] = this.fields[6];
+                        newArr[i][j] = this.fields[4];
                         continue;
                     }
                     if (arr[i][j + 1] == "1") {
