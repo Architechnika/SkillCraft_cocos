@@ -10,13 +10,6 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
-        roadCode: '7', //Представление элемента дороги в виде числа
-        borderCode: '0', //Представление элемента внешних стенок в виде числа
-        entryCode: '8', //Представление элемента входа в лаюиринт в виде числа
-        exitCode: '9', //Представление элемента выхода из лабиринта в виде числа
-        wallCode: '1', //Всего доступно 3 типа стенок внутри игры КОДЫ 1,2,3
-        //Коды игровых предметов
-        coinCode: '4', //КОД МОНЕТКИ
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -24,14 +17,14 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        var ss = this.generateMap(500, 500, 15, 15);
+        var ss = this.generateMap(500, 15, 15);
     },
 
     // update (dt) {},
 
-    generateMap(w, h, elemsInLine, elemsInColumn) {
+    generateMap(w, h, labSize) {
         //Получаем массив сгенерированного поля
-        return this.graphicsMapSort(this.genBin(elemsInColumn, elemsInLine, [], [], [0, 0]));
+        return this.graphicsMapSort(this.genBin(labSize, labSize, [], [], [0, 0]),labSize);
     },
 
     //Генерит лабиринт в виде строк с кодами элементов поля
@@ -41,22 +34,29 @@ cc.Class({
         width = width % 2 == 0 ? width + 1 : width;
         hate -= 2;
         width -= 2;
+        var roadCode = '7'; //Представление элемента дороги в виде числа
+        var borderCode = '0'; //Представление элемента внешних стенок в виде числа
+        var entryCode = '8'; //Представление элемента входа в лаюиринт в виде числа
+        var exitCode = '9'; //Представление элемента выхода из лабиринта в виде числа
+        var wallCode = '1'; //Всего доступно 3 типа стенок внутри игры КОДЫ 1,2,3
+        //Коды игровых предметов
+        var coinCode = '4'; //КОД МОНЕТКИ
 
         var mazeTmp = [];
         for (var y = 0; y < hate + 2; y++) {
             maze[y] = [];
             mazeTmp[y] = [];
-            for (var x = 0; x < width + 2; maze[y][x++] = this.borderCode) {
-                mazeTmp[y][x] = this.borderCode;
+            for (var x = 0; x < width + 2; maze[y][x++] = borderCode) {
+                mazeTmp[y][x] = borderCode;
             }
         }
 
         function amaze(y, x, addBlockWalls) {
-            maze[y][x] = this.roadCode;
-            if (addBlockWalls && valid(y + 1, x) && (maze[y + 1][x] == this.borderCode)) walls.push([y + 1, x, [y, x]]);
-            if (addBlockWalls && valid(y - 1, x) && (maze[y - 1][x] == this.borderCode)) walls.push([y - 1, x, [y, x]]);
-            if (addBlockWalls && valid(y, x + 1) && (maze[y][x + 1] == this.borderCode)) walls.push([y, x + 1, [y, x]]);
-            if (addBlockWalls && valid(y, x - 1) && (maze[y][x - 1] == this.borderCode)) walls.push([y, x - 1, [y, x]]);
+            maze[y][x] = roadCode;
+            if (addBlockWalls && valid(y + 1, x) && (maze[y + 1][x] == borderCode)) walls.push([y + 1, x, [y, x]]);
+            if (addBlockWalls && valid(y - 1, x) && (maze[y - 1][x] == borderCode)) walls.push([y - 1, x, [y, x]]);
+            if (addBlockWalls && valid(y, x + 1) && (maze[y][x + 1] == borderCode)) walls.push([y, x + 1, [y, x]]);
+            if (addBlockWalls && valid(y, x - 1) && (maze[y][x - 1] == borderCode)) walls.push([y, x - 1, [y, x]]);
         }
 
         function valid(a, b) {
@@ -77,8 +77,8 @@ cc.Class({
         for (var i = 1; i < mazeTmp.length - 1; i++) {
             for (var j = 1; j < mazeTmp.length - 1; j++) {
                 mazeTmp[i][j] = maze[i - 1][j - 1];
-                if (mazeTmp[i][j] == this.borderCode) {
-                    mazeTmp[i][j] = this.wallCode; //Генерит случайную стенку внутри лабиринта КОДЫ 1 2 3
+                if (mazeTmp[i][j] == borderCode) {
+                    mazeTmp[i][j] = wallCode; //Генерит случайную стенку внутри лабиринта КОДЫ 1 2 3
                 }
             }
         }
@@ -86,46 +86,38 @@ cc.Class({
         //Генерим местоположение входа и выхода из лабиринта
         var indx = 0;
         //Рэндомим вход или выход
-        var isEntry = getRandomInt(0, 2) == 1;
+        var isEntry = this.getRandomInt(0, 2) == 1;
         //Если вход/выход будет на левой и правой стенке
-        if (getRandomInt(0, 2) == 1) {
-
-            //Инициализируем местоположение входа
-            if (isEntry) entrySide = "LEFT";
-            else entrySide = "RIGHT";
+        if (this.getRandomInt(0, 2) == 1) {
 
             //Генерим рэндомный индекс из левой стенки для входа
-            indx = getRandomInt(1, mazeTmp.length - 2);
+            indx = this.getRandomInt(1, mazeTmp.length - 2);
             //Проверяем, чтобы прямо перед элементом не было стены
-            if (mazeTmp[indx][1] != this.roadCode) indx++;
+            if (mazeTmp[indx][1] != roadCode) indx++;
             //Ставим вход или выход на левую стенку
-            mazeTmp[indx][0] = isEntry ? this.entryCode : this.exitCode;
+            mazeTmp[indx][0] = isEntry ? entryCode : exitCode;
 
             //Генерим рэндомный индекс из правой стенки для входа
-            indx = getRandomInt(1, mazeTmp.length - 2);
+            indx = this.getRandomInt(1, mazeTmp.length - 2);
             //Проверяем, чтобы прямо пере элементом не было стены
-            if (mazeTmp[indx][mazeTmp[0].length - 2] != this.roadCode) indx++;
+            if (mazeTmp[indx][mazeTmp[0].length - 2] != roadCode) indx++;
             //Ставим вход или выход на правую стенку
-            mazeTmp[indx][mazeTmp[0].length - 1] = isEntry ? this.exitCode : this.entryCode;
+            mazeTmp[indx][mazeTmp[0].length - 1] = isEntry ? exitCode : entryCode;
         } else { //Если вход и выход будет на верхней и нижней стенке
 
-            //Инициализируем местоположение входа
-            if (isEntry) entrySide = "UP";
-            else entrySide = "DOWN";
-
             //Генерим рэндомный индекс из верхней стенки для входа
-            indx = getRandomInt(1, mazeTmp[0].length - 2);
+            indx = this.getRandomInt(1, mazeTmp[0].length - 2);
             //Проверяем, чтобы прямо перед элементом не было стены
-            if (mazeTmp[1][indx] != this.roadCode) indx++;
+            if (mazeTmp[1][indx] != roadCode) indx++;
             //Ставим вход или выход на верхней стенке
-            mazeTmp[0][indx] = isEntry ? this.entryCode : this.exitCode;
+            mazeTmp[0][indx] = isEntry ? entryCode : exitCode;
 
             //Генерим рэндомный индекс из нижней стенки для выходв
-            indx = getRandomInt(1, mazeTmp[mazeTmp.length - 1].length - 2);
+            indx = this.getRandomInt(1, mazeTmp[mazeTmp.length - 1].length - 2);
             //Проверяем, чтобы прямо перед элементом не было стены
-            if (mazeTmp[mazeTmp.length - 2][indx] != this.roadCode) indx++;
+            if (mazeTmp[mazeTmp.length - 2][indx] != roadCode) indx++;
             //Ставим вход или выход на нижней стенке
-            mazeTmp[mazeTmp.length - 1][indx] = isEntry ? this.exitCode : this.entryCode;
+            mazeTmp[mazeTmp.length - 1][indx] = isEntry ? exitCode : entryCode;
         }
         return mazeTmp;
     },
@@ -135,7 +127,7 @@ cc.Class({
     },
 
 
-    graphicsMapSort(arr) {
+    graphicsMapSort(arr, labSize) {
         // 1 - стена обычная, 2- стена с двойным округлением вниз, 3- стена с двойным окружением вверх, 4- стена с двойным окружением вправо
         // 5- стена с двойным окружением влево, 6- стена с одним окружением право-верх, 7-стена с одним окружением лево-верх, 8- стена с одной стеной лево-низ
         // 9- стена с одним окружением право-низ, 10- дорога прамая-вертикальная, 11- дорога Т-образная на право, 12- дорога перекресток, 13- дорога угловая правый верхний угол
@@ -146,7 +138,7 @@ cc.Class({
         // 33- дорога конечная точка право, 34-дорога конечная точка влево, 35-дорога конечная точка верх, 36-дорога конечная точка вниз, 37- внутренная стена Т-образная вниз
         // 38- внутренная стена Т-образная верх, 39-внутренная стена Т-образная-лево, 40-внутренная стена Т-образная-право, 41-внутренная стена прямая вертикальная, 
         // 42-внутренная стена прямая горизонтальная, 43-внутренная стена перекресток
-        var rouColCount = labyrinthSize;
+        var rouColCount = labSize;
         var isLeftWall = false;
         var isRightWall = false;
         var isTopWall = false;
