@@ -6,39 +6,43 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        fields: {//Префабы всех игровых элементов
+        fields: { //Префабы всех игровых элементов
             default: [],
             type: cc.Prefab
         },
-        globalFieldArray:[],
+        globalFieldArray: [],
     },
-    
-    
+
+
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
     start() {
-        globalFieldArray = this.generateMap(500, 3, 2);
+        this.initField();
+    },
+
+    update(dt) {
+
+    },
+    
+    initField() {
+        this.globalFieldArray = this.generateMap(500, 500, 3);
         //Instantiating all prefabs
-        for(var i = 0 ; i < globalFieldArray.length; i++){
-            for(var j = 0 ; j < globalFieldArray[i].length; j++){
+        for (var i = 0; i < this.globalFieldArray.length; i++) {
+            for (var j = 0; j < this.globalFieldArray[i].length; j++) {
                 //Creating the element
-                var element = cc.instantiate(globalFieldArray[i][j]);
+                var element = cc.instantiate(this.globalFieldArray[i][j]);
                 //Adding the element to this node's child
                 this.node.addChild(element);
             }
         }
     },
 
-    update (dt) {
-        this.graphicsMapSort(this.genBin(3, 3, [], [], [0, 0]),3);
-    },
-
     generateMap(w, h, labSize) {
         //Получаем массив сгенерированного поля
-        return this.graphicsMapSort(this.genBin(labSize, labSize, [], [], [0, 0]),labSize);
+        return this.graphicsMapSort(this.genBin(labSize, labSize, [], [], [0, 0]), labSize);
     },
 
     //Генерит лабиринт в виде строк с кодами элементов поля
@@ -170,8 +174,14 @@ cc.Class({
         var wallCode = '1'; //Всего доступно 3 типа стенок внутри игры КОДЫ 1,2,3
         //Коды игровых предметов
         var coinCode = '4'; //КОД МОНЕТКИ
-        
-        var newArr = arr;
+
+        var newArr = []; //arr;
+        for (var c = 0; c < arr.length; c++) {
+            newArr.push([]);
+            for (var p = 0; p < arr[c].length; p++) {
+                newArr[newArr.length - 1].push(arr[c][p]);
+            }
+        }
         for (var i = 0; i < rouColCount; i++) {
             for (var j = 0; j < rouColCount; j++) {
                 isLeftWall = false;
@@ -185,19 +195,19 @@ cc.Class({
 
                 if (newArr[i][j] == entryCode || newArr[i][j] == exitCode) {
                     if (newArr[i][j] == entryCode) {
-                        if (i == 0) {//Верх
+                        if (i == 0) { //Верх
                             newArr[i][j] = this.fields[34];
                             continue;
                         }
-                        if (i == rouColCount - 1) {//Низ
+                        if (i == rouColCount - 1) { //Низ
                             newArr[i][j] = this.fields[31];
                             continue;
                         }
-                        if (j == 0) {//Лево
+                        if (j == 0) { //Лево
                             newArr[i][j] = this.fields[32];
                             continue;
                         }
-                        if (j == rouColCount - 1) {//Право
+                        if (j == rouColCount - 1) { //Право
                             newArr[i][j] = this.fields[33];
                             continue;
                         }
@@ -395,22 +405,22 @@ cc.Class({
 
                     if (isLeftRoad && isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 12
-                        newArr[i][j] = this.fields[24];
+                        newArr[i][j] = this.fields[43];
                         continue;
                     }
                     if (isLeftRoad && isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 13
-                        newArr[i][j] = this.fields[30];
+                        newArr[i][j] = this.fields[46];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && isBottomRoad && isTopRoad) {
                         //картинка 14
-                        newArr[i][j] = this.fields[27];
+                        newArr[i][j] = this.fields[45];
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && isBottomRoad && isTopRoad) {
                         //картинка 15
-                        newArr[i][j] = this.fields[26];
+                        newArr[i][j] = this.fields[44];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && !isBottomRoad && isTopRoad) {
