@@ -332,7 +332,13 @@
       {
         "__uuid__": "c9cf14da-b027-4d29-81ef-e33c434f53c6"
       }
-    ]
+    ],
+    "roadCode": "7",
+    "borderCode": "0",
+    "entryCode": "8",
+    "exitCode": "9",
+    "wallCode": "1",
+    "coinCode": "4"
   },
   {
     "__type__": "cc.Node",
