@@ -228,57 +228,57 @@ cc.Class({
                 if (j == 0) { //картинка для левого верхнего угла внешних стен
                     if (i == 0) {
                         //картинка 20
-                        newArr[i][j] = "21";
+                        newArr[i][j] = this.fields[5];
                         continue;
                     }
                     if (i == rouColCount - 1) {
                         //картинка 23
-                        newArr[i][j] = "24";
+                        newArr[i][j] = this.fields[6];
                         continue;
                     }
                     if (arr[i][j + 1] == "1") {
-                        newArr[i][j] = "29";
+                        newArr[i][j] = this.fields[2];
                         continue;
                     }
                     //картинка 27
-                    newArr[i][j] = "28";
+                    newArr[i][j] = this.fields[9];
                     continue;
                 }
                 if (j == rouColCount - 1) { //картинка для правого верхнего угла внешних стен
                     if (i == 0) {
                         //картинка 21
-                        newArr[i][j] = "23";
+                        newArr[i][j] = this.fields[7];
                         continue;
                     }
                     if (i == rouColCount - 1) {
                         //картинка 22
-                        newArr[i][j] = "22";
+                        newArr[i][j] = this.fields[6];
                         continue;
                     }
                     if (arr[i][j - 1] == "1") {
-                        newArr[i][j] = "30";
+                        newArr[i][j] = this.fields[1];
                         continue;
                     }
                     //картинка 26
-                    newArr[i][j] = "27";
+                    newArr[i][j] = this.fields[10];
                     continue;
                 }
                 if (i == rouColCount - 1) {
                     if (arr[i - 1][j] == "1") {
-                        newArr[i][j] = "31";
+                        newArr[i][j] = this.fields[3];
                         continue;
                     }
-                    newArr[i][j] = "26";
+                    newArr[i][j] = this.fields[8];
                     continue;
                 }
                 //
                 if (i == 0 && j != 0 && j != rouColCount - 1) {
                     if (arr[i + 1][j] == "1") {
-                        newArr[i][j] = "32";
+                        newArr[i][j] = this.fields[0];
                         continue;
                     }
                     //картинка 24
-                    newArr[i][j] = "25";
+                    newArr[i][j] = this.fields[11];
                     continue;
                 }
                 //если дорога
@@ -304,73 +304,73 @@ cc.Class({
 
                     if (isLeftWall && isRightWall && !isTopWall && !isBottomWall) {
                         //картинка 1) из бумажки
-                        newArr[i][j] = "10";
+                        newArr[i][j] = this.fields[29];
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && !isRightWall && isBottomWall) {
                         //картинка 9)
-                        newArr[i][j] = "18";
+                        newArr[i][j] = this.fields[19];
                         continue;
                     }
                     if (isTopWall && isBottomWall && !isLeftWall && !isRightWall) {
                         //картинка 5)
-                        newArr[i][j] = "14";
+                        newArr[i][j] = this.fields[28];
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && !isBottomWall && isRightWall) {
                         //картинка 11)
-                        newArr[i][j] = "20";
+                        newArr[i][j] = this.fields[17];
                         continue;
                     }
                     if (!isTopWall && isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 2)
-                        newArr[i][j] = "11";
+                        newArr[i][j] = this.fields[18];
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 3)
-                        newArr[i][j] = "12";
+                        newArr[i][j] = this.fields[25];
                         continue;
                     }
                     if (isTopWall && !isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 10)
-                        newArr[i][j] = "19";
+                        newArr[i][j] = this.fields[16];
                         continue;
                     }
                     if (isTopWall && !isLeftWall && !isBottomWall && isRightWall) {
                         //картинка 4)
-                        newArr[i][j] = "13";
+                        newArr[i][j] = this.fields[23];
                         continue;
                     }
                     if (!isTopWall && isLeftWall && isBottomWall && !isRightWall) {
                         //картинка 6)
-                        newArr[i][j] = "15";
+                        newArr[i][j] = this.fields[20];
                         continue;
                     }
                     if (isTopWall && isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 7)
-                        newArr[i][j] = "16";
+                        newArr[i][j] = this.fields[21];
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && isBottomWall && isRightWall) {
                         //картинка 8)
-                        newArr[i][j] = "17";
+                        newArr[i][j] = this.fields[22];
                         continue;
                     }
                     if (isTopWall && !isLeftWall && isBottomWall && isRightWall) {
-                        newArr[i][j] = "33";
+                        newArr[i][j] = this.fields[27];
                         continue;
                     }
                     if (isTopWall && isLeftWall && isBottomWall && !isRightWall) {
-                        newArr[i][j] = "34";
+                        newArr[i][j] = this.fields[26];
                         continue;
                     }
                     if (isTopWall && isLeftWall && !isBottomWall && isRightWall) {
-                        newArr[i][j] = "35";
+                        newArr[i][j] = this.fields[30];
                         continue;
                     }
                     if (!isTopWall && isLeftWall && isBottomWall && isRightWall) {
-                        newArr[i][j] = "36";
+                        newArr[i][j] = this.fields[24];
                         continue;
                     }
                 }
