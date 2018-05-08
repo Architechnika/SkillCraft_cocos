@@ -21,33 +21,38 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        //this.initField(3);
+        this.initField(7);
     },
 
     update(dt) {
-        this.initField(3);
+        //this.initField(3);
     },
     
     initField(elementsInLine) {
-        this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
+        /*this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
         this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
         var element = cc.instantiate(this.globalPrefFieldArray[0][0]);
                 element.anchorX = 0;
                 element.anchorY = 1;
-                element.x = 100;
-                element.y = 100;
-                //element.setSize(500,500);
-        this.node.addChild(element);
-        /*for(var i = 0 ; i < this.globalFieldArray.length; i++){
+                element.x = 231;
+                element.y = 0;
+                element.width = 231;
+                element.height = 231;    
+        this.node.addChild(element);*/
+        //Удаляем старое поле
+        for(var i = 0 ; i < this.globalFieldArray.length; i++){
             this.node.removeChild(this.globalFieldArray[i],true);
         }
         this.globalFieldArray.splice(0,this.globalFieldArray.length - 1);
+        //Генерим новое
         this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
         //Рассчитываем какой шаг по оси для каждого элемента нам нужен
         var stepX = this.node.width / elementsInLine;
         var stepY = this.node.height / elementsInLine;
         var elemSize = stepX;
         //Задаем анкор на экране для отрисовки с левого верънего угла
+        this.node.anchorX = 0;
+        this.node.anchorY = 1;
         var stX=0,stY=0;
         //Создаем элементы из массива префабов
         for (var i = 0; i < elementsInLine; i++) {
@@ -64,10 +69,12 @@ cc.Class({
                 this.globalFieldArray.push(element);
                 stX+= stepX;
             }
-            stY += stepY;
+            stY -= stepY;
             stX = 0;
-        }*/
+        }
         //Возвращаем анкор в центр для ресайзов и сдвигов
+        this.node.anchorX = 0.5;
+        this.node.anchorY = 0.5;
     },
 
     generateMap(w, h, labSize) {
