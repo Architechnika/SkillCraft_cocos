@@ -160,11 +160,11 @@
     "_rotationX": 0,
     "_rotationY": 0,
     "_scaleX": 1,
-    "_scaleY": 0.97,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -350,
-      "y": 319
+      "x": -355,
+      "y": 333
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -181,6 +181,7 @@
       "__id__": 3
     },
     "_enabled": true,
+    "scrollStep": 0.1,
     "fields": [
       {
         "__uuid__": "7b56f4c1-cecc-4975-b798-0da205505881"
@@ -334,7 +335,8 @@
       }
     ],
     "globalPrefFieldArray": [],
-    "globalFieldArray": []
+    "globalFieldArray": [],
+    "isDowned": false
   },
   {
     "__type__": "cc.Node",

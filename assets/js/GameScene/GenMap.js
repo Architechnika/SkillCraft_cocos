@@ -4,33 +4,64 @@
 
 cc.Class({
     extends: cc.Component,
-
     properties: {
+        scrollStep: 0.0625,
         fields: { //Префабы всех игровых элементов
             default: [],
             type: cc.Prefab
         },
         globalPrefFieldArray: [],
         globalFieldArray: [],
+        isDowned: false, //НАДО СДЕЛАТЬ ЕЕ PRIVATE
     },
-
-    // LIFE-CYCLE CALLBACKS:
-
+    //Функция обрабатывающая события скролинга(в центр)
+    field_scroll(event) {
+        var diff = event._scrollY < 0 ? this.scrollStep : -this.scrollStep;
+        //Меняем размер
+        this.setScale(this.scaleX + diff, this.scaleY + diff);
+        //Проверяем на минимальный размер
+        if (this.scaleX < 1) this.scaleX = 1;
+        else this.x += this.width / 2 * -diff; //Смещаем в точку откуда скролим
+        if (this.scaleY < 1) this.scaleY = 1;
+        else this.y += this.height / 2 * diff; //Смещаем в точку откуда скролим
+        this.field_check_borders();
+    },
+    //Функция для проверки местонахождения поля в области для поля(чтоб не улетал за экран при сдвигании)
+    field_check_borders(){
+        
+    },
+    //Инициализируем события нажатий мыши
     onLoad() {
-        this.node.on('mousewheel', function(event){
-            var diff = event.deltaY < 0 ? 0.05 : -0.05;            
-            this.scaleX = this.scaleX + diff;
-            this.scaleY = this.scaleY + diff;
+        //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
+        this.node.scrollStep = this.scrollStep;
+        this.node.field_check_borders = this.field_check_borders;
+        
+        //Скролл колесиком мыши
+        this.node.on('mousewheel', this.field_scroll);
+        //Нажатие мышки
+        this.node.on('mousedown', function (event) {
+            this.isDowned = true;
+        });
+        //Отпускание мышки
+        this.node.on('mouseup', function (event) {
+            this.isDowned = false;
+        });
+        //Когда курсор мыши вышел за предели поля
+        this.node.on('mouseleave', function (event) {
+            this.isDowned = false;
+        });
+        //Перемещение мышки
+        this.node.on('mousemove', function (event) {
+            if (this.isDowned) { //Если мышка зажата, то двигаем поле
+                this.x += event._x - event._prevX;
+                this.y += event._y - event._prevY;
+                this.field_check_borders();
+            }
         });
     },
-    
     start() {
-        this.initField(7);
+        this.initField(3);
     },
-
-    /*update(dt) {
-        //this.initField(3);
-    },*/
 
     initField(elementsInLine) {
         //Удаляем старое поле
@@ -70,8 +101,8 @@ cc.Class({
             stX = 0;
         }
         //Возвращаем анкор в центр для ресайзов и сдвигов
-       // this.node.anchorX = 0.5;
-       // this.node.anchorY = 0.5;
+        // this.node.anchorX = 0.5;
+        // this.node.anchorY = 0.5;
     },
 
     generateMap(w, h, labSize) {
