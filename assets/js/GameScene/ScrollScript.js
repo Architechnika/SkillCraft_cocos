@@ -46,7 +46,7 @@ cc.Class({
             type: cc.Prefab
         },
     },
-
+//
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
