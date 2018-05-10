@@ -1,6 +1,3 @@
-/*
-  Скрипт содержащий массив команд для клетки поля  
-*/
 // Learn cc.Class:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
@@ -15,7 +12,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        oldRoad: undefined,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -35,20 +31,11 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad() {
-        this.node.on('mousedown', function (event) {
-           // var tmpName = this.name;
+    // onLoad () {},
 
-            this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
-           // this.getComponent(cc.Sprite).enabled = true
-        });
-    },
-
-    start() {
+    start () {
 
     },
 
-     update (dt) {
-       
-     },
+    // update (dt) {},
 });

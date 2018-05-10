@@ -152,7 +152,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "fddf266d-90db-473a-986c-21d032dc8f45"
     },
     "fileId": "afiEZqr5hJ2ZmgPNaQil0y",
     "sync": false
@@ -234,15 +234,9 @@
     "pressedSprite": {
       "__uuid__": "872553c5-b50d-4970-a38d-7aebef1e6aab"
     },
-    "_N$hoverSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
-    "hoverSprite": {
-      "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
-    },
-    "_N$disabledSprite": {
-      "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
-    },
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
     "_N$target": {
       "__id__": 1
     }
@@ -273,7 +267,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "fddf266d-90db-473a-986c-21d032dc8f45"
     },
     "fileId": "8cRFrgg4ZNdbZPx75xNpol",
     "sync": false
