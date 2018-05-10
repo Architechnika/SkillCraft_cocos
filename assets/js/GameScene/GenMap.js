@@ -12,30 +12,71 @@ cc.Class({
         },
         globalPrefFieldArray: [],
         globalFieldArray: [],
-        isDowned: false, //НАДО СДЕЛАТЬ ЕЕ PRIVATE
     },
+    
+    //Инициализируем внутренние переменные для node 
+    declaration() {
+        this.node.FBP = {//Точки по которым проверяется выход за границы области для отрисовки поля
+            ul:{x:this.node.x,
+                y:this.node.y},//Левая верхняя граница поля
+            dr:{x:this.node.x + this.node.width,
+                y:this.node.y+this.node.height}//Правая нижняя граница поля
+        };
+        this.node.isDowned = false;
+        //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
+        this.node.scrollStep = this.scrollStep;
+        //Методы
+        this.node.field_move = this.field_move;
+    },
+    
     //Функция обрабатывающая события скролинга(в центр)
     field_scroll(event) {
         var diff = event._scrollY < 0 ? this.scrollStep : -this.scrollStep;
         //Меняем размер
         this.setScale(this.scaleX + diff, this.scaleY + diff);
         //Проверяем на минимальный размер
+        var x = 0,
+            y = 0;
         if (this.scaleX < 1) this.scaleX = 1;
-        else this.x += this.width / 2 * -diff; //Смещаем в точку откуда скролим
+        else x = this.width / 2 * -diff; //Смещаем в точку откуда скролим
         if (this.scaleY < 1) this.scaleY = 1;
-        else this.y += this.height / 2 * diff; //Смещаем в точку откуда скролим
-        this.field_check_borders();
+        else y = this.height / 2 * diff; //Смещаем в точку откуда скролим
+        this.field_move(x, y);
     },
-    //Функция для проверки местонахождения поля в области для поля(чтоб не улетал за экран при сдвигании)
-    field_check_borders(){
+    //Функция для сдвига поля по дискрету
+    field_move(discX, discY) {
+        var x = this.x + discX, y = this.y + discY;
+        var rx = x + (this.width * this.scaleX),
+            ry = y + (this.height * this.scaleY);
+        //Если по x входит в диапазон
+        if(x <= this.FBP.ul.x && rx >= this.FBP.dr.x)
+            this.x = x;
+        else{//Иначе вычисляем разницу и сдвигаем на границу
+            /*if(x <= this.FBP.ul.x)
+                this.x = x - this.FBP.ul.x;
+            else if(rx >= this.FBP.dr.x)
+                this.x = this.FBP.dr.x - rx;*/
+        }
+        //Если по y входит в диапазон
+        if(y >= this.FBP.ul.y && ry <= this.FBP.dr.y)
+            this.y = y;
+        else{//Иначе вычисляем разницу и сдвигаем на границу
+            
+        }
         
+        /*this.x += discX;
+        this.y += discY;
+        
+        console.log("NATIVELEFT: " + this.x + ":" + this.y);
+        console.log("NATIVERIGHT: " + (this.x + (this.width * this.scaleX)) + ":" + (this.y + (this.height * this.scaleY)));
+        console.log("LEFT: " + this.FBP.ul.x + ":" + this.FBP.ul.y);
+        console.log("RIGHT: " + this.FBP.dr.x + ":" + this.FBP.dr.y);*/
     },
-    //Инициализируем события нажатий мыши
+    
     onLoad() {
-        //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
-        this.node.scrollStep = this.scrollStep;
-        this.node.field_check_borders = this.field_check_borders;
+        this.declaration();
         
+        //Инициализируем события нажатий мыши
         //Скролл колесиком мыши
         this.node.on('mousewheel', this.field_scroll);
         //Нажатие мышки
@@ -46,23 +87,21 @@ cc.Class({
         this.node.on('mouseup', function (event) {
             this.isDowned = false;
         });
-        //Когда курсор мыши вышел за предели поля
+        //Когда курсор мыши вышел за пределы поля
         this.node.on('mouseleave', function (event) {
             this.isDowned = false;
         });
         //Перемещение мышки
         this.node.on('mousemove', function (event) {
             if (this.isDowned) { //Если мышка зажата, то двигаем поле
-                this.x += event._x - event._prevX;
-                this.y += event._y - event._prevY;
-                this.field_check_borders();
+                this.field_move(event._x - event._prevX, event._y - event._prevY);
             }
         });
     },
     start() {
-        this.initField(3);
+        this.initField(11);
     },
-
+    //update(dt) {},
     initField(elementsInLine) {
         //Удаляем старое поле
         for (var i = 0; i < this.globalFieldArray.length; i++) {
