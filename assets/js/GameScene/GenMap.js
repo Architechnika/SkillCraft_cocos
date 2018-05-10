@@ -20,7 +20,7 @@ cc.Class({
             ul:{x:this.node.x,
                 y:this.node.y},//Левая верхняя граница поля
             dr:{x:this.node.x + this.node.width,
-                y:this.node.y+this.node.height}//Правая нижняя граница поля
+                y:this.node.y - this.node.height}//Правая нижняя граница поля
         };
         this.node.isDowned = false;
         //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
@@ -45,29 +45,34 @@ cc.Class({
     },
     //Функция для сдвига поля по дискрету
     field_move(discX, discY) {
-        var x = this.x + discX, y = this.y + discY;
-        var rx = x + (this.width * this.scaleX),
-            ry = y + (this.height * this.scaleY);
+        /*var x = this.x + discX, y = this.y + discY;
+        var rx = this.x + (this.width * this.scaleX),
+            ry = this.y - (this.height * this.scaleY);
         //Если по x входит в диапазон
-        if(x <= this.FBP.ul.x && rx >= this.FBP.dr.x)
-            this.x = x;
-        else{//Иначе вычисляем разницу и сдвигаем на границу
-            /*if(x <= this.FBP.ul.x)
-                this.x = x - this.FBP.ul.x;
-            else if(rx >= this.FBP.dr.x)
-                this.x = this.FBP.dr.x - rx;*/
+        if(this.x <= this.FBP.ul.x){
+            if(rx >= this.FBP.dr.x){
+                /*if(x > this.FBP.ul.x) 
+                    this.x = this.FBP.ul.x;
+                else if(rx + discX < this.FBP.dr.x) 
+                    this.x = this.FBP.dr.x;
+                else 
+                    this.x = x;
+            }
         }
-        //Если по y входит в диапазон
-        if(y >= this.FBP.ul.y && ry <= this.FBP.dr.y)
-            this.y = y;
-        else{//Иначе вычисляем разницу и сдвигаем на границу
-            
-        }
-        
-        /*this.x += discX;
+        if(this.y >= this.FBP.ul.y){
+            if(ry <= this.FBP.dr.y){
+                /*if(y < this.FBP.ul.y) 
+                    this.y += y - this.FBP.ul.y;
+                else if(ry + discY > this.FBP.dr.y) 
+                    this.y += this.FBP.dr.y - (ry + discY);
+                else 
+                    this.y = y;
+            }
+        }*/
+        this.x += discX;
         this.y += discY;
         
-        console.log("NATIVELEFT: " + this.x + ":" + this.y);
+        /*console.log("NATIVELEFT: " + this.x + ":" + this.y);
         console.log("NATIVERIGHT: " + (this.x + (this.width * this.scaleX)) + ":" + (this.y + (this.height * this.scaleY)));
         console.log("LEFT: " + this.FBP.ul.x + ":" + this.FBP.ul.y);
         console.log("RIGHT: " + this.FBP.dr.x + ":" + this.FBP.dr.y);*/

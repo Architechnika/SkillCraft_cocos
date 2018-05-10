@@ -36,7 +36,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.node.on('mousedown', function (event) {
+        this.node.on('mouseup', function (event) {
            // var tmpName = this.name;
 
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
