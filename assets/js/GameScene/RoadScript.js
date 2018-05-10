@@ -39,10 +39,10 @@ cc.Class({
     onLoad() {
         // var tmpName = this.name;
         this.node.on('mouseup', function (event) {
-            var tmp = this.parent.getComponent("GlobalVariable").oldSelectRoad;
+            var tmp = this.parent.getComponent("GlobalVariables").oldSelectRoad;
             if (tmp != undefined && tmp != this)
                 tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
-            this.parent.getComponent("GlobalVariable").oldSelectRoad = this;
+            this.parent.getComponent("GlobalVariables").oldSelectRoad = this;
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
         });
     },
