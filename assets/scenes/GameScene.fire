@@ -1631,61 +1631,151 @@
     },
     "_enabled": true,
     "veryLightCommands": [
-      null,
-      null,
-      null,
-      null
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+      },
+      {
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      }
     ],
     "LightCommands": [
-      null,
-      null,
-      null,
-      null,
-      null
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+      },
+      {
+        "__uuid__": "78c1b5da-7cc0-4f52-9bbf-77638101414e"
+      },
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+      }
     ],
     "MediumCommands": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      {
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "78c1b5da-7cc0-4f52-9bbf-77638101414e"
+      },
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      },
+      {
+        "__uuid__": "cc463290-5e4a-40db-976a-973d418a5436"
+      }
     ],
     "aboveAverageCommands": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+      },
+      {
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      },
+      {
+        "__uuid__": "78c1b5da-7cc0-4f52-9bbf-77638101414e"
+      },
+      {
+        "__uuid__": "cc463290-5e4a-40db-976a-973d418a5436"
+      },
+      {
+        "__uuid__": "46a2e973-e258-4e5b-9dd0-f96e5af3bdd8"
+      },
+      {
+        "__uuid__": "c8836d07-fc0c-45b5-8327-abc768579f82"
+      },
+      {
+        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
+      },
+      {
+        "__uuid__": "d7b3f8cd-b2e9-40cb-bb05-936f3e0a1f97"
+      }
     ],
     "ComplexCommands": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      },
+      {
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "78c1b5da-7cc0-4f52-9bbf-77638101414e"
+      },
+      {
+        "__uuid__": "cc463290-5e4a-40db-976a-973d418a5436"
+      },
+      {
+        "__uuid__": "640d620d-142f-4ab0-8b54-e72f0d19ff54"
+      },
+      {
+        "__uuid__": "e0ae35a1-a73a-4d55-ab3f-165341c30585"
+      }
     ],
     "LegendCommands": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      {
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "78c1b5da-7cc0-4f52-9bbf-77638101414e"
+      },
+      {
+        "__uuid__": "46a2e973-e258-4e5b-9dd0-f96e5af3bdd8"
+      },
+      {
+        "__uuid__": "c8836d07-fc0c-45b5-8327-abc768579f82"
+      },
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+      },
+      {
+        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
+      },
+      {
+        "__uuid__": "d7b3f8cd-b2e9-40cb-bb05-936f3e0a1f97"
+      },
+      {
+        "__uuid__": "cc463290-5e4a-40db-976a-973d418a5436"
+      },
+      {
+        "__uuid__": "640d620d-142f-4ab0-8b54-e72f0d19ff54"
+      },
+      {
+        "__uuid__": "e0ae35a1-a73a-4d55-ab3f-165341c30585"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      }
     ]
   },
   {
