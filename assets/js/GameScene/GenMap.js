@@ -60,7 +60,7 @@ cc.Class({
         });
     },
     start() {
-        this.initField(3);
+        this.initField(11);
     },
 
     initField(elementsInLine) {
