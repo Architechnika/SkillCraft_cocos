@@ -70,8 +70,8 @@ cc.Class({
             stX = 0;
         }
         //Возвращаем анкор в центр для ресайзов и сдвигов
-        this.node.anchorX = 0.5;
-        this.node.anchorY = 0.5;
+       // this.node.anchorX = 0.5;
+       // this.node.anchorY = 0.5;
     },
 
     generateMap(w, h, labSize) {
