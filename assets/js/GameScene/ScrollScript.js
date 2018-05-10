@@ -52,35 +52,37 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        this.itemsSort(this.LegendCommands);
+        this.itemsSort(this.LegendCommands, "rightScroll");
     },
 
-    itemsSort(arr) {
+    itemsSort(arr, scrollName) {
         //сортировка элементов в скроле
-        var cont = this.node.getChildByName("rightScroll").getChildByName("view").getChildByName("content")
+        var columnCount = 2; //количество столбцов в скроле
+        var cont = this.node.getChildByName(scrollName).getChildByName("view").getChildByName("content")
+        if (scrollName == "leftScroll")
+            columnCount = 1;
         for (var i = 0; i < arr.length; i++)
             cont.addChild(arr[i].data)
 
         cont.anchorX = 1;
         cont.anchorY = 1;
-        var itemWH = cont.getContentSize().width / 2;
-        cont.setContentSize(cont.getContentSize().width, itemWH * arr.length / 2)
+        var itemWH = cont.getContentSize().width / columnCount;
+        cont.setContentSize(cont.getContentSize().width, itemWH * arr.length / columnCount)
         var x = cont.getPosition().x;
         var y = 0;
         for (var i = 0; i < cont.children.length; i++) {
             var child = cont.children[i];
-            child.anchorX = 1;
+            child.anchorX = columnCount/2; //расчитываем якорь по X для элемента так, чтобы универсально было для левого и правого скрола, потому что с левым скролом какие то траблы когда якорь = 1 по X
             child.anchorY = 1;
             //  child.setContentSize(itemWH,itemWH);
-            if (i != 0 && i % 2 == 0) {
+            if (i != 0 && i % columnCount == 0) {
                 x = cont.getPosition().x;
                 y -= itemWH;
-            } else if (i != 0 && i % 2 != 0) {
+            } else if (i != 0 && i % columnCount != 0) {
                 x += itemWH;
             }
             child.setPosition(x, y)
         }
-        console.log(cont.getContentSize())
     },
 
     // update (dt) {},
