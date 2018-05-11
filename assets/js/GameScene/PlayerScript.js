@@ -6,7 +6,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
+        commandsArray:[],
+        inventory:[],
+        
     },
 
     // onLoad () {},
