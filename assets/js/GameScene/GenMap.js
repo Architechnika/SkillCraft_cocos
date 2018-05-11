@@ -24,6 +24,7 @@ cc.Class({
         };
         this.node.isDowned = false;
         //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
+        this.scrollStep *= 2;
         this.node.scrollStep = this.scrollStep;
         //Методы
         this.node.field_move = this.field_move;
@@ -45,37 +46,35 @@ cc.Class({
     },
     //Функция для сдвига поля по дискрету
     field_move(discX, discY) {
-        /*var x = this.x + discX, y = this.y + discY;
+        var x = this.x + discX, y = this.y + discY;
         var rx = this.x + (this.width * this.scaleX),
             ry = this.y - (this.height * this.scaleY);
         //Если по x входит в диапазон
         if(this.x <= this.FBP.ul.x){
             if(rx >= this.FBP.dr.x){
-                /*if(x > this.FBP.ul.x) 
+                if(x > this.FBP.ul.x) 
                     this.x = this.FBP.ul.x;
                 else if(rx + discX < this.FBP.dr.x) 
-                    this.x = this.FBP.dr.x;
+                    this.x = (this.FBP.dr.x - (this.width * this.scaleX));
                 else 
                     this.x = x;
             }
+            else this.x = (this.FBP.dr.x - (this.width * this.scaleX));
         }
+        else this.x = this.FBP.ul.x;
+        //Если по У входит
         if(this.y >= this.FBP.ul.y){
             if(ry <= this.FBP.dr.y){
-                /*if(y < this.FBP.ul.y) 
-                    this.y += y - this.FBP.ul.y;
+                if(y < this.FBP.ul.y) 
+                    this.y = this.FBP.ul.y;//+= y - this.FBP.ul.y;
                 else if(ry + discY > this.FBP.dr.y) 
-                    this.y += this.FBP.dr.y - (ry + discY);
+                    this.y = this.FBP.dr.y + (this.height * this.scaleY);//+= this.FBP.dr.y - (ry + discY);
                 else 
                     this.y = y;
             }
-        }*/
-        this.x += discX;
-        this.y += discY;
-        
-        /*console.log("NATIVELEFT: " + this.x + ":" + this.y);
-        console.log("NATIVERIGHT: " + (this.x + (this.width * this.scaleX)) + ":" + (this.y + (this.height * this.scaleY)));
-        console.log("LEFT: " + this.FBP.ul.x + ":" + this.FBP.ul.y);
-        console.log("RIGHT: " + this.FBP.dr.x + ":" + this.FBP.dr.y);*/
+            else this.y = this.FBP.dr.y + (this.height * this.scaleY);
+        }
+        else this.y = this.FBP.ul.y;
     },
     
     onLoad() {
