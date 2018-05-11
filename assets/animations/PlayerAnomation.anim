@@ -1,0 +1,46 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "PlayerAnomation",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.06666666666666667,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 38,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {}
+    },
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 308
+        },
+        {
+          "frame": 0.016666666666666666,
+          "value": 309
+        },
+        {
+          "frame": 0.03333333333333333,
+          "value": 310
+        },
+        {
+          "frame": 0.05,
+          "value": 309
+        },
+        {
+          "frame": 0.06666666666666667,
+          "value": 308
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "frame": 0.05,
+      "func": "",
+      "params": []
+    }
+  ]
+}
