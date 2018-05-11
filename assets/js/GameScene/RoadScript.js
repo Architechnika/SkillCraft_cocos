@@ -20,11 +20,11 @@ cc.Class({
                 tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
             this.parent.getComponent("GlobalVariables").oldSelectRoad = this;
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
-            event.stopPropagation();
+            //event.stopPropagation();
         });
-        this.node.on('mousedown', function (event) {
+        /*this.node.on('mousedown', function (event) {
             event.stopPropagation();
-        });
+        });*/
     },
 
     start() {

@@ -10,16 +10,16 @@ cc.Class({
         maxBoxesCount: 10,//Ограничение на максимальное количество ящиков на поле
         boxSize: 0.85,
         playerSize: 0.6,
-        fields: { //Префабы всех игровых элементов
-            default: [],
+        playerPrefab:{
+            default: null,
             type: cc.Prefab
         },
         gameObjects: { //Префабы всех игровых элементов
             default: [],
             type: cc.Prefab
         },
-        playerPrefab:{
-            default: null,
+        fields: { //Префабы всех игровых элементов
+            default: [],
             type: cc.Prefab
         },
         global_PrefFieldArray: [],//Массив для хранения набора префабов из которого было сгенерировано поле
@@ -612,19 +612,19 @@ cc.Class({
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && !isBottomRoad && isTopRoad) {
-                        newArr[i][j] = this.fields[16];
+                        newArr[i][j] = this.fields[35];
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[19];
+                        newArr[i][j] = this.fields[38];
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[17];
+                        newArr[i][j] = this.fields[36];
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[18];
+                        newArr[i][j] = this.fields[37];
                         continue;
                     }
                     if (isLeftRoad && isRightRoad && !isBottomRoad && !isTopRoad) {
