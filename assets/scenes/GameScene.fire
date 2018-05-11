@@ -177,6 +177,16 @@
     "groupIndex": 0
   },
   {
+    "__type__": "9cdabjfXkJG3LfsW9Y6FWQf",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "currentLabSize": 11
+  },
+  {
     "__type__": "d46e8zvBVtCdLZT93GZbSCV",
     "_name": "",
     "_objFlags": 0,
@@ -185,6 +195,10 @@
     },
     "_enabled": true,
     "scrollStep": 0.0625,
+    "isBoxesSpawn": true,
+    "maxBoxesCount": 10,
+    "boxSize": 0.5,
+    "playerSize": 0.75,
     "fields": [
       {
         "__uuid__": "7b56f4c1-cecc-4975-b798-0da205505881"
@@ -337,18 +351,17 @@
         "__uuid__": "c9cf14da-b027-4d29-81ef-e33c434f53c6"
       }
     ],
-    "globalPrefFieldArray": [],
-    "globalFieldArray": []
-  },
-  {
-    "__type__": "9cdabjfXkJG3LfsW9Y6FWQf",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
+    "gameObjects": [
+      {
+        "__uuid__": "eb672d5a-6f09-4a80-8ed7-ddd8bf7110be"
+      }
+    ],
+    "playerPrefab": {
+      "__uuid__": "bf2769b9-befe-48e3-a33a-e62da466a1b9"
     },
-    "_enabled": true,
-    "selectRoadName": "none"
+    "global_PrefFieldArray": [],
+    "global_FieldArray": [],
+    "global_GameObjects": []
   },
   {
     "__type__": "cc.Node",

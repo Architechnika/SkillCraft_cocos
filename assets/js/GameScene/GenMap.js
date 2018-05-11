@@ -6,12 +6,25 @@ cc.Class({
     extends: cc.Component,
     properties: {
         scrollStep: 0.0625,
+        isBoxesSpawn:true,
+        maxBoxesCount: 10,//Ограничение на максимальное количество ящиков на поле
+        boxSize: 0.85,
+        playerSize: 0.6,
         fields: { //Префабы всех игровых элементов
             default: [],
             type: cc.Prefab
         },
-        globalPrefFieldArray: [],
-        globalFieldArray: [],
+        gameObjects: { //Префабы всех игровых элементов
+            default: [],
+            type: cc.Prefab
+        },
+        playerPrefab:{
+            default: null,
+            type: cc.Prefab
+        },
+        global_PrefFieldArray: [],//Массив для хранения набора префабов из которого было сгенерировано поле
+        global_FieldArray: [],//Массив для хранения стен и дорог поля
+        global_GameObjects: [],//Массив для хранения игровых элементов поля(ящики и тд)
     },
     
     //Инициализируем внутренние переменные для node 
@@ -38,6 +51,8 @@ cc.Class({
         //Проверяем на минимальный размер
         var x = 0,
             y = 0;
+        //var cx = this.x + ((this.width * this.scaleX) / 2);
+        //var cy = this.y + ((this.height * this.scaleY) / 2);
         if (this.scaleX < 1) this.scaleX = 1;
         else x = this.width / 2 * -diff; //Смещаем в точку откуда скролим
         if (this.scaleY < 1) this.scaleY = 1;
@@ -66,9 +81,9 @@ cc.Class({
         if(this.y >= this.FBP.ul.y){
             if(ry <= this.FBP.dr.y){
                 if(y < this.FBP.ul.y) 
-                    this.y = this.FBP.ul.y;//+= y - this.FBP.ul.y;
+                    this.y = this.FBP.ul.y;
                 else if(ry + discY > this.FBP.dr.y) 
-                    this.y = this.FBP.dr.y + (this.height * this.scaleY);//+= this.FBP.dr.y - (ry + discY);
+                    this.y = this.FBP.dr.y + (this.height * this.scaleY);
                 else 
                     this.y = y;
             }
@@ -103,17 +118,17 @@ cc.Class({
         });
     },
     start() {
-        this.initField(11);
+        this.initField(this.getComponent("GlobalVariables").currentLabSize);   
     },
     //update(dt) {},
     initField(elementsInLine) {
         //Удаляем старое поле
-        for (var i = 0; i < this.globalFieldArray.length; i++) {
-            this.node.removeChild(this.globalFieldArray[i], true);
+        for (var i = 0; i < this.global_FieldArray.length; i++) {
+            this.node.removeChild(this.global_FieldArray[i], true);
         }
-        this.globalFieldArray.splice(0, this.globalFieldArray.length - 1);
+        this.global_FieldArray.splice(0, this.global_FieldArray.length - 1);
         //Генерим новое
-        this.globalPrefFieldArray = this.generateMap(500, 500, elementsInLine);
+        this.global_PrefFieldArray = this.generateMap(500, 500, elementsInLine);
         //Рассчитываем какой шаг по оси для каждого элемента нам нужен
         var stepX = this.node.width / elementsInLine;
         var stepY = this.node.height / elementsInLine;
@@ -124,10 +139,12 @@ cc.Class({
         this.node.anchorY = 1;
         var stX = 0,
             stY = 0;
+        var roadElemsArr = [];//Массив для хранения элементов дорог на поле
+        var startElem = undefined;
         //Создаем элементы из массива префабов
         for (var i = 0; i < elementsInLine; i++) {
             for (var j = 0; j < elementsInLine; j++) {
-                var element = cc.instantiate(this.globalPrefFieldArray[i][j]);
+                var element = cc.instantiate(this.global_PrefFieldArray[i][j]);
                 element.anchorX = 0;
                 element.anchorY = 1;
                 element.x = stX;
@@ -135,17 +152,60 @@ cc.Class({
                 //var spriteCompRect = element.getComponent(cc.Sprite).spriteFrame.getRect();
                 element.scaleX = elemSizeX / element.width;
                 element.scaleY = elemSizeY / element.height;
+                //Если это элемент содержащий скрипт дороги, то запоминаем его в отдельный массив
+                if(element.getComponent("RoadScript")){
+                    var spl = element.name.split("_");
+                    if(spl && spl.length > 1 && spl[1] == "start"){
+                        startElem = element;
+                    }
+                    else roadElemsArr.push(element);
+                }
                 //Adding the element to this node's child
                 this.node.addChild(element);
-                this.globalFieldArray.push(element);
+                this.global_FieldArray.push(element);
                 stX += stepX;
             }
             stY -= stepY;
             stX = 0;
         }
-        //Возвращаем анкор в центр для ресайзов и сдвигов
-        // this.node.anchorX = 0.5;
-        // this.node.anchorY = 0.5;
+        //Если включены ящики, то спавним их на поле в случайных местах
+        if(this.isBoxesSpawn && this.gameObjects.length > 0){
+            var totalBoxes = Math.floor(this.getComponent("GlobalVariables").currentLabSize / 2);
+            totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;
+            totalBoxes = totalBoxes > roadElemsArr.length ? roadElemsArr.length : totalBoxes;
+            var rndIndx = 0;
+            for(var i = 0 ; i < totalBoxes; i++){
+                rndIndx = this.getRandomInt(0,roadElemsArr.length);
+                var r_el = roadElemsArr[rndIndx];
+                var el = cc.instantiate(this.gameObjects[0]);//Пока что есть только один префаб это ящик
+                el.x = r_el.x + ((r_el.width * r_el.scaleX) / 2);
+                el.y = r_el.y - ((r_el.height * r_el.scaleY) / 2);
+                //Задаем размер элемента
+                el.scaleX = (r_el.width * r_el.scaleX) * this.boxSize / el.width;
+                el.scaleY = (r_el.height * r_el.scaleY) * this.boxSize / el.height;
+                this.node.addChild(el);
+                this.global_GameObjects.push(el);
+                roadElemsArr.splice(rndIndx,1);
+            }
+        }
+        //Спавним префаб робота
+        if(startElem){
+            var dir = startElem.name.split("_")[2];
+            var plObj = cc.instantiate(this.playerPrefab);
+            switch(dir){
+                case "up": plObj.rotation = 180; break;
+                case "down": plObj.rotation = 0; break;
+                case "right": plObj.rotation = 270; break;
+                case "left": plObj.rotation = 90; break;
+            }
+            plObj.x = startElem.x + ((startElem.width * startElem.scaleX) / 2);
+            plObj.y = startElem.y - ((startElem.height * startElem.scaleY) / 2);
+            //Задаем размер элемента
+            var scW = (startElem.width * startElem.scaleX) * this.playerSize / plObj.width;
+            var scH = (startElem.height * startElem.scaleY) * this.playerSize / plObj.height;
+            plObj.scaleX = plObj.scaleY = scW > scH ? scH : scW; 
+            this.node.addChild(plObj);
+        }
     },
 
     generateMap(w, h, labSize) {
