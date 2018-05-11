@@ -72,9 +72,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 67
-      },
-      {
         "__id__": 68
       },
       {
@@ -82,6 +79,9 @@
       },
       {
         "__id__": 70
+      },
+      {
+        "__id__": 71
       }
     ],
     "_prefab": null,
@@ -1567,7 +1567,11 @@
     ],
     "_tag": -1,
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 67
+      }
+    ],
     "_prefab": null,
     "_id": "efJWY09glL95EB+MywllBA",
     "_opacity": 255,
@@ -2923,6 +2927,15 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_atlas": null
+  },
+  {
+    "__type__": "212a7y4eOZPmZEsSDxePfeK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 35
+    },
+    "_enabled": true
   },
   {
     "__type__": "cc.Canvas",
