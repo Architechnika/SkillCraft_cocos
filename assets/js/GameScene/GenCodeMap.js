@@ -15,30 +15,44 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        commands: { //команды для отрисовки
+            default: [],
+            type: cc.Prefab
+        },
+    },
+
+    declaration() {
+        this.node.FBP = { //Точки по которым проверяется выход за границы области для отрисовки поля
+            ul: {
+                x: this.node.x - (this.node.width / 4),
+                y: this.node.y + (this.node.height / 4)
+            }, //Левая верхняя граница поля
+            dr: {
+                x: this.node.x + this.node.width,
+                y: this.node.y - this.node.height
+            } //Правая нижняя граница поля
+        };
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
-
-    start () {
-
+    onLoad() {
+        this.declaration();
     },
 
+    start() {
+
+    },
+    clear() {
+        //чистим весь кодмап
+        if (this.node.children.length > 0) {
+            for (var i = 0; i < this.node.children.length; i++) {
+                this.node.removeChild(this.node.children[i]);
+            }
+        }
+    },
+    setCommands(arr) {
+        this.commands = arr;
+    },
     // update (dt) {},
 });
