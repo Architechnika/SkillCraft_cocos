@@ -7,7 +7,8 @@ cc.Class({
     properties: {
         blockA: null,
         blockB: null,
-        elseBlock: null
+        elseBlock: null,
+        commandType: "if",
     },
 
     // LIFE-CYCLE CALLBACKS:

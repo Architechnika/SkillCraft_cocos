@@ -16,8 +16,8 @@ cc.Class({
 
     properties: {
         commands: { //команды для отрисовки
-            default: [],
-            type: cc.Prefab
+            default: null,
+            type: cc.Node
         },
     },
 
@@ -38,6 +38,7 @@ cc.Class({
 
     onLoad() {
         this.declaration();
+        this.generation();
     },
 
     start() {
@@ -53,6 +54,31 @@ cc.Class({
     },
     setCommands(arr) {
         this.commands = arr;
+    },
+    generation() {
+        this.node.anchorX = 0;
+        this.node.anchorY = 1;
+        var x = this.node.FBP.dr.x;
+        var y = this.node.FBP.dr.y;
+        var itemWH = 100;
+        this.node.addChild(this.commands)
+        this.commands.anchorX = 0;
+        this.commands.anchorY = 1;
+        this.commands.x = x;
+        this.commands.y = y;
+        for (var i = 0; i < this.commands.children.length; i++) {
+            var el = this.commands.children[i];
+            el.x = x;
+            el.y = y;
+            if (el.name == "command_block_if") {
+                y -= (itemWH * 4)
+            } else {
+                y -= itemWH
+            }
+            //  this.node.addChild(el)
+        }
+        this.node.scaleX = 0.3
+        this.node.scaleY = 0.3
     },
     // update (dt) {},
 });

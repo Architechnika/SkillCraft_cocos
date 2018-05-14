@@ -12,6 +12,7 @@ cc.Class({
         //onup - вперед по отношению к роботу,
         //ondown - назад по отношению к роботу,
         DIRECTION: "up",
+        commandType: "simple",
     },
 
     start () {
