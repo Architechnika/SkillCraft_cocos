@@ -36,18 +36,15 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-
     // onLoad () {},
-
     onLoad() {
-        this.declaration();
-        this.generation();
+        /*this.declaration();
+        this.generation();*/
     },
 
     start () {
 
     },
-
     clear() {
         //чистим весь кодмап
         if (this.node.children.length > 0) {
@@ -60,7 +57,27 @@ cc.Class({
         this.commands = arr;
     },
     generation() {
-
+        this.node.anchorX = 0;
+        this.node.anchorY = 1;
+        var x = this.node.FBP.dr.x;
+        var y = this.node.FBP.dr.y;
+        var itemWH = 100;
+        this.node.addChild(this.commands)
+        this.commands.anchorX = 0;
+        this.commands.anchorY = 1;
+        this.commands.x = x;
+        this.commands.y = y;
+        for (var i = 0; i < this.commands.children.length; i++) {
+            var el = this.commands.children[i];
+            el.x = x;
+            el.y = y;
+            if (el.name == "command_block_if") {
+                y -= (itemWH * 4)
+            } else {
+                y -= itemWH
+            }
+            //  this.node.addChild(el)
+        }
         this.node.scaleX = 0.3
         this.node.scaleY = 0.3
     },
