@@ -5,9 +5,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        blockA: null,
-        blockB: null,
-        elseBlock: null
+        NAME: "default",
     },
 
     // LIFE-CYCLE CALLBACKS:
