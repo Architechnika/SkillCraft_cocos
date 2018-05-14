@@ -1405,14 +1405,22 @@
     }
   },
   {
+<<<<<<< HEAD
+    "__type__": "14494A1MKZGVJKpzLJq2xgh",
+=======
     "__type__": "7f6314HATRAYrVJaZbfC92J",
+>>>>>>> dc74553caa48b3f2429ac5d691eee9e4832c2da1
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
+<<<<<<< HEAD
+    "NAME": "REPEATIF"
+=======
     "commandType": "repeatif"
+>>>>>>> dc74553caa48b3f2429ac5d691eee9e4832c2da1
   },
   {
     "__type__": "cc.PrefabInfo",

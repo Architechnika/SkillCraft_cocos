@@ -15,6 +15,23 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+<<<<<<< HEAD
+        // foo: {
+        //     // ATTRIBUTES:
+        //     default: null,        // The default value will be used only when the component attaching
+        //                           // to a node for the first time
+        //     type: cc.SpriteFrame, // optional, default is typeof default
+        //     serializable: true,   // optional, default is true
+        // },
+        // bar: {
+        //     get () {
+        //         return this._bar;
+        //     },
+        //     set (value) {
+        //         this._bar = value;
+        //     }
+        // },
+=======
         commands: { //команды для отрисовки
             default: null,
             type: cc.Node
@@ -32,18 +49,26 @@ cc.Class({
                 y: this.node.y - this.node.height
             } //Правая нижняя граница поля
         };
+>>>>>>> dc74553caa48b3f2429ac5d691eee9e4832c2da1
     },
 
     // LIFE-CYCLE CALLBACKS:
 
+<<<<<<< HEAD
+    // onLoad () {},
+=======
     onLoad() {
         this.declaration();
         this.generation();
     },
+>>>>>>> dc74553caa48b3f2429ac5d691eee9e4832c2da1
 
-    start() {
+    start () {
 
     },
+<<<<<<< HEAD
+
+=======
     clear() {
         //чистим весь кодмап
         if (this.node.children.length > 0) {
@@ -60,5 +85,6 @@ cc.Class({
         this.node.scaleX = 0.3
         this.node.scaleY = 0.3
     },
+>>>>>>> dc74553caa48b3f2429ac5d691eee9e4832c2da1
     // update (dt) {},
 });
