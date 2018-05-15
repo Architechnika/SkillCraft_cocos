@@ -5,6 +5,7 @@ cc.Class({
 
     properties: {
         oldSelectRoad: undefined,//Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
+        selectedRoad: undefined,
         currentLabSize: 51,//Текущий размер лабиринта
         collisionManager:null,
     },

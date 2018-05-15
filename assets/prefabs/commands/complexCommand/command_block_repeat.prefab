@@ -44,10 +44,13 @@
       },
       {
         "__id__": 34
+      },
+      {
+        "__id__": 35
       }
     ],
     "_prefab": {
-      "__id__": 35
+      "__id__": 36
     },
     "_id": "",
     "_opacity": 255,
@@ -1144,6 +1147,18 @@
     },
     "_enabled": true,
     "commandType": "counter"
+  },
+  {
+    "__type__": "fda2e2/BkJAEYSfyDmjDNiT",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "GameNode": {
+      "__uuid__": "8c60cfce-1369-440d-9b66-d92fb1af2f61"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
