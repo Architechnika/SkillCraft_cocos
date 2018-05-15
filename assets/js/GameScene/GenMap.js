@@ -197,7 +197,13 @@ cc.Class({
         //Спавним префаб робота
         if(startElem){
             var dir = startElem.name.split("_")[2];
+            if(dir == "left") dir = "right";
+            else if(dir == "right") dir = "left";
+            else if(dir == "up") dir = "down";
+            else if(dir == "down") dir = "up";
             var plObj = cc.instantiate(this.playerPrefab);
+            /*plObj.anchorX = 0;
+            plObj.anchorY = 1;*/
             plObj.getComponent("PlayerScript").setDirection(dir);
             plObj.x = startElem.x + ((startElem.width * startElem.scaleX) / 2);
             plObj.y = startElem.y - ((startElem.height * startElem.scaleY) / 2);

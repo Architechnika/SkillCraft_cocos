@@ -64,11 +64,11 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.71,
-    "_scaleY": 0.71,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": -5.684341886080802e-14,
       "y": 0
     },
     "_skewX": 0,
@@ -218,9 +218,24 @@
     "_rightFieldElement": null,
     "_backFieldElement": null,
     "_underFieldElements": [],
-    "playerStarted": false,
+    "lookDirection": "up",
+    "playerStarted": true,
     "playerMoveTime": 1,
-    "playerCommands": null,
+    "testCommands": [
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      },
+      {
+        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+      },
+      {
+        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      }
+    ],
+    "commands": [],
     "inventory": []
   },
   {

@@ -7,18 +7,18 @@ cc.Class({
 
     properties: {
         //private
-        _currentFieldElement: null, //Элемент поля на котором стоит игрок
-        _frontFieldElement: null, //Элемент поля спереди от робота
-        _leftFieldElement: null, //Элемент поля слева от робота
-        _rightFieldElement: null, //Элемент поля справа от робота
-        _backFieldElement: null, //Элемент поля сзади от робота
+        _currentFieldElement: undefined, //Элемент поля на котором стоит игрок
+        _frontFieldElement: undefined, //Элемент поля спереди от робота
+        _leftFieldElement: undefined, //Элемент поля слева от робота
+        _rightFieldElement: undefined, //Элемент поля справа от робота
+        _backFieldElement: undefined, //Элемент поля сзади от робота
         _underFieldElements: [], //Массив обьектов под роботом на клетке
         //public
-        lookDirection:"up",
+        lookDirection: "up",
         playerStarted: false,
         playerMoveTime: 1,
         testCommands: {
-            default: null,
+            default: [],
             type: cc.Prefab
         },
         commands: [],
@@ -60,11 +60,17 @@ cc.Class({
     },
 
     start() {
-        //this.commands.push(cc.instantiate(cc.instantiate(this.global_PrefFieldArray[i][j]);));
-        this.makeAMove();
+        for (var i = 0; i < this.testCommands.length; i++) {
+            this.commands.push(cc.instantiate(this.testCommands[i]));
+        }
+        this.setStart();
     },
     update(dt) {
         this;
+    },
+    setStart() {
+        this.playerStart = true;
+        this.makeAMove();
     },
     //Один шаг робота. Обработка команд из стека команд и запуск перемещения из одной клетки в другую
     makeAMove() {
@@ -73,7 +79,11 @@ cc.Class({
         var pr = this._processMove();
         if (pr.error == "" && pr.point) {
             this.moveTo(pr.point);
-        } else if (pr.error != "") {
+        } else if (pr.error != "") {//ОБРАБОТКА ОШИБКИ В ДВИЖЕНИИ РОБОТА
+            //this.makeAMove();
+            console.log(pr.error);
+        }
+        else if(pr.error == ""){
             this.makeAMove();
         }
     },
@@ -88,16 +98,16 @@ cc.Class({
     setDirection(dir) {
         switch (dir) {
             case "up":
-                this.node.rotation = 180;
-                break;
-            case "down":
                 this.node.rotation = 0;
                 break;
+            case "down":
+                this.node.rotation = 180;
+                break;
             case "right":
-                this.node.rotation = 270;
+                this.node.rotation = 90;
                 break;
             case "left":
-                this.node.rotation = 90;
+                this.node.rotation = 270;
                 break;
         }
         this.lookDirection = dir;
@@ -108,18 +118,27 @@ cc.Class({
         var p = undefined;
         if (!this.commands || this.commands.length == 0) {
             errStr = "робот не знает что ему делать";
+            return {
+                error: errStr,
+                point: p
+            };
         }
         //Получаем скрипт из элемента команды для того чтобы получить логику команды
         var commScript = this.commands[0].getComponent("command_simple_script");
         if (commScript) {
             //Выполняет логику команды с обьектом игрока и возвращает результат обработки
-            var whatToDo = commScript.getCommand(this);
+            //var whatToDo = commScript.getCommand(this);
+            var whatToDo = cc.p(this._frontFieldElement.x + (this._frontFieldElement.width * this._frontFieldElement.scaleX),
+                                this._frontFieldElement.y + (this._frontFieldElement.height * this._frontFieldElement.scaleY));
+            console.log(this.node.x + " : " + this.node.y);
+            console.log(this._frontFieldElement.x + " : " + this._frontFieldElement.y);
             //Это либо массив с другими командами для обработки
             if (whatToDo.length) {
                 for (var i = 0; i < whatToDo.length; i++)
                     this.commands.unshift(whatToDo[i]);
             } //Либо точка куда надо передвинуться
             else if (whatToDo.x && whatToDo.y) {
+                this.commands.shift();
                 p = whatToDo;
             } else {
                 errStr = "Ошибка при обработке команды";

@@ -4,15 +4,18 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        oldSelectRoad: undefined,//Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
-        currentLabSize: 51,//Текущий размер лабиринта
-        collisionManager:null,
+        currentLabSize: 3, //Текущий размер лабиринта
+        isDebug: false, //Дебаг режим для всей игры
+        _oldSelectRoad: undefined, //Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
+        _collisionManager: null,
     },
 
-    start () {
+    start() {
         this.collisionManager = cc.director.getCollisionManager();
-        this.collisionManager.enabled = true;
-        this.collisionManager.enabledDebugDraw = true;
-        this.collisionManager.enabledDrawBoundingBox = true;
+        if (this.isDebug) {
+            this.collisionManager.enabled = true;
+            this.collisionManager.enabledDebugDraw = true;
+            this.collisionManager.enabledDrawBoundingBox = true;
+        }
     },
 });
