@@ -198,12 +198,7 @@ cc.Class({
         if(startElem){
             var dir = startElem.name.split("_")[2];
             var plObj = cc.instantiate(this.playerPrefab);
-            switch(dir){
-                case "up": plObj.rotation = 180; break;
-                case "down": plObj.rotation = 0; break;
-                case "right": plObj.rotation = 270; break;
-                case "left": plObj.rotation = 90; break;
-            }
+            plObj.getComponent("PlayerScript").setDirection(dir);
             plObj.x = startElem.x + ((startElem.width * startElem.scaleX) / 2);
             plObj.y = startElem.y - ((startElem.height * startElem.scaleY) / 2);
             //Задаем размер элемента

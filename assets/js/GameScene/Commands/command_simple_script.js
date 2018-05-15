@@ -18,4 +18,12 @@ cc.Class({
     start () {
 
     },
+    //Возвращает точку куда нужно двигаться в зависимости от типа команды
+    getCommand(playerObj){
+      switch(this.DIRECTION){
+          case "up":
+              
+              break;
+      }  
+    },
 });

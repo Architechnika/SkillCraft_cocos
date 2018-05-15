@@ -34,10 +34,13 @@
       },
       {
         "__id__": 7
+      },
+      {
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 9
     },
     "_id": "",
     "_opacity": 255,
@@ -109,16 +112,36 @@
       "__id__": 1
     },
     "_enabled": true,
+    "tag": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 70,
+      "height": 128
+    }
+  },
+  {
+    "__type__": "cc.BoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
     "tag": 1,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 128
+      "y": 96
     },
     "_size": {
       "__type__": "cc.Size",
       "width": 51,
-      "height": 128
+      "height": 64
     }
   },
   {
@@ -133,12 +156,12 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -128
+      "y": -96
     },
     "_size": {
       "__type__": "cc.Size",
       "width": 51,
-      "height": 128
+      "height": 64
     }
   },
   {
@@ -152,12 +175,12 @@
     "tag": 3,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": -99,
+      "x": -67,
       "y": 0
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 128,
+      "width": 64,
       "height": 51
     }
   },
@@ -172,12 +195,12 @@
     "tag": 4,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 99,
+      "x": 67,
       "y": 0
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 128,
+      "width": 64,
       "height": 51
     }
   },
@@ -188,7 +211,17 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "_currentFieldElement": null,
+    "_frontFieldElement": null,
+    "_leftFieldElement": null,
+    "_rightFieldElement": null,
+    "_backFieldElement": null,
+    "_underFieldElements": [],
+    "playerStarted": false,
+    "playerMoveTime": 1,
+    "playerCommands": null,
+    "inventory": []
   },
   {
     "__type__": "cc.PrefabInfo",

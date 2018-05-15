@@ -100,8 +100,8 @@
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 32,
+      "y": -32
     },
     "_size": {
       "__type__": "cc.Size",
@@ -115,7 +115,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "44f0ee66-4446-44dd-8953-5e067bf4331d"
     },
     "fileId": "e2Q9D6gHlI1bP4FRZFyj/r",
     "sync": false
