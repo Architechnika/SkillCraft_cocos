@@ -32,10 +32,13 @@
       },
       {
         "__id__": 8
+      },
+      {
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 10
     },
     "_id": "",
     "_opacity": 255,
@@ -272,7 +275,17 @@
       "__id__": 1
     },
     "_enabled": true,
-    "DIRECTION": "onup"
+    "DIRECTION": "onup",
+    "commandType": "simple"
+  },
+  {
+    "__type__": "fda2e2/BkJAEYSfyDmjDNiT",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true
   },
   {
     "__type__": "cc.PrefabInfo",

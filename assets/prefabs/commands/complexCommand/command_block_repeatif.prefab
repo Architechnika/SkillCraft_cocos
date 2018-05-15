@@ -44,10 +44,16 @@
       },
       {
         "__id__": 41
+      },
+      {
+        "__id__": 42
+      },
+      {
+        "__id__": 43
       }
     ],
     "_prefab": {
-      "__id__": 42
+      "__id__": 44
     },
     "_id": "",
     "_opacity": 255,
@@ -1399,6 +1405,28 @@
       "__type__": "cc.Size",
       "width": 100,
       "height": 100
+    }
+  },
+  {
+    "__type__": "7f6314HATRAYrVJaZbfC92J",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "commandType": "repeatif"
+  },
+  {
+    "__type__": "fda2e2/BkJAEYSfyDmjDNiT",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "GameNode": {
+      "__uuid__": "8c60cfce-1369-440d-9b66-d92fb1af2f61"
     }
   },
   {
