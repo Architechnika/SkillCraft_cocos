@@ -19,6 +19,10 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        selectParentNode: { //радительский элемент к которому добавляем и сортируем команды
+            default: null,
+            type: cc.Node
+        },
     },
 
     declaration() {
@@ -38,11 +42,11 @@ cc.Class({
 
     // onLoad () {},
     onLoad() {
-        /*this.declaration();
-        this.generation();*/
+       // this.declaration();
+       // this.generation();
     },
 
-    start () {
+    start() {
 
     },
     clear() {
@@ -59,25 +63,37 @@ cc.Class({
     generation() {
         this.node.anchorX = 0;
         this.node.anchorY = 1;
-        var x = this.node.FBP.dr.x;
-        var y = this.node.FBP.dr.y;
+        //  var x = this.node.FBP.dr.x;
+        // var y = this.node.FBP.dr.y;
+        //        var x = this.node.x;
+        //        var y = this.node.y;
         var itemWH = 100;
-        this.node.addChild(this.commands)
-        this.commands.anchorX = 0;
-        this.commands.anchorY = 1;
-        this.commands.x = x;
-        this.commands.y = y;
-        for (var i = 0; i < this.commands.children.length; i++) {
-            var el = this.commands.children[i];
+        var iter = 0;
+        this.node.addChild(this.selectParentNode)
+        this.selectParentNode.resetTransform;
+        this.selectParentNode.anchorX = 0;
+        this.selectParentNode.anchorY = 1;
+        var x = this.selectParentNode.x;
+        var y = this.selectParentNode.y;
+        for (var i = 0; i < this.selectParentNode.children.length; i++) {
+            var el = this.selectParentNode.children[i];
+            el.anchorX = 0;
+            el.anchorY = 1;
             el.x = x;
             el.y = y;
-            if (el.name == "command_block_if") {
+            if (el.name == "command_if") {
                 y -= (itemWH * 4)
+                iter += 4;
             } else {
                 y -= itemWH
+                iter++;
             }
             //  this.node.addChild(el)
         }
+        this.node.setContentSize(itemWH * iter, itemWH * iter)
+        var plusCHild = this.node.children[0];
+        plusCHild.x = x;
+        plusCHild.y = this.selectParentNode.y - this.node.height;
         this.node.scaleX = 0.3
         this.node.scaleY = 0.3
     },
