@@ -29,10 +29,10 @@ cc.Class({
             case "down":
                 if (playerObj.lookDirection == "up" && playerObj._backFieldElement) return this._getP(playerObj._backFieldElement);
                 else if (playerObj.lookDirection == "down" && playerObj._frontFieldElement) return this._getP(playerObj._frontFieldElement);
-                else if (playerObj.lookDirection == "left" && playerObj._rightFieldElement) return this._getP(playerObj._rightFieldElement);
-                else if (playerObj.lookDirection == "right" && playerObj._leftFieldElement) return this._getP(playerObj._leftFieldElement);
+                else if (playerObj.lookDirection == "left" && playerObj._leftFieldElement) return this._getP(playerObj._leftFieldElement);
+                else if (playerObj.lookDirection == "right" && playerObj._rightFieldElement) return this._getP(playerObj._rightFieldElement);
             case "left":
-                if (playerObj.lookDirection == "up" && playerObj._leftFieldElement) return this._getP(playerObj._frontFieldElement);
+                if (playerObj.lookDirection == "up" && playerObj._leftFieldElement) return this._getP(playerObj._leftFieldElement);
                 else if (playerObj.lookDirection == "down" && playerObj._rightFieldElement) return this._getP(playerObj._rightFieldElement);
                 else if (playerObj.lookDirection == "left" && playerObj._frontFieldElement) return this._getP(playerObj._frontFieldElement);
                 else if (playerObj.lookDirection == "right" && playerObj._backFieldElement) return this._getP(playerObj._backFieldElement);
@@ -42,13 +42,13 @@ cc.Class({
                 else if (playerObj.lookDirection == "left" && playerObj._backFieldElement) return this._getP(playerObj._backFieldElement);
                 else if (playerObj.lookDirection == "right" && playerObj._frontFieldElement) return this._getP(playerObj._frontFieldElement);
             case "onleft":
-                return cc.p(playerObj._leftFieldElement.x, playerObj._leftFieldElement.y);
+                return playerObj._leftFieldElement ? cc.p(playerObj._leftFieldElement.x, playerObj._leftFieldElement.y) : undefined;
             case "onright":
-                return cc.p(playerObj._rightFieldElement.x, playerObj._rightFieldElement.y);
+                return playerObj._rightFieldElement ? cc.p(playerObj._rightFieldElement.x, playerObj._rightFieldElement.y) : undefined;
             case "onup":
-                return cc.p(playerObj._frontFieldElement.x, playerObj._frontFieldElement.y);
+                return playerObj._frontFieldElement ? cc.p(playerObj._frontFieldElement.x, playerObj._frontFieldElement.y) : undefined;
             case "ondown":
-                return cc.p(playerObj._backFieldElement.x, playerObj._backFieldElement.y);
+                return playerObj._backFieldElement ? cc.p(playerObj._backFieldElement.x, playerObj._backFieldElement.y) : undefined;
         }
     },
     

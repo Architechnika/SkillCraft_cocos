@@ -22,6 +22,7 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        commandForward: cc.Prefab,
         global_PrefFieldArray: [],//Массив для хранения набора префабов из которого было сгенерировано поле
         global_FieldArray: [],//Массив для хранения стен и дорог поля
         global_GameObjects: [],//Массив для хранения игровых элементов поля(ящики и тд)
@@ -158,6 +159,7 @@ cc.Class({
                     var spl = element.name.split("_");
                     if(spl && spl.length > 1 && spl[1] == "start"){
                         startElem = element;
+                        element.getComponent("RoadScript").roadCommands.push(cc.instantiate(this.commandForward));
                     }
                     else roadElemsArr.push(element);
                 }

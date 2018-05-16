@@ -13,11 +13,12 @@ cc.Class({
         _rightFieldElement: undefined, //Элемент поля справа от робота
         _backFieldElement: undefined, //Элемент поля сзади от робота
         _underFieldElements: [], //Массив обьектов под роботом на клетке
+        _isFinish: false,
         //public
         parentNode:cc.Node,
         lookDirection: "up",
         playerStarted: false,
-        playerMoveTime: 1,
+        _playerMoveTime: 1,
         testCommands: {
             default: [],
             type: cc.Prefab
@@ -34,12 +35,21 @@ cc.Class({
             if (self.tag == 0) { //Если коллизия центрального бокса робота с клеткой
                 if (other.tag == 3) { //Если это игровой обьект
                     this._underFieldElements.push(other.node);
-                } else {
+                } else if(other.tag == 1){//Если это дорога(или вход или выход)
                     this._currentFieldElement = other.node;
+                    //Добавляем команды из клетки поля в стек команд
+                    this._addCommands(this._currentFieldElement.getComponent("RoadScript").roadCommands);
                     this._underFieldElements.splice(0, this._underFieldElements.length);
+                } else if(other.tag == 5){//Робот доехал до финиша
+                    this._isFinish = true;
+                }
+                else{
+                    if(this.node._actionSeq)
+                        this.node.stopAction(this.node._actionSeq);
+                    console.log("Робот врезался в стену");
                 }
             } else {
-                if (other.node !== this._currentFieldElement && other.tag == 0) { //Если это не коллизия с ТЕКУЩЕЙ КЛЕТКОЙ то обрабатываем
+                if (other.node !== this._currentFieldElement && other.tag !== 3) { //Если это не коллизия с ТЕКУЩЕЙ КЛЕТКОЙ то обрабатываем
                     switch (self.tag) {
                         case 1: //Спереди робота
                             this._frontFieldElement = other.node;
@@ -56,26 +66,29 @@ cc.Class({
                     }
                 }
             }
-
         }
     },
-
-    start() {
-        for (var i = 0; i < this.testCommands.length; i++) {
-            this.commands.push(cc.instantiate(this.testCommands[i]));
-        }
-        this.setStart();
+    /*update(dt) {
+    },*/
+    start(){
+        this._playerMoveTime = this.node.parent.getComponent("GlobalVariables").playerSpeed;
     },
-    update(dt) {
-        this;
-    },
-    setStart() {
+    play() {
         this.playerStart = true;
         this.makeAMove();
+    },
+    stop(){
+        this.playerStart = false;
     },
     //Один шаг робота. Обработка команд из стека команд и запуск перемещения из одной клетки в другую
     makeAMove() {
         if (!this.playerStarted) return;
+        if(this._isFinish){//ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
+            console.log("FINISH");
+            //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
+            //cc.director.loadScene("MainMenu");
+            return;
+        }
         //Обработка верхней команды в стеке commands
         var pr = this._processMove();
         if (pr.error == "" && pr.point) {
@@ -90,12 +103,13 @@ cc.Class({
     },
     //Вызывает движение робота к точке x,y за playerSpeedDelay секунд
     moveTo(p, dir) {        
-        var actions = [cc.moveTo(this.playerMoveTime, p), //Описываем экшон для плеера
+        var actions = [cc.moveTo(this._playerMoveTime, p), //Описываем экшон для плеера
             cc.callFunc(this.makeAMove, this)]; //Создаем ссылку на callback функцию после выполнения перемещения
         //Поворачиваем робота если требуется
         if (this.lookDirection != dir && dir !== "onup")
-            actions.unshift(cc.rotateTo(this.playerMoveTime, this.setDirection(dir, true)));
-        this.node.runAction(cc.sequence(actions));
+            actions.unshift(cc.rotateTo(this._playerMoveTime, this.setDirection(dir, true)));
+        this.node._actionSeq = cc.sequence(actions);
+        this.node.runAction(this.node._actionSeq);
     },
     //Задает направление того, куда смотрит робот
     setDirection(dir, isAnim) {
@@ -159,7 +173,10 @@ cc.Class({
             var whatToDo = commScript.getCommand(this);
             dir = commScript.DIRECTION;
             //Это либо массив с другими командами для обработки
-            if (whatToDo.length) {
+            if(!whatToDo){
+                errStr = "Робот не может туда поехать";
+            }
+            else if (whatToDo.length) {
                 for (var i = 0; i < whatToDo.length; i++)
                     this.commands.unshift(whatToDo[i]);
             } //Либо точка куда надо передвинуться
@@ -178,7 +195,20 @@ cc.Class({
         };
     },
     //Добавляет команды в стек команд для исполнения
-    _addCommands() {
-
+    _addCommands(comms) {
+        if(!comms || comms.length == 0)
+            return;
+        //Добавляем в начало стека элементы из клетки
+        this.commands = [];
+        for(var i = comms.length - 1; i >= 0; i--){
+            this.commands.unshift(this._cloneNode(comms[i]));
+        }
     },
+    
+    _cloneNode(node){
+        var copy = cc.instantiate(node);
+        copy.parent = cc.director.getScene();
+        copy.setPosition(0, 0);
+        return copy;
+    }
 });

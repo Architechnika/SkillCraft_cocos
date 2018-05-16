@@ -221,19 +221,19 @@
     "parentNode": null,
     "lookDirection": "up",
     "playerStarted": true,
-    "playerMoveTime": 1,
+    "playerMoveTime": 0.7,
     "testCommands": [
       {
-        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
+        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
       },
       {
-        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
+        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
       },
       {
-        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
       },
       {
-        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
+        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
       }
     ],
     "commands": [],
