@@ -28,7 +28,7 @@ cc.Class({
             this.parent.getComponent("GlobalVariables").selectedRoad = this;
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
             if (this.roadCommands.length > 0) {
-                var codeMapDone = this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
+                this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
                 var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
             } else {
                 var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
