@@ -24,7 +24,6 @@ cc.Class({
                 if (roadComm != null) {
                     var element = cc.instantiate(this);
                     roadComm.push(element)
-                    console.log(road.getComponent("RoadScript").roadCommands)
                 }
 
 

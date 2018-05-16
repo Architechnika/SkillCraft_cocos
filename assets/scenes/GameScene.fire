@@ -21,7 +21,7 @@
     "_active": true,
     "_components": [],
     "_prefab": null,
-    "_id": "7ab68c4e-42d2-4889-b3e2-93f1b0edb44a",
+    "_id": "c3218e78-dbe9-4a6b-a46e-6a9f1edf42be",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -186,7 +186,8 @@
     "_enabled": true,
     "currentLabSize": 7,
     "isDebug": true,
-    "_collisionManager": null
+    "_collisionManager": null,
+    "collisionManager": null
   },
   {
     "__type__": "d46e8zvBVtCdLZT93GZbSCV",
