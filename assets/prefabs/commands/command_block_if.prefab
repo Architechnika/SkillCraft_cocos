@@ -284,7 +284,16 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "ifBlock": {
+      "__uuid__": "a0cb8b99-33bd-41c4-ae0b-3d5a1324531b"
+    },
+    "repeatIfBlock": {
+      "__uuid__": "df8b20ba-b17d-46e4-8fe0-7a933b577f8e"
+    },
+    "counterBlock": {
+      "__uuid__": "4625169c-e559-4199-8a11-dba514255e2d"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

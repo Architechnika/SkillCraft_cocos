@@ -13,10 +13,11 @@ cc.Class({
         },
     },
 
-
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        
+        this.node.roadCommands = this.roadCommands
         this.node.on('mouseup', function (event) {
             var t = this.parent.getComponent("GenMap");
             if (t.node.isMoved) return;
@@ -26,6 +27,12 @@ cc.Class({
             this.parent.getComponent("GlobalVariables").oldSelectRoad = this;
             this.parent.getComponent("GlobalVariables").selectedRoad = this;
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
+            if (this.roadCommands.length > 0) {
+                var codeMapDone = this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
+                var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+            } else {
+                var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+            }
         });
         /*this.node.on('mousedown', function (event) {
             event.stopPropagation();

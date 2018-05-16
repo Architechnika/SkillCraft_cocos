@@ -11,19 +11,42 @@
 cc.Class({
     extends: cc.Component,
 
-    properties: {},
+    properties: {
+        ifBlock: {
+            default: null,
+            type: cc.Prefab
+        },
+        repeatIfBlock: {
+            default: null,
+            type: cc.Prefab
+        },
+        counterBlock: {
+            default: null,
+            type: cc.Prefab
+        },
+    },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
 
+        this.node.ifBlock = this.ifBlock;
+        this.node.repeatIfBlock = this.repeatIfBlock;
+        this.node.counterBlock = this.counterBlock;
         this.node.on('mousedown', function (event) {
             var road = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad
             if (road != undefined) {
                 var roadComm = road.getComponent("RoadScript").roadCommands;
                 if (roadComm != null) {
                     var element = cc.instantiate(this);
-                    roadComm.push(element)
+                    if (element.name == "command_block_if")
+                        element = cc.instantiate(this.ifBlock);
+                    else if (element.name == "command_block_repeatif")
+                        element = cc.instantiate(this.repeatIfBlock);
+                    else if (element.name == "command_block_repeat")
+                        element = cc.instantiate(this.counterBlock);
+                    
+                        roadComm.push(element);
                 }
 
 
