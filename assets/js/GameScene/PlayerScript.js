@@ -14,6 +14,7 @@ cc.Class({
         _backFieldElement: undefined, //Элемент поля сзади от робота
         _underFieldElements: [], //Массив обьектов под роботом на клетке
         //public
+        parentNode:cc.Node,
         lookDirection: "up",
         playerStarted: false,
         playerMoveTime: 1,
@@ -78,44 +79,72 @@ cc.Class({
         //Обработка верхней команды в стеке commands
         var pr = this._processMove();
         if (pr.error == "" && pr.point) {
-            this.moveTo(pr.point);
-        } else if (pr.error != "") {//ОБРАБОТКА ОШИБКИ В ДВИЖЕНИИ РОБОТА
+            var res = this.moveTo(pr.point, pr.direction);
+            if(res) console.log(res);
+        } else if (pr.error != "") { //ОБРАБОТКА ОШИБКИ В ДВИЖЕНИИ РОБОТА
             //this.makeAMove();
             console.log(pr.error);
-        }
-        else if(pr.error == ""){
+        } else if (pr.error == "") {
             this.makeAMove();
         }
     },
     //Вызывает движение робота к точке x,y за playerSpeedDelay секунд
-    moveTo(x, y) {
-        this.node.runAction(cc.sequence(
-            cc.moveTo(this.playerMoveTime, cc.p(x, y)), //Описываем экшон для плеера
-            cc.callFunc(this.makeAMove, this) //Создаем ссылку на callback функцию после выполнения перемещения
-        ));
+    moveTo(p, dir) {        
+        var actions = [cc.moveTo(this.playerMoveTime, p), //Описываем экшон для плеера
+            cc.callFunc(this.makeAMove, this)]; //Создаем ссылку на callback функцию после выполнения перемещения
+        //Поворачиваем робота если требуется
+        if (this.lookDirection != dir && dir !== "onup")
+            actions.unshift(cc.rotateTo(this.playerMoveTime, this.setDirection(dir, true)));
+        this.node.runAction(cc.sequence(actions));
     },
     //Задает направление того, куда смотрит робот
-    setDirection(dir) {
+    setDirection(dir, isAnim) {
+        var angle = 0;
         switch (dir) {
             case "up":
-                this.node.rotation = 0;
+                angle = 0;
                 break;
             case "down":
-                this.node.rotation = 180;
+                angle = 180;
                 break;
             case "right":
-                this.node.rotation = 90;
+                angle = 90;
                 break;
             case "left":
-                this.node.rotation = 270;
+                angle = 270;
+                break;
+            case "onup"://Вперед
+                angle = this.node.rotation;
+                dir = this.lookDirection;
+                break;
+            case "ondown"://Назад
+                if(this.lookDirection == "up") return this.setDirection("down", isAnim);
+                else if(this.lookDirection == "down") return this.setDirection("up", isAnim);
+                else if(this.lookDirection == "left") return this.setDirection("right", isAnim);
+                else if(this.lookDirection == "right") return this.setDirection("left", isAnim);
+                break;
+            case "onleft"://Влево
+                if(this.lookDirection == "up") return this.setDirection("left", isAnim);
+                else if(this.lookDirection == "down") return this.setDirection("right", isAnim);
+                else if(this.lookDirection == "left") return this.setDirection("down", isAnim);
+                else if(this.lookDirection == "right") return this.setDirection("up", isAnim);
+                break;
+            case "onright"://Вправо
+                if(this.lookDirection == "up") return this.setDirection("right", isAnim);
+                else if(this.lookDirection == "down") return this.setDirection("left", isAnim);
+                else if(this.lookDirection == "left") return this.setDirection("up", isAnim);
+                else if(this.lookDirection == "right") return this.setDirection("down", isAnim);
                 break;
         }
         this.lookDirection = dir;
+        if (isAnim) return angle;
+        this.node.rotation = angle;
     },
     //Логика обработки команд
     _processMove() {
         var errStr = "";
         var p = undefined;
+        var dir = "none";
         if (!this.commands || this.commands.length == 0) {
             errStr = "робот не знает что ему делать";
             return {
@@ -127,17 +156,15 @@ cc.Class({
         var commScript = this.commands[0].getComponent("command_simple_script");
         if (commScript) {
             //Выполняет логику команды с обьектом игрока и возвращает результат обработки
-            //var whatToDo = commScript.getCommand(this);
-            var whatToDo = cc.p(this._frontFieldElement.x + (this._frontFieldElement.width * this._frontFieldElement.scaleX),
-                                this._frontFieldElement.y + (this._frontFieldElement.height * this._frontFieldElement.scaleY));
-            console.log(this.node.x + " : " + this.node.y);
-            console.log(this._frontFieldElement.x + " : " + this._frontFieldElement.y);
+            var whatToDo = commScript.getCommand(this);
+            dir = commScript.DIRECTION;
             //Это либо массив с другими командами для обработки
             if (whatToDo.length) {
                 for (var i = 0; i < whatToDo.length; i++)
                     this.commands.unshift(whatToDo[i]);
             } //Либо точка куда надо передвинуться
             else if (whatToDo.x && whatToDo.y) {
+                //Удаляем верхнюю команду из стека так как она уже обработана
                 this.commands.shift();
                 p = whatToDo;
             } else {
@@ -146,7 +173,8 @@ cc.Class({
         }
         return {
             error: errStr,
-            point: p
+            point: p,
+            direction: dir
         };
     },
     //Добавляет команды в стек команд для исполнения

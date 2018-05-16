@@ -149,13 +149,10 @@ cc.Class({
         for (var i = 0; i < elementsInLine; i++) {
             for (var j = 0; j < elementsInLine; j++) {
                 var element = cc.instantiate(this.global_PrefFieldArray[i][j]);
-                element.anchorX = 0;
-                element.anchorY = 1;
-                element.x = stX;
-                element.y = stY;
-                //var spriteCompRect = element.getComponent(cc.Sprite).spriteFrame.getRect();
                 element.scaleX = elemSizeX / element.width;
                 element.scaleY = elemSizeY / element.height;
+                element.x = stX + ((element.width * element.scaleX) / 2);
+                element.y = stY - ((element.height * element.scaleY) / 2);;
                 //Если это элемент содержащий скрипт дороги, то запоминаем его в отдельный массив
                 if(element.getComponent("RoadScript")){
                     var spl = element.name.split("_");
@@ -164,8 +161,6 @@ cc.Class({
                     }
                     else roadElemsArr.push(element);
                 }
-                //element.anchorX = 0.5;
-                //element.anchorY = 0.5;
                 //Adding the element to this node's child
                 this.node.addChild(element);
                 this.global_FieldArray.push(element);
@@ -184,8 +179,8 @@ cc.Class({
                 rndIndx = this.getRandomInt(0,roadElemsArr.length);
                 var r_el = roadElemsArr[rndIndx];
                 var el = cc.instantiate(this.gameObjects[0]);//Пока что есть только один префаб это ящик
-                el.x = r_el.x + ((r_el.width * r_el.scaleX) / 2);
-                el.y = r_el.y - ((r_el.height * r_el.scaleY) / 2);
+                el.x = r_el.x;
+                el.y = r_el.y;
                 //Задаем размер элемента
                 el.scaleX = (r_el.width * r_el.scaleX) * this.boxSize / el.width;
                 el.scaleY = (r_el.height * r_el.scaleY) * this.boxSize / el.height;
@@ -202,11 +197,11 @@ cc.Class({
             else if(dir == "up") dir = "down";
             else if(dir == "down") dir = "up";
             var plObj = cc.instantiate(this.playerPrefab);
-            /*plObj.anchorX = 0;
-            plObj.anchorY = 1;*/
-            plObj.getComponent("PlayerScript").setDirection(dir);
-            plObj.x = startElem.x + ((startElem.width * startElem.scaleX) / 2);
-            plObj.y = startElem.y - ((startElem.height * startElem.scaleY) / 2);
+            var scr = plObj.getComponent("PlayerScript");
+            scr.parentNode = this;
+            scr.setDirection(dir);
+            plObj.x = startElem.x;
+            plObj.y = startElem.y;
             //Задаем размер элемента
             var scW = (startElem.width * startElem.scaleX) * this.playerSize / plObj.width;
             var scH = (startElem.height * startElem.scaleY) * this.playerSize / plObj.height;

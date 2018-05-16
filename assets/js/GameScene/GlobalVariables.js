@@ -16,8 +16,8 @@ cc.Class({
 
     start() {
         this.collisionManager = cc.director.getCollisionManager();
+        this.collisionManager.enabled = true;
         if (this.isDebug) {
-            this.collisionManager.enabled = true;
             this.collisionManager.enabledDebugDraw = true;
             this.collisionManager.enabledDrawBoundingBox = true;
         }

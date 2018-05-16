@@ -37,8 +37,8 @@ cc.Class({
                 else if (playerObj.lookDirection == "left" && playerObj._frontFieldElement) return this._getP(playerObj._frontFieldElement);
                 else if (playerObj.lookDirection == "right" && playerObj._backFieldElement) return this._getP(playerObj._backFieldElement);
             case "right":
-                if (playerObj.lookDirection == "up" && playerObj._leftFieldElement) return this._getP(playerObj._leftFieldElement);
-                else if (playerObj.lookDirection == "down" && playerObj._rightFieldElement) return this._getP(playerObj._rightFieldElement);
+                if (playerObj.lookDirection == "up" && playerObj._rightFieldElement) return this._getP(playerObj._rightFieldElement);
+                else if (playerObj.lookDirection == "down" && playerObj._leftFieldElement) return this._getP(playerObj._leftFieldElement);
                 else if (playerObj.lookDirection == "left" && playerObj._backFieldElement) return this._getP(playerObj._backFieldElement);
                 else if (playerObj.lookDirection == "right" && playerObj._frontFieldElement) return this._getP(playerObj._frontFieldElement);
             case "onleft":
@@ -53,6 +53,6 @@ cc.Class({
     },
     
     _getP(el){
-        return cc.p(el.x + (el.width / 2), el.y + (el.height / 2));
+        return el?cc.p(el.x, el.y):undefined;
     }
 });

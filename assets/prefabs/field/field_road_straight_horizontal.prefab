@@ -120,8 +120,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 64,
-      "y": -64
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -229,8 +229,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 64,
-      "y": -64
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -313,8 +313,8 @@
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 64,
-      "y": -64
+      "x": 0,
+      "y": 0
     },
     "_size": {
       "__type__": "cc.Size",
@@ -331,8 +331,7 @@
     },
     "_enabled": true,
     "commandsArray": [],
-    "roadCommands": [],
-    "_commponentIsCommands": null
+    "roadCommands": []
   },
   {
     "__type__": "cc.PrefabInfo",

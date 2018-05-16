@@ -258,8 +258,8 @@
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": -50,
+      "y": -50
     },
     "_size": {
       "__type__": "cc.Size",
@@ -285,10 +285,7 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true,
-    "GameNode": {
-      "__uuid__": "8c60cfce-1369-440d-9b66-d92fb1af2f61"
-    }
+    "_enabled": true
   },
   {
     "__type__": "cc.PrefabInfo",

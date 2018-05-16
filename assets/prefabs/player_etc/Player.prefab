@@ -136,12 +136,12 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 96
+      "y": 128
     },
     "_size": {
       "__type__": "cc.Size",
       "width": 51,
-      "height": 64
+      "height": 10
     }
   },
   {
@@ -156,12 +156,12 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -96
+      "y": -128
     },
     "_size": {
       "__type__": "cc.Size",
       "width": 51,
-      "height": 64
+      "height": 10
     }
   },
   {
@@ -175,12 +175,12 @@
     "tag": 3,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": -67,
+      "x": -128,
       "y": 0
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 64,
+      "width": 10,
       "height": 51
     }
   },
@@ -195,12 +195,12 @@
     "tag": 4,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 67,
+      "x": 128,
       "y": 0
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 64,
+      "width": 10,
       "height": 51
     }
   },
@@ -218,21 +218,22 @@
     "_rightFieldElement": null,
     "_backFieldElement": null,
     "_underFieldElements": [],
+    "parentNode": null,
     "lookDirection": "up",
     "playerStarted": true,
     "playerMoveTime": 1,
     "testCommands": [
       {
-        "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
-      },
-      {
-        "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+        "__uuid__": "83ba03d2-842b-4e5a-85a7-0289b3e909be"
       },
       {
         "__uuid__": "07b9aa7c-6bd1-4f8d-abe9-6787e11fee7e"
       },
       {
         "__uuid__": "b888c4d3-ca75-40ce-9007-b6965c0e7b12"
+      },
+      {
+        "__uuid__": "a5ed47b2-ef73-498d-b207-09f851fa1e87"
       }
     ],
     "commands": [],
