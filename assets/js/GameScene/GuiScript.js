@@ -1,44 +1,55 @@
 /*
   Скрипт для вывода на экран данных об игре(Время, собранные ящики и тд).  
 */
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        startButton: cc.Node,
+        prevStepButton: cc.Node,
+        nextStepButton: cc.Node,
+        reloadButton: cc.Node,
+        menuButton: cc.Node,
+        _playerObj: null,//Указатель на робота(на скрипт робота)
     },
 
+    onButtonClicked(event) {
+        switch (event.target) {
+            case this.startButton:
+                {
+                    this._playerObj.play();
+                }
+                break;
+            case this.prevStepButton:
+                {
+                    console.log("prev");
+                }
+                break;
+            case this.nextStepButton:
+                {
+                    console.log("next");
+                }
+                break;
+            case this.reloadButton:
+                {
+                    console.log("reload");
+                }
+                break;
+            case this.menuButton:
+                {
+                    console.log("menu");
+                }
+                break;
+        }
+    },
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    start () {
-
+    start() {
+        //Инициализируем указатель но обьект игрока
+        this._playerObj = this.node.parent.getChildByName("GameNode").getChildByName("Player").getComponent("PlayerScript");
     },
 
-    // update (dt) {},
 });

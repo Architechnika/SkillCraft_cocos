@@ -4,13 +4,13 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        currentLabSize: 3, //Текущий размер лабиринта
+        currentLabSize: 11, //Текущий размер лабиринта
         isDebug: false, //Дебаг режим для всей игры
+        playerSpeed: 0.7,
         _oldSelectRoad: undefined, //Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
         _collisionManager: null,
         oldSelectRoad: undefined,//Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
         selectedRoad: undefined,
-        currentLabSize: 51,//Текущий размер лабиринта
         collisionManager:null,
     },
 
