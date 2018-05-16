@@ -7,27 +7,29 @@ cc.Class({
     properties: {
         NAME: "default",
     },
-
+    _H: 0,
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
     start() {
-       // var element = cc.instantiate(this.node.getChildByName("command_left"));
-     //   var element1 = cc.instantiate(this.node.getChildByName("command_if"));
-      //  var element2 = cc.instantiate(this.node.getChildByName("command_if"));
-      //  this.addCommand(element)
-       // this.addCommand(element2)
-//       this.addCommand(element1)
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
-//        this.addLine();
+        this._H = this.node.parent.height;
+//         var element = cc.instantiate(this.node.getChildByName("command_right"));
+//           var element1 = cc.instantiate(this.node.getChildByName("command_if"));
+//        //  var element2 = cc.instantiate(this.node.getChildByName("command_if"));
+//          this.addCommand(element)
+//        /// this.addCommand(element2)
+//               this.addCommand(element1)
+//        console.log(this.name)
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
+        //        this.addLine();
     },
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
@@ -40,7 +42,7 @@ cc.Class({
             element.y = bott.y - itemWH;
             bott.y -= itemWH;
             this.node.addChild(element);
-            this.node.parent.height +=itemWH;
+            this.node.parent.height += itemWH;
         }
 
     },
@@ -51,7 +53,11 @@ cc.Class({
                 comm.anchorX = 0;
                 comm.anchorY = 1;
                 var itemWH = comm.height;
-                commands.height += itemWH
+                if (comm.name == "command_if") {
+                    itemWH = comm.height;
+                }
+                commands.height += itemWH;
+                this.node.parent.height += itemWH;
                 var x = 0;
                 var y = 0;
                 for (var i = 0; i < commands.children.length; i++) {
@@ -68,5 +74,18 @@ cc.Class({
             }
         }
     },
-    // update (dt) {},
+    update(dt) {
+//        if (this._H != this.node.parent.height) {
+//            this._H = this.node.parent.height;
+//            var parent = this.node.parent.parent;
+//            if (parent.getChildByName("commands")) {
+//                parent.getChildByName("commands").height += this._H
+//               // parent.parent.height += this._H
+//                var itemWH = parent.width;
+//                var lineCount = this._H / itemWH;
+//                for (var i = 0; i < lineCount; i++)
+//                    this.addLine();
+//            }
+//        }
+    },
 });
