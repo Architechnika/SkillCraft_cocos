@@ -68,13 +68,13 @@ cc.Class({
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
                 var x = 0;
-                var y = 0;
+                var y = 1;
                 
                 for(var i=0;i<roadCommands.length;i++)
                     {
                         var el = roadCommands[i];
                         el.anchorX = 0;
-                        el.anchorY = 0;
+                        el.anchorY = 1;
 
                         var itemWH = el.width;
                         if(el.name == "command_if")
@@ -88,6 +88,8 @@ cc.Class({
                         el.y = y;
                         y-=itemWH;
                     }
+                this.node.scaleX = 0.3
+                 this.node.scaleY = 0.3
             }
         }
         //        this.node.anchorX = 0;
