@@ -15,9 +15,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        commands: { //команды для отрисовки
+        plus: { //команды для отрисовки
             default: null,
-            type: cc.Node
+            type: cc.Prefab
         },
         selectParentNode: { //радительский элемент к которому добавляем и сортируем команды
             default: null,
@@ -44,6 +44,7 @@ cc.Class({
     onLoad() {
         // this.declaration();
         // this.generation();
+        var x = this.node.getNodeToParentTransform();
     },
 
     start() {
@@ -63,25 +64,29 @@ cc.Class({
         var road = this.node.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad;
         if (road) {
             this.clear();
+             this.node.resetTransform
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
-                var x = this.node.x;
-                var y = this.node.y;
+                var x = 0;
+                var y = 0;
+                
                 for(var i=0;i<roadCommands.length;i++)
                     {
                         var el = roadCommands[i];
-//                        el.anchorX = 0;
-//                        el.anchorY = 2;
+                        el.anchorX = 0;
+                        el.anchorY = 0;
 
                         var itemWH = el.width;
                         if(el.name == "command_if")
                             {
                                 itemWH = el.height
                             }
+                        
                         this.node.addChild(el)
-                        el.resetTransform
-                        el.setPosition(x,y)
-                        y+=itemWH;
+                        el.resetTransform;
+                        el.x = x;
+                        el.y = y;
+                        y-=itemWH;
                     }
             }
         }

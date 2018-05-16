@@ -66,8 +66,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 336.1,
-      "y": 56.7
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -285,7 +285,10 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "ifBlock": null,
+    "repeatIfBlock": null,
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
