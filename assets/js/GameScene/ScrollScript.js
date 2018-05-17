@@ -53,7 +53,7 @@ cc.Class({
         if (scrollName == "leftScroll")
             columnCount = 1;
         for (var i = 0; i < arr.length; i++)
-            cont.addChild(arr[i].data)
+            cont.addChild(cc.instantiate(arr[i]));
 
         cont.anchorX = 1;
         cont.anchorY = 1;

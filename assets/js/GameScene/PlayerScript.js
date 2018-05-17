@@ -14,8 +14,9 @@ cc.Class({
         _backFieldElement: undefined, //Элемент поля сзади от робота
         _underFieldElements: [], //Массив обьектов под роботом на клетке
         _isFinish: false,
+        _startElement: undefined,
         //public
-        parentNode:cc.Node,
+        parentNode: cc.Node,
         lookDirection: "up",
         playerStarted: false,
         _playerMoveTime: 1,
@@ -35,18 +36,18 @@ cc.Class({
             if (self.tag == 0) { //Если коллизия центрального бокса робота с клеткой
                 if (other.tag == 3) { //Если это игровой обьект
                     this._underFieldElements.push(other.node);
-                } else if(other.tag == 1){//Если это дорога(или вход или выход)
+                } else if (other.tag == 1) { //Если это дорога(или вход или выход)
                     this._currentFieldElement = other.node;
                     //Добавляем команды из клетки поля в стек команд
                     this._addCommands(this._currentFieldElement.getComponent("RoadScript").roadCommands);
                     this._underFieldElements.splice(0, this._underFieldElements.length);
-                } else if(other.tag == 5){//Робот доехал до финиша
+                } else if (other.tag == 5) { //Робот доехал до финиша
                     this._isFinish = true;
-                }
-                else{
-                    if(this.node._actionSeq)
+                } else {
+                    if (this.node._actionSeq)
                         this.node.stopAction(this.node._actionSeq);
                     console.log("Робот врезался в стену");
+                    this.setToStart();
                 }
             } else {
                 if (other.node !== this._currentFieldElement && other.tag !== 3) { //Если это не коллизия с ТЕКУЩЕЙ КЛЕТКОЙ то обрабатываем
@@ -70,30 +71,32 @@ cc.Class({
     },
     /*update(dt) {
     },*/
-    start(){
+    start() {
         this._playerMoveTime = this.node.parent.getComponent("GlobalVariables").playerSpeed;
     },
     play() {
         this.playerStart = true;
         this.makeAMove();
     },
-    stop(){
+    stop() {
         this.playerStart = false;
     },
     //Один шаг робота. Обработка команд из стека команд и запуск перемещения из одной клетки в другую
     makeAMove() {
         if (!this.playerStarted) return;
-        if(this._isFinish){//ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
+        if (this._isFinish) { //ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
-            //cc.director.loadScene("MainMenu");
+            cc.director._labSize += 2;
+            cc.director.getScene().destroy();
+            cc.director.loadScene("EndGameScene");
             return;
         }
         //Обработка верхней команды в стеке commands
         var pr = this._processMove();
         if (pr.error == "" && pr.point) {
             var res = this.moveTo(pr.point, pr.direction);
-            if(res) console.log(res);
+            if (res) console.log(res);
         } else if (pr.error != "") { //ОБРАБОТКА ОШИБКИ В ДВИЖЕНИИ РОБОТА
             //this.makeAMove();
             console.log(pr.error);
@@ -101,8 +104,18 @@ cc.Class({
             this.makeAMove();
         }
     },
+    setToStart() {
+        var dir = this._startElement.name.split("_")[2];
+        if (dir == "left") dir = "right";
+        else if (dir == "right") dir = "left";
+        else if (dir == "up") dir = "down";
+        else if (dir == "down") dir = "up";
+        this.setDirection(dir);
+        this.node.x = this._startElement.x;
+        this.node.y = this._startElement.y;
+    },
     //Вызывает движение робота к точке x,y за playerSpeedDelay секунд
-    moveTo(p, dir) {        
+    moveTo(p, dir) {
         var actions = [cc.moveTo(this._playerMoveTime, p), //Описываем экшон для плеера
             cc.callFunc(this.makeAMove, this)]; //Создаем ссылку на callback функцию после выполнения перемещения
         //Поворачиваем робота если требуется
@@ -127,27 +140,27 @@ cc.Class({
             case "left":
                 angle = 270;
                 break;
-            case "onup"://Вперед
+            case "onup": //Вперед
                 angle = this.node.rotation;
                 dir = this.lookDirection;
                 break;
-            case "ondown"://Назад
-                if(this.lookDirection == "up") return this.setDirection("down", isAnim);
-                else if(this.lookDirection == "down") return this.setDirection("up", isAnim);
-                else if(this.lookDirection == "left") return this.setDirection("right", isAnim);
-                else if(this.lookDirection == "right") return this.setDirection("left", isAnim);
+            case "ondown": //Назад
+                if (this.lookDirection == "up") return this.setDirection("down", isAnim);
+                else if (this.lookDirection == "down") return this.setDirection("up", isAnim);
+                else if (this.lookDirection == "left") return this.setDirection("right", isAnim);
+                else if (this.lookDirection == "right") return this.setDirection("left", isAnim);
                 break;
-            case "onleft"://Влево
-                if(this.lookDirection == "up") return this.setDirection("left", isAnim);
-                else if(this.lookDirection == "down") return this.setDirection("right", isAnim);
-                else if(this.lookDirection == "left") return this.setDirection("down", isAnim);
-                else if(this.lookDirection == "right") return this.setDirection("up", isAnim);
+            case "onleft": //Влево
+                if (this.lookDirection == "up") return this.setDirection("left", isAnim);
+                else if (this.lookDirection == "down") return this.setDirection("right", isAnim);
+                else if (this.lookDirection == "left") return this.setDirection("down", isAnim);
+                else if (this.lookDirection == "right") return this.setDirection("up", isAnim);
                 break;
-            case "onright"://Вправо
-                if(this.lookDirection == "up") return this.setDirection("right", isAnim);
-                else if(this.lookDirection == "down") return this.setDirection("left", isAnim);
-                else if(this.lookDirection == "left") return this.setDirection("up", isAnim);
-                else if(this.lookDirection == "right") return this.setDirection("down", isAnim);
+            case "onright": //Вправо
+                if (this.lookDirection == "up") return this.setDirection("right", isAnim);
+                else if (this.lookDirection == "down") return this.setDirection("left", isAnim);
+                else if (this.lookDirection == "left") return this.setDirection("up", isAnim);
+                else if (this.lookDirection == "right") return this.setDirection("down", isAnim);
                 break;
         }
         this.lookDirection = dir;
@@ -173,10 +186,9 @@ cc.Class({
             var whatToDo = commScript.getCommand(this);
             dir = commScript.DIRECTION;
             //Это либо массив с другими командами для обработки
-            if(!whatToDo){
+            if (!whatToDo) {
                 errStr = "Робот не может туда поехать";
-            }
-            else if (whatToDo.length) {
+            } else if (whatToDo.length) {
                 for (var i = 0; i < whatToDo.length; i++)
                     this.commands.unshift(whatToDo[i]);
             } //Либо точка куда надо передвинуться
@@ -196,16 +208,16 @@ cc.Class({
     },
     //Добавляет команды в стек команд для исполнения
     _addCommands(comms) {
-        if(!comms || comms.length == 0)
+        if (!comms || comms.length == 0)
             return;
         //Добавляем в начало стека элементы из клетки
         this.commands = [];
-        for(var i = comms.length - 1; i >= 0; i--){
+        for (var i = comms.length - 1; i >= 0; i--) {
             this.commands.unshift(this._cloneNode(comms[i]));
         }
     },
-    
-    _cloneNode(node){
+
+    _cloneNode(node) {
         var copy = cc.instantiate(node);
         copy.parent = cc.director.getScene();
         copy.setPosition(0, 0);

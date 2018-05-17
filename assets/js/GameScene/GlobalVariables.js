@@ -15,6 +15,10 @@ cc.Class({
     },
 
     start() {
+        //Инициализируем глобальные переменные игры в класс ДИРЕКТОРА
+        if(!cc.director._labSize)
+            cc.director._labSize = this.currentLabSize;
+        
         this.collisionManager = cc.director.getCollisionManager();
         this.collisionManager.enabled = true;
         if (this.isDebug) {

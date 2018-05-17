@@ -123,7 +123,7 @@ cc.Class({
         });
     },
     start() {
-        this.initField(this.getComponent("GlobalVariables").currentLabSize);   
+        this.initField(cc.director._labSize);   
     },
     //update(dt) {},
     initField(elementsInLine) {
@@ -193,17 +193,11 @@ cc.Class({
         }
         //Спавним префаб робота
         if(startElem){
-            var dir = startElem.name.split("_")[2];
-            if(dir == "left") dir = "right";
-            else if(dir == "right") dir = "left";
-            else if(dir == "up") dir = "down";
-            else if(dir == "down") dir = "up";
             var plObj = cc.instantiate(this.playerPrefab);
             var scr = plObj.getComponent("PlayerScript");
+            scr._startElement = startElem;
             scr.parentNode = this;
-            scr.setDirection(dir);
-            plObj.x = startElem.x;
-            plObj.y = startElem.y;
+            scr.setToStart();
             //Задаем размер элемента
             var scW = (startElem.width * startElem.scaleX) * this.playerSize / plObj.width;
             var scH = (startElem.height * startElem.scaleY) * this.playerSize / plObj.height;
