@@ -22,6 +22,8 @@ cc.Class({
             cc.director._globalVariables = this;
         else{
             cc.director._globalVariables.commandAddState = this.commandAddState;
+            cc.director._globalVariables.oldSelectRoad = undefined;
+            cc.director._globalVariables.selectedRoad = undefined;
         }
         
         this.collisionManager = cc.director.getCollisionManager();

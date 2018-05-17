@@ -22,8 +22,9 @@ cc.Class({
             var t = this.parent.getComponent("GenMap");
             if (t.node.isMoved) return;
             var tmp = cc.director._globalVariables.oldSelectRoad;
-            if (tmp != undefined && tmp != this)
+            if (tmp != undefined && tmp != this){
                 tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
+            }
             cc.director._globalVariables.oldSelectRoad = this;
             cc.director._globalVariables.selectedRoad = this;
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
