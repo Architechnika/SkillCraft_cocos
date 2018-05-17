@@ -23,10 +23,13 @@
     "_components": [
       {
         "__id__": 75
+      },
+      {
+        "__id__": 76
       }
     ],
     "_prefab": {
-      "__id__": 76
+      "__id__": 77
     },
     "_id": "",
     "_opacity": 255,
@@ -2436,7 +2439,8 @@
       "__id__": 2
     },
     "_enabled": true,
-    "NAME": "default"
+    "NAME": "default",
+    "gameNode": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2468,6 +2472,32 @@
       "width": 300,
       "height": 400
     }
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_spriteFrame": {
+      "__uuid__": "6e1adf6b-6c0a-4776-bf22-32ecb0ea45ec"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_atlas": null
   },
   {
     "__type__": "cc.PrefabInfo",
