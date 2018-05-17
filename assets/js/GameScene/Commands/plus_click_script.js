@@ -12,14 +12,21 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        GameNode: { 
+            default: null,
+            type: cc.Prefab
+        },
 
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        this.node.GameNode = this.GameNode;
         this.node.on('mousedown', function (event) {
-           this.getComponent("commands_input").setParentAddItem(this.parent); 
+            var GN = this.GameNode.data;
+            GN.getComponent("GlobalVariables").commandAddState = "commands"
+            GN.getComponent("GlobalVariables").parentAdd = this.parent;
         });
     },
 

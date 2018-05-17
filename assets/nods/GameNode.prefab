@@ -71,8 +71,13 @@
       "__id__": 1
     },
     "_enabled": true,
-    "currentLabSize": 11,
-    "collisionManager": null
+    "currentLabSize": 3,
+    "isDebug": false,
+    "playerSpeed": 0.7,
+    "_collisionManager": null,
+    "collisionManager": null,
+    "_commandAddState": "road",
+    "_parentAdd": null
   },
   {
     "__type__": "d46e8zvBVtCdLZT93GZbSCV",
@@ -247,6 +252,9 @@
         "__uuid__": "c9cf14da-b027-4d29-81ef-e33c434f53c6"
       }
     ],
+    "commandForward": {
+      "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
+    },
     "global_PrefFieldArray": [],
     "global_FieldArray": [],
     "global_GameObjects": []

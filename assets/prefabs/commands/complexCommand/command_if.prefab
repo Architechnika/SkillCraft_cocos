@@ -525,7 +525,8 @@
     "node": {
       "__id__": 5
     },
-    "_enabled": true
+    "_enabled": true,
+    "GameNode": []
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2296,7 +2297,10 @@
     "node": {
       "__id__": 60
     },
-    "_enabled": true
+    "_enabled": true,
+    "GameNode": {
+      "__uuid__": "1fe81162-7db1-4ffd-be1a-586275ff6961"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
