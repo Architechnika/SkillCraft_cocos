@@ -23,6 +23,7 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        plusObjetc: null,
     },
 
     declaration() {
@@ -44,7 +45,7 @@ cc.Class({
     onLoad() {
         // this.declaration();
         // this.generation();
-        var x = this.node.getNodeToParentTransform();
+       this.plus = this.node.getChildByName("command_plusCM");
     },
 
     start() {},
@@ -86,13 +87,13 @@ cc.Class({
                     el.y = y;
                     y -= itemWH;
                 }
-                var plus = this.node.getChildByName("command_plusCM");
-                plus.anchorX = 0;
-                plus.anchorY = 1;
-                plus.x = x
-                plus.y = y;
-                this.node.scaleX = 0.3
-                this.node.scaleY = 0.3
+               // var plus = this.node.getChildByName("command_plusCM");
+                this.plus.anchorX = 0;
+                this.plus.anchorY = 1;
+                this.plus.x = x
+                this.plus.y = y;
+                this.node.scaleX = 0.2
+                this.node.scaleY = 0.2
             }
         }
         //        this.node.anchorX = 0;
@@ -131,5 +132,7 @@ cc.Class({
         //        this.node.scaleX = 0.3
         //        this.node.scaleY = 0.3
     },
-    // update (dt) {},
+//     update (dt) {
+//         
+//     },
 });
