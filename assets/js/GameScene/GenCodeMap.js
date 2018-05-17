@@ -47,13 +47,13 @@ cc.Class({
         var x = this.node.getNodeToParentTransform();
     },
 
-    start() {
-    },
+    start() {},
     clear() {
         //чистим весь кодмап
         if (this.node.children.length > 0) {
             for (var i = 0; i < this.node.children.length; i++) {
-                this.node.removeChild(this.node.children[i]);
+                if (this.node.children[i].name != "command_plusCM")
+                    this.node.removeChild(this.node.children[i]);
             }
         }
     },
@@ -64,32 +64,35 @@ cc.Class({
         var road = this.node.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad;
         if (road) {
             this.clear();
-             this.node.resetTransform
+            this.node.resetTransform
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
                 var x = 0;
                 var y = 1;
-                
-                for(var i=0;i<roadCommands.length;i++)
-                    {
-                        var el = roadCommands[i];
-                        el.anchorX = 0;
-                        el.anchorY = 1;
 
-                        var itemWH = el.width;
-                        if(el.name == "command_if")
-                            {
-                                itemWH = el.height
-                            }
-                        
-                        this.node.addChild(el)
-                        el.resetTransform;
-                        el.x = x;
-                        el.y = y;
-                        y-=itemWH;
+                for (var i = 0; i < roadCommands.length; i++) {
+                    var el = roadCommands[i];
+                    el.anchorX = 0;
+                    el.anchorY = 1;
+
+                    var itemWH = el.width;
+                    if (el.name == "command_if") {
+                        itemWH = el.height
                     }
+
+                    this.node.addChild(el)
+                    el.resetTransform;
+                    el.x = x;
+                    el.y = y;
+                    y -= itemWH;
+                }
+                var plus = this.node.getChildByName("command_plusCM");
+                plus.anchorX = 0;
+                plus.anchorY = 1;
+                plus.x = x
+                plus.y = y;
                 this.node.scaleX = 0.3
-                 this.node.scaleY = 0.3
+                this.node.scaleY = 0.3
             }
         }
         //        this.node.anchorX = 0;

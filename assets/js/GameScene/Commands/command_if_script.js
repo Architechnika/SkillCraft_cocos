@@ -14,10 +14,10 @@ cc.Class({
 
     start() {
         this._H = this.node.parent.height;
-//         var element = cc.instantiate(this.node.getChildByName("command_right"));
+       //  var element = cc.instantiate(this.node.parent);
 //           var element1 = cc.instantiate(this.node.getChildByName("command_if"));
 //        //  var element2 = cc.instantiate(this.node.getChildByName("command_if"));
-//          this.addCommand(element)
+        //  this.addCommand(element)
 //        /// this.addCommand(element2)
 //               this.addCommand(element1)
 //        console.log(this.name)
@@ -75,6 +75,10 @@ cc.Class({
         }
     },
     update(dt) {
+        if(this._H != this.node.parent.height)
+            {
+                console.log(this._H+" "+this.node.parent.height)
+            }
 //        if (this._H != this.node.parent.height) {
 //            this._H = this.node.parent.height;
 //            var parent = this.node.parent.parent;
