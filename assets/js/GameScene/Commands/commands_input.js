@@ -36,7 +36,7 @@ cc.Class({
         this.node._commandAddState = this._commandAddState;
         this.node.globalVar = cc.director._globalVariables;
 
-        this.node.on('mousedown', function (event) {
+        this.node.on('mouseup', function (event) {
             var road = this.globalVar.selectedRoad;
             var commandAddState = this.globalVar.commandAddState;
             var parentAdd = this.globalVar.parentAdd;
@@ -45,16 +45,22 @@ cc.Class({
                     var roadComm = road.getComponent("RoadScript").roadCommands;
                     if (roadComm != null) {
                         var element = cc.instantiate(this);
+                        var elementCopy = element;
                         if (element.name == "command_block_if") {
-                            element = cc.instantiate(this.ifBlock);
+                            elementCopy = cc.instantiate(this.ifBlock);
                             var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
                             ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
 
                         } else if (element.name == "command_block_repeatif")
-                            element = cc.instantiate(this.repeatIfBlock);
+                            elementCopy = cc.instantiate(this.repeatIfBlock);
                         else if (element.name == "command_block_repeat")
-                            element = cc.instantiate(this.counterBlock);
-                        roadComm.push(element);
+                            elementCopy = cc.instantiate(this.counterBlock);
+                        roadComm.push(elementCopy);
+                        if(cc.director._globalVariables.scrollNode){
+                            var scr = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+                            if(scr.addToLeftScroll)
+                                scr.addToLeftScroll(element);
+                        }
                     }
 
 

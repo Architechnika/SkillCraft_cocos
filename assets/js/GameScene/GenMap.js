@@ -159,7 +159,9 @@ cc.Class({
                     var spl = element.name.split("_");
                     if(spl && spl.length > 1 && spl[1] == "start"){
                         startElem = element;
-                        element.getComponent("RoadScript").roadCommands.push(cc.instantiate(this.commandForward));
+                        var startcommand = cc.instantiate(this.commandForward);
+                        startcommand.active = false;
+                        element.getComponent("RoadScript").roadCommands.push(startcommand);
                     }
                     else roadElemsArr.push(element);
                 }
