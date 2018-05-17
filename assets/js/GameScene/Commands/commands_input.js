@@ -24,8 +24,10 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
-        _commandAddState: "road", //флаг обозначающий куда мы добавляем команды из скрола
-        _parentAdd: null, // родительский элемент куда нужно добовлять команды из скрола
+        GameNode: {
+            default: null,
+            type: cc.Prefab
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -36,22 +38,23 @@ cc.Class({
         this.node.repeatIfBlock = this.repeatIfBlock;
         this.node.counterBlock = this.counterBlock;
         this.node._commandAddState = this._commandAddState;
+        this.node.GameNode = this.GameNode;
         this.node.on('mousedown', function (event) {
-            if (this._commandAddState == "road") {
-                var road = undefined;
-                if (this.parent)
-                    if (this.parent.parent)
-                        if (this.parent.parent.parent)
-                            if (this.parent.parent.parent.parent)
-                                if (this.parent.parent.parent.parent.parent)
-                                    road = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad
+            var road = undefined;
+            var commandAddState = "road";
+            var parentAdd = null;
+
+            road = this.GameNode.data.getComponent("GlobalVariables").selectedRoad
+
+            if (commandAddState == "road") {
                 if (road != undefined) {
                     var roadComm = road.getComponent("RoadScript").roadCommands;
                     if (roadComm != null) {
                         var element = cc.instantiate(this);
-                        if (element.name == "command_block_if")
+                        if (element.name == "command_block_if") {
                             element = cc.instantiate(this.ifBlock);
-                        else if (element.name == "command_block_repeatif")
+
+                        } else if (element.name == "command_block_repeatif")
                             element = cc.instantiate(this.repeatIfBlock);
                         else if (element.name == "command_block_repeat")
                             element = cc.instantiate(this.counterBlock);
@@ -60,16 +63,15 @@ cc.Class({
 
 
                 }
-            }else if(this._commandAddState == "commands")
-                {
-                    console.log("dd")
-                }
+            } else if (this._commandAddState == "commands") {
+                console.log(parentAdd.name)
+            }
         });
     },
-    
-    setParentAddItem(par){
-        this._parentAdd = par;
-        this._commandAddState = "commands";
+
+    setParentAddItem(par) {
+        //this._parentAdd = par;
+        // this._commandAddState = "commands";
     },
 
     start() {

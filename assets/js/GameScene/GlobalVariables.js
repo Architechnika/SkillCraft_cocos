@@ -12,6 +12,8 @@ cc.Class({
         oldSelectRoad: undefined,//Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
         selectedRoad: undefined,
         collisionManager:null,
+        commandAddState: "road", //флаг обозначающий куда мы добавляем команды из скрола
+        parentAdd: null, // родительский элемент куда нужно добовлять команды из скрола
     },
 
     start() {
