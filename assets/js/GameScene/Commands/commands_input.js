@@ -43,9 +43,15 @@ cc.Class({
             var road = undefined;
             var commandAddState = "road";
             var parentAdd = null;
-
-            road = this.GameNode.data.getComponent("GlobalVariables").selectedRoad
-
+            if (this.parent)
+                if (this.parent.parent)
+                    if (this.parent.parent.parent)
+                        if (this.parent.parent.parent.parent)
+                            if (this.parent.parent.parent.parent.parent) {
+                                road = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad
+                                commandAddState = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").commandAddState
+                                parentAdd = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").parentAdd
+                            }
             if (commandAddState == "road") {
                 if (road != undefined) {
                     var roadComm = road.getComponent("RoadScript").roadCommands;
@@ -53,6 +59,8 @@ cc.Class({
                         var element = cc.instantiate(this);
                         if (element.name == "command_block_if") {
                             element = cc.instantiate(this.ifBlock);
+                            var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
+                            ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
 
                         } else if (element.name == "command_block_repeatif")
                             element = cc.instantiate(this.repeatIfBlock);
@@ -63,8 +71,28 @@ cc.Class({
 
 
                 }
-            } else if (this._commandAddState == "commands") {
-                console.log(parentAdd.name)
+            } else if (commandAddState == "commands") {
+                if (parentAdd) {
+                    var element = cc.instantiate(this);
+                    var par = null;
+                    if (parentAdd.parent.getComponent("command_if_script")) {
+                        par= parentAdd.parent.getComponent("command_if_script")
+                    }
+                    if (parentAdd.parent.parent.getComponent("command_if_script")) {
+                        par= parentAdd.parent.parent.getComponent("command_if_script")
+                    }
+                    if (element.name == "command_block_if") {
+                        element = cc.instantiate(this.ifBlock);
+                        var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
+                        ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+
+                    } else if (element.name == "command_block_repeatif")
+                        element = cc.instantiate(this.repeatIfBlock);
+                    else if (element.name == "command_block_repeat")
+                        element = cc.instantiate(this.counterBlock);
+                    //roadComm.push(element);
+                    par.addCommand(element)
+                }
             }
         });
     },

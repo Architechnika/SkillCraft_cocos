@@ -12,7 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        GameNode: { 
+        GameNode: {
             default: null,
             type: cc.Prefab
         },
@@ -24,7 +24,13 @@ cc.Class({
     onLoad() {
         this.node.GameNode = this.GameNode;
         this.node.on('mousedown', function (event) {
-            var GN = this.GameNode.data;
+            var GN = null;
+            if (this.parent.parent.getComponent("command_if_script")) {
+                GN = this.parent.parent.getComponent("command_if_script").gameNode;
+            }
+            if (this.parent.parent.parent.getComponent("command_if_script")) {
+                GN = this.parent.parent.parent.getComponent("command_if_script").gameNode;
+            }
             GN.getComponent("GlobalVariables").commandAddState = "commands"
             GN.getComponent("GlobalVariables").parentAdd = this.parent;
         });

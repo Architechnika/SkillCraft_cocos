@@ -6,21 +6,22 @@ cc.Class({
 
     properties: {
         NAME: "default",
+        gameNode: null,
     },
-    _H: 0,
+    _H: 400,
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
     start() {
-        this._H = this.node.parent.height;
-       //  var element = cc.instantiate(this.node.parent);
-//           var element1 = cc.instantiate(this.node.getChildByName("command_if"));
-//        //  var element2 = cc.instantiate(this.node.getChildByName("command_if"));
+
+        //  var element = cc.instantiate(this.node.parent);
+        //           var element1 = cc.instantiate(this.node.getChildByName("command_if"));
+        //        //  var element2 = cc.instantiate(this.node.getChildByName("command_if"));
         //  this.addCommand(element)
-//        /// this.addCommand(element2)
-//               this.addCommand(element1)
-//        console.log(this.name)
+        //        /// this.addCommand(element2)
+        //               this.addCommand(element1)
+        //        console.log(this.name)
         //        this.addLine();
         //        this.addLine();
         //        this.addLine();
@@ -75,21 +76,31 @@ cc.Class({
         }
     },
     update(dt) {
-        if(this._H != this.node.parent.height)
-            {
-                console.log(this._H+" "+this.node.parent.height)
-            }
-//        if (this._H != this.node.parent.height) {
-//            this._H = this.node.parent.height;
-//            var parent = this.node.parent.parent;
-//            if (parent.getChildByName("commands")) {
-//                parent.getChildByName("commands").height += this._H
-//               // parent.parent.height += this._H
-//                var itemWH = parent.width;
-//                var lineCount = this._H / itemWH;
-//                for (var i = 0; i < lineCount; i++)
-//                    this.addLine();
-//            }
-//        }
+       // console.log(this.node.parent.parent.name)
+        if (this.node.parent.name != "content" && this.node.parent.parent.name =="commands" && this._H != this.node.parent.height) {
+            
+            //if(this.node.parent.parent && this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands")
+            //   {
+            console.log("Dd")
+            var itemWH = this.node.width;
+            var lineCount = this._H / itemWH;
+            this.node.parent.parent.height += this.H
+            for (var i = 0; i < lineCount; i++)
+                this.addLine();
+            this._H = this.node.parent.height;
+            //  }
+        }
+        //        if (this._H != this.node.parent.height) {
+        //            this._H = this.node.parent.height;
+        //            var parent = this.node.parent.parent;
+        //            if (parent.getChildByName("commands")) {
+        //                parent.getChildByName("commands").height += this._H
+        //               // parent.parent.height += this._H
+        //                var itemWH = parent.width;
+        //                var lineCount = this._H / itemWH;
+        //                for (var i = 0; i < lineCount; i++)
+        //                    this.addLine();
+        //            }
+        //        }
     },
 });
