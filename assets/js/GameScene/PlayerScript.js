@@ -16,11 +16,13 @@ cc.Class({
         _isFinish: false,
         _startElement: undefined,
         _addedCommands: [], //Массив для хранения ссылок на обьекты поля с которых уже были считаны команды(чтобы не читать их дважды)
+        _completedCommands: [], //Массив для хранения выполненных команд
+        _movedPoints: [], //Массив для хранения точек по которым ехал робот пока проходил лабиринт
+        _playerStarted: false,
+        _playerMoveTime: 1,
         //public
         parentNode: cc.Node,
         lookDirection: "up",
-        playerStarted: false,
-        _playerMoveTime: 1,
         testCommands: {
             default: [],
             type: cc.Prefab
@@ -80,15 +82,31 @@ cc.Class({
         this._playerMoveTime = cc.director._globalVariables.playerSpeed;
     },
     play() {
-        this.playerStart = true;
+        this._playerStarted = true;
         this.makeAMove();
     },
     stop() {
-        this.playerStart = false;
+        if (this.node._actionSeq)
+            this.node.stopAction(this.node._actionSeq);
+        this._playerStarted = false;
+    },
+    //Возвращает робота на клетку назад
+    prevStep() {
+        if (this.node.getNumberOfRunningActions() == 0) {
+            var p = this._movedPoints.shift();
+            if(p)
+                this.moveTo(p.point, p.direction, true);
+        }
+    },
+    makeStep(){
+        if (this.node.getNumberOfRunningActions() == 0) {
+            this.makeAMove(true);
+        }
     },
     //Один шаг робота. Обработка команд из стека команд и запуск перемещения из одной клетки в другую
-    makeAMove() {
-        if (!this.playerStarted) return;
+    makeAMove(oneTime) {
+        if (oneTime != true && !this._playerStarted) return;
+        this._addCommands(this._currentFieldElement);
         if (this._isFinish) { //ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
@@ -105,7 +123,7 @@ cc.Class({
                 this.inventory.push(this._underFieldElements[0]._prefab);
                 this._underFieldElements[0].destroy();
                 this.makeAMove();
-            } else {//Иначе это команда передвинуться в точку
+            } else { //Иначе это команда передвинуться в точку
                 var res = this.moveTo(pr.point, pr.direction);
                 if (res) console.log(res);
             }
@@ -116,18 +134,24 @@ cc.Class({
         }
     },
     setToStart() {
+        if (this.node._actionSeq)
+            this.node.stopAction(this.node._actionSeq);
         var dir = this._startElement.name.split("_")[2];
-        if (dir == "left") dir = "right";
-        else if (dir == "right") dir = "left";
-        else if (dir == "up") dir = "down";
-        else if (dir == "down") dir = "up";
+        dir = this._revertDir(dir);
         this.setDirection(dir);
         this.node.x = this._startElement.x;
         this.node.y = this._startElement.y;
         this._addedCommands = [];
     },
     //Вызывает движение робота к точке x,y за playerSpeedDelay секунд
-    moveTo(p, dir) {
+    moveTo(p, dir, dontRemember) {
+        //Добавляем точку куда поедем в историю перемещений
+        if (!dontRemember) {
+            this._movedPoints.unshift({
+                point: cc.p(this.node.x, this.node.y),
+                direction: this._revertDir(this.lookDirection)
+            });
+        }
         var actions = [cc.moveTo(this._playerMoveTime, p), //Описываем экшон для плеера
             cc.callFunc(this.makeAMove, this)]; //Создаем ссылку на callback функцию после выполнения перемещения
         //Поворачиваем робота если требуется
@@ -135,6 +159,13 @@ cc.Class({
             actions.unshift(cc.rotateTo(this._playerMoveTime, this.setDirection(dir, true)));
         this.node._actionSeq = cc.sequence(actions);
         this.node.runAction(this.node._actionSeq);
+    },
+    _revertDir(dir) {
+        if (dir == "left") return "right";
+        else if (dir == "right") return "left";
+        else if (dir == "up") return "down";
+        else if (dir == "down") return "up";
+        return dir;
     },
     //Задает направление того, куда смотрит робот
     setDirection(dir, isAnim) {
@@ -200,7 +231,7 @@ cc.Class({
             //Это либо массив с другими командами для обработки
             if (!whatToDo) {
                 errStr = "Робот не может туда поехать";
-            } else if (whatToDo.length && dir !== "pickup") {//Если вернулся массив но не тогда, когда команда PICKUP
+            } else if (whatToDo.length && dir !== "pickup") { //Если вернулся массив но не тогда, когда команда PICKUP
                 for (var i = 0; i < whatToDo.length; i++)
                     this.commands.unshift(whatToDo[i]);
             } //Либо точка куда надо передвинуться
@@ -210,10 +241,9 @@ cc.Class({
                 p = whatToDo;
             } else if (dir == "pickup") {
                 this.commands.shift();
-                if(whatToDo){
+                if (whatToDo) {
                     p = whatToDo;
-                }
-                else{
+                } else {
                     errStr = "Подбирать нечего";
                 }
             } else {

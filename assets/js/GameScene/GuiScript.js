@@ -11,7 +11,7 @@ cc.Class({
         nextStepButton: cc.Node,
         reloadButton: cc.Node,
         menuButton: cc.Node,
-        _playerObj: null,//Указатель на робота(на скрипт робота)
+        _playerObj: null, //Указатель на робота(на скрипт робота)
     },
 
     onButtonClicked(event) {
@@ -23,22 +23,23 @@ cc.Class({
                 break;
             case this.prevStepButton:
                 {
-                    console.log("prev");
+                     this._playerObj.prevStep();
                 }
                 break;
             case this.nextStepButton:
                 {
-                    console.log("next");
+                    this._playerObj.makeStep();
                 }
                 break;
             case this.reloadButton:
                 {
-                    console.log("reload");
+                    this._playerObj.stop();
+                    this._playerObj.setToStart();
                 }
                 break;
             case this.menuButton:
                 {
-                    console.log("menu");
+                    cc.director.loadScene("MainMenuScene");
                 }
                 break;
         }
