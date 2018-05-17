@@ -72,7 +72,7 @@ cc.Class({
     /*update(dt) {
     },*/
     start() {
-        this._playerMoveTime = this.node.parent.getComponent("GlobalVariables").playerSpeed;
+        this._playerMoveTime = cc.director._globalVariables.playerSpeed;
     },
     play() {
         this.playerStart = true;
@@ -87,7 +87,7 @@ cc.Class({
         if (this._isFinish) { //ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
-            cc.director._labSize += 2;
+            cc.director._globalVariables.currentLabSize += 2;
             cc.director.getScene().destroy();
             cc.director.loadScene("EndGameScene");
             return;

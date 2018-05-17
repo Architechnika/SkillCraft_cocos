@@ -61,7 +61,7 @@ cc.Class({
         this.commands = arr;
     },
     generation() {
-        var road = this.node.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad;
+        var road = cc.director._globalVariables.selectedRoad;
         if (road) {
             this.clear();
             this.node.resetTransform

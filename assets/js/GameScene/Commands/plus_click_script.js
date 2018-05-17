@@ -31,8 +31,8 @@ cc.Class({
             if (this.parent.parent.parent.getComponent("command_if_script")) {
                 GN = this.parent.parent.parent.getComponent("command_if_script").gameNode;
             }
-            GN.getComponent("GlobalVariables").commandAddState = "commands"
-            GN.getComponent("GlobalVariables").parentAdd = this.parent;
+            cc.director._globalVariables.commandAddState = "commands"
+            cc.director._globalVariables.parentAdd = this.parent;
         });
     },
 

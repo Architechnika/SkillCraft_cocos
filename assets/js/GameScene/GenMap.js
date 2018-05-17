@@ -123,7 +123,7 @@ cc.Class({
         });
     },
     start() {
-        this.initField(cc.director._labSize);   
+        this.initField(cc.director._globalVariables.currentLabSize);   
     },
     //update(dt) {},
     initField(elementsInLine) {
@@ -173,7 +173,7 @@ cc.Class({
         }
         //Если включены ящики, то спавним их на поле в случайных местах
         if(this.isBoxesSpawn && this.gameObjects.length > 0){
-            var totalBoxes = Math.floor(this.getComponent("GlobalVariables").currentLabSize / 2);
+            var totalBoxes = Math.floor(cc.director._globalVariables.currentLabSize / 2);
             totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;
             totalBoxes = totalBoxes > roadElemsArr.length ? roadElemsArr.length : totalBoxes;
             var rndIndx = 0;

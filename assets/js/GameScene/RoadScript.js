@@ -21,11 +21,11 @@ cc.Class({
         this.node.on('mouseup', function (event) {
             var t = this.parent.getComponent("GenMap");
             if (t.node.isMoved) return;
-            var tmp = this.parent.getComponent("GlobalVariables").oldSelectRoad;
+            var tmp = cc.director._globalVariables.oldSelectRoad;
             if (tmp != undefined && tmp != this)
                 tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
-            this.parent.getComponent("GlobalVariables").oldSelectRoad = this;
-            this.parent.getComponent("GlobalVariables").selectedRoad = this;
+            cc.director._globalVariables.oldSelectRoad = this;
+            cc.director._globalVariables.selectedRoad = this;
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
             if (this.roadCommands.length > 0) {
                 this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();

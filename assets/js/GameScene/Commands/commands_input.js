@@ -24,10 +24,6 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
-        GameNode: {
-            default: null,
-            type: cc.Prefab
-        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -38,20 +34,12 @@ cc.Class({
         this.node.repeatIfBlock = this.repeatIfBlock;
         this.node.counterBlock = this.counterBlock;
         this.node._commandAddState = this._commandAddState;
-        this.node.GameNode = this.GameNode;
+        this.node.globalVar = cc.director._globalVariables;
+
         this.node.on('mousedown', function (event) {
-            var road = undefined;
-            var commandAddState = "road";
-            var parentAdd = null;
-            if (this.parent)
-                if (this.parent.parent)
-                    if (this.parent.parent.parent)
-                        if (this.parent.parent.parent.parent)
-                            if (this.parent.parent.parent.parent.parent) {
-                                road = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").selectedRoad
-                                commandAddState = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").commandAddState
-                                parentAdd = this.parent.parent.parent.parent.parent.getChildByName("GameNode").getComponent("GlobalVariables").parentAdd
-                            }
+            var road = this.globalVar.selectedRoad;
+            var commandAddState = this.globalVar.commandAddState;
+            var parentAdd = this.globalVar.parentAdd;
             if (commandAddState == "road") {
                 if (road != undefined) {
                     var roadComm = road.getComponent("RoadScript").roadCommands;
@@ -76,10 +64,10 @@ cc.Class({
                     var element = cc.instantiate(this);
                     var par = null;
                     if (parentAdd.parent.getComponent("command_if_script")) {
-                        par= parentAdd.parent.getComponent("command_if_script")
+                        par = parentAdd.parent.getComponent("command_if_script")
                     }
                     if (parentAdd.parent.parent.getComponent("command_if_script")) {
-                        par= parentAdd.parent.parent.getComponent("command_if_script")
+                        par = parentAdd.parent.parent.getComponent("command_if_script")
                     }
                     if (element.name == "command_block_if") {
                         element = cc.instantiate(this.ifBlock);

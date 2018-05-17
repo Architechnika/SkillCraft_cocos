@@ -18,8 +18,11 @@ cc.Class({
 
     start() {
         //Инициализируем глобальные переменные игры в класс ДИРЕКТОРА
-        if(!cc.director._labSize)
-            cc.director._labSize = this.currentLabSize;
+        if(!cc.director._globalVariables)
+            cc.director._globalVariables = this;
+        else{
+            cc.director._globalVariables.commandAddState = this.commandAddState;
+        }
         
         this.collisionManager = cc.director.getCollisionManager();
         this.collisionManager.enabled = true;
