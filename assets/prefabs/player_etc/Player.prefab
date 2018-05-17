@@ -218,10 +218,11 @@
     "_rightFieldElement": null,
     "_backFieldElement": null,
     "_underFieldElements": [],
+    "_isFinish": false,
     "parentNode": null,
     "lookDirection": "up",
     "playerStarted": true,
-    "playerMoveTime": 0.7,
+    "_playerMoveTime": 1,
     "testCommands": [
       {
         "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
