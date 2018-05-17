@@ -268,23 +268,27 @@
     }
   },
   {
-    "__type__": "4f6cclMWoVJDp5cGK3d33D0",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "commandType": "pickup"
-  },
-  {
     "__type__": "fda2e2/BkJAEYSfyDmjDNiT",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "ifBlock": null,
+    "repeatIfBlock": null,
+    "counterBlock": null
+  },
+  {
+    "__type__": "697aesPPfBAEahB/u4frNAi",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DIRECTION": "pickup",
+    "commandType": "simple"
   },
   {
     "__type__": "cc.PrefabInfo",

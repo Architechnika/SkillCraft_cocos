@@ -49,6 +49,10 @@ cc.Class({
                 return playerObj._frontFieldElement ? cc.p(playerObj._frontFieldElement.x, playerObj._frontFieldElement.y) : undefined;
             case "ondown":
                 return playerObj._backFieldElement ? cc.p(playerObj._backFieldElement.x, playerObj._backFieldElement.y) : undefined;
+            case "pickup":
+                if(playerObj._underFieldElements.length == 0)
+                    return undefined;
+                return this.DIRECTION;
         }
     },
     

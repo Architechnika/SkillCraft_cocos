@@ -15,6 +15,7 @@ cc.Class({
         _underFieldElements: [], //Массив обьектов под роботом на клетке
         _isFinish: false,
         _startElement: undefined,
+        _addedCommands: [], //Массив для хранения ссылок на обьекты поля с которых уже были считаны команды(чтобы не читать их дважды)
         //public
         parentNode: cc.Node,
         lookDirection: "up",
@@ -39,15 +40,12 @@ cc.Class({
                 } else if (other.tag == 1) { //Если это дорога(или вход или выход)
                     this._currentFieldElement = other.node;
                     //Добавляем команды из клетки поля в стек команд
-                    this._addCommands(this._currentFieldElement.getComponent("RoadScript").roadCommands);
+                    this._addCommands(this._currentFieldElement);
                     this._underFieldElements.splice(0, this._underFieldElements.length);
                 } else if (other.tag == 5) { //Робот доехал до финиша
                     this._isFinish = true;
                 } else {
-                    if (this.node._actionSeq)
-                        this.node.stopAction(this.node._actionSeq);
-                    console.log("Робот врезался в стену");
-                    this.setToStart();
+                    this._playerErrorAction("Робот врезался в стену");
                 }
             } else {
                 if (other.node !== this._currentFieldElement && other.tag !== 3) { //Если это не коллизия с ТЕКУЩЕЙ КЛЕТКОЙ то обрабатываем
@@ -67,6 +65,13 @@ cc.Class({
                     }
                 }
             }
+        }
+    },
+
+    onCollisionExit: function (other, self) {
+        if (other.tag == 3 && self.tag == 0) {
+            this._underFieldElements.splice(this._underFieldElements.indexOf(other), 1);
+            console.log(this._underFieldElements.length);
         }
     },
     /*update(dt) {
@@ -94,12 +99,18 @@ cc.Class({
         }
         //Обработка верхней команды в стеке commands
         var pr = this._processMove();
-        if (pr.error == "" && pr.point) {
-            var res = this.moveTo(pr.point, pr.direction);
-            if (res) console.log(res);
+        if (pr.error == "" && pr.point) { //Если это простая команда
+            if (pr.point == "pickup") { //Если это команда подобрать обьект под собой
+                var el = this._underFieldElements[0];
+                this.inventory.push(this._underFieldElements[0]._prefab);
+                this._underFieldElements[0].destroy();
+                this.makeAMove();
+            } else {//Иначе это команда передвинуться в точку
+                var res = this.moveTo(pr.point, pr.direction);
+                if (res) console.log(res);
+            }
         } else if (pr.error != "") { //ОБРАБОТКА ОШИБКИ В ДВИЖЕНИИ РОБОТА
-            //this.makeAMove();
-            console.log(pr.error);
+            this._playerErrorAction(pr.error);
         } else if (pr.error == "") {
             this.makeAMove();
         }
@@ -113,6 +124,7 @@ cc.Class({
         this.setDirection(dir);
         this.node.x = this._startElement.x;
         this.node.y = this._startElement.y;
+        this._addedCommands = [];
     },
     //Вызывает движение робота к точке x,y за playerSpeedDelay секунд
     moveTo(p, dir) {
@@ -173,14 +185,14 @@ cc.Class({
         var p = undefined;
         var dir = "none";
         if (!this.commands || this.commands.length == 0) {
-            errStr = "робот не знает что ему делать";
+            errStr = "Робот не знает что ему делать";
             return {
                 error: errStr,
                 point: p
             };
         }
-        //Получаем скрипт из элемента команды для того чтобы получить логику команды
         var commScript = this.commands[0].getComponent("command_simple_script");
+        //Получаем скрипт из элемента команды для того чтобы получить логику команды
         if (commScript) {
             //Выполняет логику команды с обьектом игрока и возвращает результат обработки
             var whatToDo = commScript.getCommand(this);
@@ -188,7 +200,7 @@ cc.Class({
             //Это либо массив с другими командами для обработки
             if (!whatToDo) {
                 errStr = "Робот не может туда поехать";
-            } else if (whatToDo.length) {
+            } else if (whatToDo.length && dir !== "pickup") {//Если вернулся массив но не тогда, когда команда PICKUP
                 for (var i = 0; i < whatToDo.length; i++)
                     this.commands.unshift(whatToDo[i]);
             } //Либо точка куда надо передвинуться
@@ -196,6 +208,14 @@ cc.Class({
                 //Удаляем верхнюю команду из стека так как она уже обработана
                 this.commands.shift();
                 p = whatToDo;
+            } else if (dir == "pickup") {
+                this.commands.shift();
+                if(whatToDo){
+                    p = whatToDo;
+                }
+                else{
+                    errStr = "Подбирать нечего";
+                }
             } else {
                 errStr = "Ошибка при обработке команды";
             }
@@ -206,8 +226,17 @@ cc.Class({
             direction: dir
         };
     },
+    _playerErrorAction(message) {
+        if (this.node._actionSeq)
+            this.node.stopAction(this.node._actionSeq);
+        console.log(message);
+        this.setToStart();
+    },
     //Добавляет команды в стек команд для исполнения
-    _addCommands(comms) {
+    _addCommands(element) {
+        if (this._addedCommands.includes(element))
+            return;
+        var comms = element.getComponent("RoadScript").roadCommands;
         if (!comms || comms.length == 0)
             return;
         //Добавляем в начало стека элементы из клетки
@@ -215,6 +244,7 @@ cc.Class({
         for (var i = comms.length - 1; i >= 0; i--) {
             this.commands.unshift(this._cloneNode(comms[i]));
         }
+        this._addedCommands.push(element);
     },
 
     _cloneNode(node) {

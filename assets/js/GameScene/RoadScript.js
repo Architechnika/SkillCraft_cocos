@@ -16,16 +16,19 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        
+
         this.node.roadCommands = this.roadCommands
         this.node.on('mouseup', function (event) {
             var t = this.parent.getComponent("GenMap");
             if (t.node.isMoved) return;
             var tmp = cc.director._globalVariables.oldSelectRoad;
-            if (tmp != undefined && tmp != this)
+            if (tmp != undefined && tmp != this) {
                 tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
+                cc.director._globalVariables.scrollNode.getComponent("ScrollScript").clearLeftScroll();
+            }
             cc.director._globalVariables.oldSelectRoad = this;
             cc.director._globalVariables.selectedRoad = this;
+            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(this.roadCommands);
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
             if (this.roadCommands.length > 0) {
                 this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
@@ -40,7 +43,7 @@ cc.Class({
     },
 
     start() {
-
+        
     },
 
 
