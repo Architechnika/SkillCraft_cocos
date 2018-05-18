@@ -14,6 +14,7 @@ cc.Class({
         collisionManager: null,
         commandAddState: "road", //флаг обозначающий куда мы добавляем команды из скрола
         parentAdd: null, // родительский элемент куда нужно добовлять команды из скрола
+        lastAddCommandH: 0 //высота последней добавленной команды в кодмап
     },
 
     start() {

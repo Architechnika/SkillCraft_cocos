@@ -48,7 +48,7 @@ cc.Class({
                         var elementCopy = element;
                         if (element.name == "command_block_if") {
                             elementCopy = cc.instantiate(this.ifBlock);
-                            var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
+                            var ifScript = elementCopy.getChildByName("command_block_if").getComponent("command_if_script")
                             ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
 
                         } else if (element.name == "command_block_repeatif")
