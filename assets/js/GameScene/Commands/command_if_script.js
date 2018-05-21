@@ -37,10 +37,9 @@ cc.Class({
                 comm.anchorX = 0;
                 comm.anchorY = 1;
                 var itemWH = comm.height;
-                var h = itemWH;
-                if (comm.name == "command_if") {
-                    itemWH = comm.height;
-                    h = comm.getChildByName("command_block_if").height;
+                var h = 100;
+                if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
+                    h = comm.children[0].height;
                 }
                 var codeMapPlus = cc.director._globalVariables.scrollNode.parent.getChildByName("CodeMapNode").getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
@@ -123,11 +122,16 @@ cc.Class({
                 var d = this.node.parent.height - this._H
 
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
-            console.log(cc.director._globalVariables.lastAddCommandH)
+            //  console.log(cc.director._gobalVariables.lastAddCommandH)
             this.node.parent.parent.height += this.H
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {
-                    this.node.parent.parent.parent.getComponent("command_if_script").addLine();
+                    if (this.node.parent.parent.parent.getComponent("command_if_script"))
+                        this.node.parent.parent.parent.getComponent("command_if_script").addLine();
+                    else if (this.node.parent.parent.parent.getComponent("command_repeatif_script"))
+                        this.node.parent.parent.parent.getComponent("command_repeatif_script").addLine();
+                    else if (this.node.parent.parent.parent.getComponent("command_counter_script"))
+                        this.node.parent.parent.parent.getComponent("command_counter_script").addLine();
                     this.node.parent.parent.parent.parent.height += itemWH
                 }
             } else if (this.node.parent.parent.name == "elseCommands") {
