@@ -6,12 +6,12 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        _WinSize : 0,
+        _wSbuff: cc.p(0, 0),
     },
 
     // LIFE-CYCLE CALLBACKS:
     onLoad() {
-        
+
         if (cc.director._scene.name == "GameScene") {
             this.node.genMapNode = this.node.getChildByName("GameNode");
             //Отпускание мышки
@@ -20,11 +20,25 @@ cc.Class({
                 scr.node.isDowned = false;
             });
         }
+        this._setWH(cc.winSize);
     },
 
-    start() {
-        
+    update(dt) {
+        if (cc.winSize.width !== this._wSbuff.w || cc.winSize.height !== this._wSbuff.h) {
+            this._calcScreen(cc.winSize);
+        }
     },
 
-    // update (dt) {},
+    //Производит перерасчет якорей всех нодов на поле под заданное разрешение
+    _calcScreen(wh){
+        this._setWH(wh);
+    },
+    
+    //Запоминает текущий размер окна
+    _setWH(WH) {
+        this._wSbuff = {
+            w: WH.width,
+            h: WH.height,
+        };
+    }
 });

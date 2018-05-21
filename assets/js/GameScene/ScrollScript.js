@@ -44,6 +44,7 @@ cc.Class({
 
     start() {
         this.addToRightScroll(this.LegendCommands);
+        cc.director._setScrollVisible(false);
     },
 
     addToLeftScroll(elements) {

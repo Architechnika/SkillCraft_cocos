@@ -18,7 +18,7 @@ cc.Class({
         labelBoxes: cc.Label,
     },
 
-    start() {
+    onLoad() {
         //Инициализируем глобальные переменные игры в класс ДИРЕКТОРА
         if (!cc.director._globalVariables)
             cc.director._globalVariables = this;
@@ -26,16 +26,18 @@ cc.Class({
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
-
-        /*cc.director._setScrollVisible = function (visibility) {
-            if (visibility) {
-                if (this._globalVariables.scrollNode) {
-                    var child = this.scrollNode.getChildByName("leftScroll")
-                    if (child)
-                        child.active = false;
-                }
+        cc.director._globalVariables.labelBoxes = this.labelBoxes;
+        //Функция скрывающая скролы
+        cc.director._setScrollVisible = function (visibility) {
+            if (this._globalVariables.scrollNode) {
+                var left = this._globalVariables.scrollNode.getChildByName("leftScroll");
+                var right = this._globalVariables.scrollNode.getChildByName("rightScroll")
+                if (left)
+                    left.active = visibility;
+                if (right)
+                    right.active = visibility;
             }
-        }*/
+        }
 
         this.collisionManager = cc.director.getCollisionManager();
         this.collisionManager.enabled = true;
