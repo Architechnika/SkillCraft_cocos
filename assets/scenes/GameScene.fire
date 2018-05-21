@@ -3298,10 +3298,10 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
+      "__uuid__": "4b1cebd4-a33d-46dd-8306-1a652784125d"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -3371,7 +3371,10 @@
     "collisionManager": null,
     "commandAddState": "road",
     "parentAdd": null,
-    "lastAddCommandH": 0
+    "lastAddCommandH": 0,
+    "labelBoxes": {
+      "__id__": 81
+    }
   },
   {
     "__type__": "31c32ezshtI+Y7LlTi1PBaN",

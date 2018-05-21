@@ -50,6 +50,16 @@ cc.Class({
         this.itemsSort(elements, "leftScroll");
     },
 
+    //При удалении из левого скрола, команда должна удалится отовсюду
+    removeFromLeftScroll(element){
+        var cont = this.node.getChildByName("leftScroll").getChildByName("view").getChildByName("content");
+        cont.removeChild(element);
+        var commArr = cc.director._globalVariables.oldSelectRoad.getComponent("RoadScript").roadCommands;
+        commArr.splice(commArr.indexOf(element),1);
+        this.clearLeftScroll();
+        this.addToLeftScroll(commArr);
+    },
+    
     addToRightScroll(elements) {
         this.itemsSort(elements, "rightScroll");
     },
