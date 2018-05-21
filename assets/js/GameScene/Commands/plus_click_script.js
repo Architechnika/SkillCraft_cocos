@@ -27,11 +27,12 @@ cc.Class({
             var GN = null;
             if (this.parent.parent.getComponent("command_if_script")) {
                 GN = this.parent.parent.getComponent("command_if_script").gameNode;
+                cc.director._globalVariables.commandAddState = "commands"
             }
             if (this.parent.parent.parent.getComponent("command_if_script")) {
                 GN = this.parent.parent.parent.getComponent("command_if_script").gameNode;
+                cc.director._globalVariables.commandAddState = "elseCommands"
             }
-            cc.director._globalVariables.commandAddState = "commands"
             cc.director._globalVariables.parentAdd = this.parent;
         });
     },

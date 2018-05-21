@@ -43,7 +43,7 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        this.addToRightScroll(this.LightCommands);
+        this.addToRightScroll(this.LegendCommands);
     },
 
     addToLeftScroll(elements) {
