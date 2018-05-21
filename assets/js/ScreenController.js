@@ -1,25 +1,17 @@
 /*
     Скрипт отвечающий за контроль изменений экрана(ресайз канваса)
 */
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-
+        _WinSize : 0,
     },
 
     // LIFE-CYCLE CALLBACKS:
     onLoad() {
+        
         if (cc.director._scene.name == "GameScene") {
             this.node.genMapNode = this.node.getChildByName("GameNode");
             //Отпускание мышки
@@ -31,7 +23,11 @@ cc.Class({
     },
 
     start() {
-
+        if(cc.director._globalVariables.scrollNode){
+            var child = cc.director._globalVariables.scrollNode.getChildByName("leftScroll")
+            if(child)
+                child.active = false;
+        }
     },
 
     // update (dt) {},
