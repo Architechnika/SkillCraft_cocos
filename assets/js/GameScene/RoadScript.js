@@ -39,6 +39,8 @@ cc.Class({
                     var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
                 }
             }
+            //Показываем скролы выбора команд
+            cc.director._setScrollVisible(true);
         });
         /*this.node.on('mousedown', function (event) {
             event.stopPropagation();

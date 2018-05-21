@@ -43,6 +43,8 @@ cc.Class({
                 }
                 break;
         }
+        //Скрываем скролы выбора и показа команд
+        cc.director._setScrollVisible(false);
     },
     // LIFE-CYCLE CALLBACKS:
 
