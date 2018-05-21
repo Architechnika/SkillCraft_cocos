@@ -60,14 +60,14 @@ cc.Class({
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
                 var x = 0;
-                var y = 1;
+                var y = 0;
 
                 for (var i = 0; i < roadCommands.length; i++) {
                     var el = roadCommands[i];
                     el.anchorX = 0;
                     el.anchorY = 1;
 
-                    var itemWH = el.width;
+                    var itemWH = el.height;
                     if (el.name == "command_if") {
                         itemWH = el.height
                     }

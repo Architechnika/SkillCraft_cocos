@@ -43,10 +43,15 @@ cc.Class({
                         var ifScript = elementCopy.getChildByName("command_block_if").getComponent("command_if_script")
                         ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
 
-                    } else if (element.name == "command_block_repeatif")
+                    } else if (element.name == "command_block_repeatif") {
                         elementCopy = cc.instantiate(this.repeatIfBlock);
-                    else if (element.name == "command_block_repeat")
+                        var repeatifScript = elementCopy.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
+                        repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                    } else if (element.name == "command_block_repeat") {
                         elementCopy = cc.instantiate(this.counterBlock);
+                        var repeatifScript = elementCopy.getChildByName("command_block_repeat").getComponent("command_counter_script")
+                        repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                    }
                     roadComm.push(elementCopy);
                     if (cc.director._globalVariables.scrollNode) {
                         var scr = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
@@ -67,6 +72,12 @@ cc.Class({
                 if (parentAdd.parent.parent.getComponent("command_if_script")) {
                     par = parentAdd.parent.parent.getComponent("command_if_script")
                 }
+                if (parentAdd.parent.getComponent("command_repeatif_script")) {
+                    par = parentAdd.parent.getComponent("command_repeatif_script")
+                }
+                if (parentAdd.parent.getComponent("command_counter_script")) {
+                    par = parentAdd.parent.getComponent("command_counter_script")
+                }
                 if (element.name == "command_block_if") {
                     element = cc.instantiate(this.ifBlock);
                     var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
@@ -74,10 +85,14 @@ cc.Class({
 
                 } else if (element.name == "command_block_repeatif") {
                     element = cc.instantiate(this.repeatIfBlock);
-                    var repeatifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
+                    var repeatifScript = element.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
                     repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-                } else if (element.name == "command_block_repeat")
+                }
+                if (element.name == "command_block_repeat") {
                     element = cc.instantiate(this.counterBlock);
+                    var repeatifScript = element.getChildByName("command_block_repeat").getComponent("command_counter_script")
+                    repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                }
                 //roadComm.push(element);
                 par.addCommand(element)
             }

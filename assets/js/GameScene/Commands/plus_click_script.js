@@ -21,7 +21,7 @@ cc.Class({
         this.node.GameNode = this.GameNode;
         this.node.on('mousedown', function (event) {
             var GN = null;
-            if (this.parent.parent.getComponent("command_if_script")) {
+            if (this.parent.parent.getComponent("command_if_script") || this.parent.parent.name == "command_block_repeatif" || this.parent.parent.name == "command_block_repeat") {
               //  GN = this.parent.parent.getComponent("command_if_script").gameNode;
                 cc.director._globalVariables.commandAddState = "commands"
             }
