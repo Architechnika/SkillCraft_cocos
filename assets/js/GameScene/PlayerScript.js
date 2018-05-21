@@ -118,12 +118,15 @@ cc.Class({
         //Обработка верхней команды в стеке commands
         var pr = this._processMove();
         if (pr.error == "" && pr.point) { //Если это простая команда
+            //ПОДБИРАЕМ ОБЬЕКТ--------------------------------------------------------------------
             if (pr.point == "pickup") { //Если это команда подобрать обьект под собой
                 var el = this._underFieldElements[0];
                 this.inventory.push(this._underFieldElements[0]._prefab);
+                //Обновляем инфу на экране о собранных ящиках
+                cc.director._globalVariables.labelBoxes.node._components[0].string = this.inventory.length+"";
                 this._underFieldElements[0].destroy();
                 this.makeAMove();
-            } else { //Иначе это команда передвинуться в точку
+            } else { //Иначе это команда передвинуться в точку------------------------------------
                 var res = this.moveTo(pr.point, pr.direction);
                 if (res) console.log(res);
             }
@@ -272,13 +275,16 @@ cc.Class({
         //Добавляем в начало стека элементы из клетки
         this.commands = [];
         for (var i = comms.length - 1; i >= 0; i--) {
-            this.commands.unshift(this._cloneNode(comms[i]));
+            var clone = this._cloneNode(comms[i]);
+            if(clone)
+                this.commands.unshift(clone);
         }
         this._addedCommands.push(element);
     },
 
     _cloneNode(node) {
         var copy = cc.instantiate(node);
+        if(!copy) return undefined;
         copy.parent = cc.director.getScene();
         copy.setPosition(0, 0);
         return copy;

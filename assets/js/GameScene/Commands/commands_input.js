@@ -83,7 +83,11 @@ cc.Class({
     },
 
     _onLeftScrollClick(event) {
-        console.log("click on left scroll")
+        //Клик правой кнопкой мышки
+        if(event._button && event._button == 2){
+            //Удаление элемента
+            this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
+        }
     },
     onLoad() {
 
