@@ -7,6 +7,10 @@ cc.Class({
 
     properties: {
         _wSbuff: cc.p(0, 0),
+        gameNode: cc.Node,
+        scrollNode: cc.Node,
+        codeMapNode: cc.Node,
+        guiNode: cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -21,24 +25,35 @@ cc.Class({
             });
         }
         this._setWH(cc.winSize);
+        this._calcScreen(this._wSbuff);
     },
 
     update(dt) {
-        if (cc.winSize.width !== this._wSbuff.w || cc.winSize.height !== this._wSbuff.h) {
+        if (cc.winSize.width !== this._wSbuff.width || cc.winSize.height !== this._wSbuff.height) {
+            console.log("Screen changed: " + cc.winSize.width + " " + cc.winSize.height);
+            console.log(this.node)
             this._calcScreen(cc.winSize);
         }
     },
 
     //Производит перерасчет якорей всех нодов на поле под заданное разрешение
     _calcScreen(wh){
+        if(wh.width > wh.height){//Если ширина больше высоты
+            
+        }
+        else{//Если высота больше ширины
+            //Определяем сколько процентов - ширина лабиринта от ширины экрана
+            cc.director._setScrollVisible(false);
+            //this.node.rotation = 90;
+        }
         this._setWH(wh);
     },
     
     //Запоминает текущий размер окна
     _setWH(WH) {
         this._wSbuff = {
-            w: WH.width,
-            h: WH.height,
+            width: WH.width,
+            height: WH.height,
         };
     }
 });

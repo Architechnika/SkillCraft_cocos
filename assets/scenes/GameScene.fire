@@ -391,7 +391,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 18
@@ -450,7 +450,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 12
@@ -3361,8 +3361,8 @@
       "width": 960,
       "height": 640
     },
-    "_fitWidth": false,
-    "_fitHeight": true
+    "_fitWidth": true,
+    "_fitHeight": false
   },
   {
     "__type__": "9cdabjfXkJG3LfsW9Y6FWQf",
@@ -3401,6 +3401,22 @@
       "__id__": 2
     },
     "_enabled": true,
-    "_WinSize": 0
+    "_wSbuff": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "gameNode": {
+      "__id__": 3
+    },
+    "scrollNode": {
+      "__id__": 20
+    },
+    "codeMapNode": {
+      "__id__": 7
+    },
+    "guiNode": {
+      "__id__": 46
+    }
   }
 ]
