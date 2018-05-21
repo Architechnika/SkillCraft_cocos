@@ -43,7 +43,7 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        this.addToRightScroll(this.LegendCommands);
+        this.addToRightScroll(this.LightCommands);
     },
 
     addToLeftScroll(elements) {
@@ -70,14 +70,13 @@ cc.Class({
 
         if (scrollName == "leftScroll")
             columnCount = 1;
-        if (arr && !Array.isArray(arr)){
-            if(!arr.active)
+        if (arr && !Array.isArray(arr)) {
+            if (!arr.active)
                 arr.active = true;
             cont.addChild(arr);
-        }
-        else {
-            for (var i = 0; i < arr.length; i++){
-                if(!arr[i].active)
+        } else {
+            for (var i = 0; i < arr.length; i++) {
+                if (!arr[i].active)
                     arr[i].active = true;
                 cont.addChild(cc.instantiate(arr[i]));
             }

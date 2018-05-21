@@ -733,7 +733,8 @@
     "plus": {
       "__uuid__": "54c4b9b7-4519-4d5e-8ade-ab10a7f7bb4a"
     },
-    "selectParentNode": null
+    "selectParentNode": null,
+    "plusObjetc": null
   },
   {
     "__type__": "cebefysXh9O67erkyegZBFp",
@@ -3153,7 +3154,8 @@
     "node": {
       "__id__": 76
     },
-    "_enabled": true
+    "_enabled": true,
+    "_totalSeconds": 0
   },
   {
     "__type__": "cc.Node",
@@ -3368,7 +3370,8 @@
     "_collisionManager": null,
     "collisionManager": null,
     "commandAddState": "road",
-    "parentAdd": null
+    "parentAdd": null,
+    "lastAddCommandH": 0
   },
   {
     "__type__": "31c32ezshtI+Y7LlTi1PBaN",

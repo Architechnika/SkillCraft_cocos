@@ -28,6 +28,63 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
+    _onRightScrollClick(event) {
+        var road = this.globalVar.selectedRoad;
+        var commandAddState = this.globalVar.commandAddState;
+        var parentAdd = this.globalVar.parentAdd;
+        if (commandAddState == "road") {
+            if (road != undefined) {
+                var roadComm = road.getComponent("RoadScript").roadCommands;
+                if (roadComm != null) {
+                    var element = cc.instantiate(this);
+                    var elementCopy = element;
+                    if (element.name == "command_block_if") {
+                        elementCopy = cc.instantiate(this.ifBlock);
+                        var ifScript = elementCopy.getChildByName("command_block_if").getComponent("command_if_script")
+                        ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+
+                    } else if (element.name == "command_block_repeatif")
+                        elementCopy = cc.instantiate(this.repeatIfBlock);
+                    else if (element.name == "command_block_repeat")
+                        elementCopy = cc.instantiate(this.counterBlock);
+                    roadComm.push(elementCopy);
+                    if (cc.director._globalVariables.scrollNode) {
+                        var scr = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+                        if (scr.addToLeftScroll)
+                            scr.addToLeftScroll(element);
+                    }
+                }
+
+
+            }
+        } else if (commandAddState == "commands") {
+            if (parentAdd) {
+                var element = cc.instantiate(this);
+                var par = null;
+                if (parentAdd.parent.getComponent("command_if_script")) {
+                    par = parentAdd.parent.getComponent("command_if_script")
+                }
+                if (parentAdd.parent.parent.getComponent("command_if_script")) {
+                    par = parentAdd.parent.parent.getComponent("command_if_script")
+                }
+                if (element.name == "command_block_if") {
+                    element = cc.instantiate(this.ifBlock);
+                    var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
+                    ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+
+                } else if (element.name == "command_block_repeatif")
+                    element = cc.instantiate(this.repeatIfBlock);
+                else if (element.name == "command_block_repeat")
+                    element = cc.instantiate(this.counterBlock);
+                //roadComm.push(element);
+                par.addCommand(element)
+            }
+        }
+    },
+
+    _onLeftScrollClick(event) {
+        console.log("click on left scroll")
+    },
     onLoad() {
 
         this.node.ifBlock = this.ifBlock;
@@ -35,58 +92,14 @@ cc.Class({
         this.node.counterBlock = this.counterBlock;
         this.node._commandAddState = this._commandAddState;
         this.node.globalVar = cc.director._globalVariables;
+        this.node._onLeftScrollClick = this._onLeftScrollClick;
+        this.node._onRightScrollClick = this._onRightScrollClick;
 
         this.node.on('mouseup', function (event) {
-            var road = this.globalVar.selectedRoad;
-            var commandAddState = this.globalVar.commandAddState;
-            var parentAdd = this.globalVar.parentAdd;
-            if (commandAddState == "road") {
-                if (road != undefined) {
-                    var roadComm = road.getComponent("RoadScript").roadCommands;
-                    if (roadComm != null) {
-                        var element = cc.instantiate(this);
-                        var elementCopy = element;
-                        if (element.name == "command_block_if") {
-                            elementCopy = cc.instantiate(this.ifBlock);
-                            var ifScript = elementCopy.getChildByName("command_block_if").getComponent("command_if_script")
-                            ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-
-                        } else if (element.name == "command_block_repeatif")
-                            elementCopy = cc.instantiate(this.repeatIfBlock);
-                        else if (element.name == "command_block_repeat")
-                            elementCopy = cc.instantiate(this.counterBlock);
-                        roadComm.push(elementCopy);
-                        if(cc.director._globalVariables.scrollNode){
-                            var scr = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
-                            if(scr.addToLeftScroll)
-                                scr.addToLeftScroll(element);
-                        }
-                    }
-
-
-                }
-            } else if (commandAddState == "commands") {
-                if (parentAdd) {
-                    var element = cc.instantiate(this);
-                    var par = null;
-                    if (parentAdd.parent.getComponent("command_if_script")) {
-                        par = parentAdd.parent.getComponent("command_if_script")
-                    }
-                    if (parentAdd.parent.parent.getComponent("command_if_script")) {
-                        par = parentAdd.parent.parent.getComponent("command_if_script")
-                    }
-                    if (element.name == "command_block_if") {
-                        element = cc.instantiate(this.ifBlock);
-                        var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
-                        ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-
-                    } else if (element.name == "command_block_repeatif")
-                        element = cc.instantiate(this.repeatIfBlock);
-                    else if (element.name == "command_block_repeat")
-                        element = cc.instantiate(this.counterBlock);
-                    //roadComm.push(element);
-                    par.addCommand(element)
-                }
+            if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле
+                this._onLeftScrollClick(event);
+            } else if (this.parent.parent.parent.name == "rightScroll") {
+                this._onRightScrollClick(event);
             }
         });
     },
