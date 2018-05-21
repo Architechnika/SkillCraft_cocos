@@ -18,7 +18,42 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
+        addCommand(comm) {
+        if (comm != null) {
+            var commands = this.node.getChildByName("commands");
+            if (commands != null) {
+                comm.anchorX = 0;
+                comm.anchorY = 1;
+                var itemWH = comm.height;
+                var h = itemWH;
+                if (comm.name == "command_if") {
+                    itemWH = comm.height;
+                    h = comm.getChildByName("command_block_if").height;
+                }
+                var codeMapPlus = cc.director._globalVariables.scrollNode.parent.getChildByName("CodeMapNode").getChildByName("command_plusCM");
+                codeMapPlus.y -= itemWH
 
+                commands.height += itemWH;
+                this.node.parent.height += itemWH;
+                var x = 0;
+                var y = 0;
+                var plus = commands.children[0];
+                x = plus.x
+                y = plus.y
+                plus.y -= itemWH;
+                var lineCount = itemWH / h;
+                for (var i = 0; i < lineCount; i++) {
+                    this.addLine();
+                }
+                commands.anchorX = 0;
+                commands.anchorY = 1;
+                comm.x = x;
+                comm.y = y;
+                commands.addChild(comm);
+                cc.director._globalVariables.lastAddCommandH = comm.height
+            }
+        }
+    },
     start () {
 
     },

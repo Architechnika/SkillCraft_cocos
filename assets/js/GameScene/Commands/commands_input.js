@@ -72,9 +72,11 @@ cc.Class({
                     var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
                     ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
 
-                } else if (element.name == "command_block_repeatif")
+                } else if (element.name == "command_block_repeatif") {
                     element = cc.instantiate(this.repeatIfBlock);
-                else if (element.name == "command_block_repeat")
+                    var repeatifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
+                    repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                } else if (element.name == "command_block_repeat")
                     element = cc.instantiate(this.counterBlock);
                 //roadComm.push(element);
                 par.addCommand(element)
@@ -106,7 +108,7 @@ cc.Class({
 
     _onLeftScrollClick(event) {
         //Клик правой кнопкой мышки
-        if(event._button && event._button == 2){
+        if (event._button && event._button == 2) {
             //Удаление элемента
             this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
