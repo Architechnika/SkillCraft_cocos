@@ -450,7 +450,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 12
@@ -717,8 +717,7 @@
     "node": {
       "__id__": 8
     },
-    "_enabled": true,
-    "GameNode": []
+    "_enabled": true
   },
   {
     "__type__": "cc.PrefabInfo",

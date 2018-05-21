@@ -25,14 +25,18 @@ cc.Class({
         cc.director._globalVariables.commandAddState = this.commandAddState;
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
-        cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");        
+        cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
 
-        /*cc.director._setScrollVisible = function(visibility){
-            if(visibility){
-                
+        /*cc.director._setScrollVisible = function (visibility) {
+            if (visibility) {
+                if (this._globalVariables.scrollNode) {
+                    var child = this.scrollNode.getChildByName("leftScroll")
+                    if (child)
+                        child.active = false;
+                }
             }
         }*/
-        
+
         this.collisionManager = cc.director.getCollisionManager();
         this.collisionManager.enabled = true;
         if (this.isDebug) {

@@ -23,11 +23,7 @@ cc.Class({
     },
 
     start() {
-        if(cc.director._globalVariables.scrollNode){
-            var child = cc.director._globalVariables.scrollNode.getChildByName("leftScroll")
-            if(child)
-                child.active = false;
-        }
+        
     },
 
     // update (dt) {},
