@@ -26,16 +26,19 @@ cc.Class({
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
+        cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
         //Функция скрывающая скролы
-        cc.director._setScrollVisible = function (visibility) {
+        cc.director._setScrollVisible = function (visibility, onlyRight) {
             if (this._globalVariables.scrollNode) {
-                var left = this._globalVariables.scrollNode.getChildByName("leftScroll");
                 var right = this._globalVariables.scrollNode.getChildByName("rightScroll")
-                if (left)
-                    left.active = visibility;
                 if (right)
                     right.active = visibility;
+                cc.director._globalVariables.codeMapNode.active = !visibility;
+                if(onlyRight) return;
+                var left = this._globalVariables.scrollNode.getChildByName("leftScroll");
+                if (left)
+                    left.active = visibility;
             }
         }
 

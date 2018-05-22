@@ -84,12 +84,16 @@ cc.Class({
         if (arr && !Array.isArray(arr)) {
             if (!arr.active)
                 arr.active = true;
-            cont.addChild(arr);
+            if(arr._simpleIcon)
+                cont.addChild(cc.instantiate(arr._simpleIcon));
+            else cont.addChild(cc.instantiate(arr));
         } else {
             for (var i = 0; i < arr.length; i++) {
                 if (!arr[i].active)
                     arr[i].active = true;
-                cont.addChild(cc.instantiate(arr[i]));
+                if(arr[i]._simpleIcon)
+                    cont.addChild(cc.instantiate(arr[i]._simpleIcon));
+                else cont.addChild(cc.instantiate(arr[i]));
             }
         }
 

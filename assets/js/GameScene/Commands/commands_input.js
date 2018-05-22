@@ -37,21 +37,24 @@ cc.Class({
                 var roadComm = road.getComponent("RoadScript").roadCommands;
                 if (roadComm != null) {
                     var element = cc.instantiate(this);
-                    var elementCopy = element;
+                    var elementCopy = cc.instantiate(element);
                     if (element.name == "command_block_if") {
                         elementCopy = cc.instantiate(this.ifBlock);
                         var ifScript = elementCopy.getChildByName("command_block_if").getComponent("command_if_script")
                         ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-
+                        cc.director._setScrollVisible(false, true);
                     } else if (element.name == "command_block_repeatif") {
                         elementCopy = cc.instantiate(this.repeatIfBlock);
                         var repeatifScript = elementCopy.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
                         repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                        cc.director._setScrollVisible(false, true);
                     } else if (element.name == "command_block_repeat") {
                         elementCopy = cc.instantiate(this.counterBlock);
                         var repeatifScript = elementCopy.getChildByName("command_block_repeat").getComponent("command_counter_script")
                         repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                        cc.director._setScrollVisible(false, true);
                     }
+                    elementCopy._simpleIcon = element;
                     roadComm.push(elementCopy);
                     if (cc.director._globalVariables.scrollNode) {
                         var scr = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
@@ -125,7 +128,7 @@ cc.Class({
         //Клик правой кнопкой мышки
         if (event._button && event._button == 2) {
             //Удаление элемента
-            this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
+            //this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
     },
     onLoad() {

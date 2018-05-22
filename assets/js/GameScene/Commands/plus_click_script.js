@@ -34,6 +34,7 @@ cc.Class({
                      cc.director._globalVariables.commandAddState = "road"
                 }
             cc.director._globalVariables.parentAdd = this.parent;
+            cc.director._setScrollVisible(true);
         });
     },
 
