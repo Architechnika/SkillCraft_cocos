@@ -52,7 +52,7 @@ cc.Class({
 
     start() {
         //Инициализируем указатель но обьект игрока
-        this._playerObj = this.node.parent.getChildByName("GameNode").getChildByName("Player").getComponent("PlayerScript");
+        this._playerObj = cc.director._globalVariables.gameNode.getChildByName("Player").getComponent("PlayerScript");
     },
 
 });

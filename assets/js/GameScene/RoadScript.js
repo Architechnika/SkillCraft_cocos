@@ -32,10 +32,10 @@ cc.Class({
         if (this.roadCommands.length > 0) {
             if (this != cc.director._globalVariables.selectedRoad)
                 cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
-            var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+            var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);
         } else {
-            var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+            var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
             cc.director._setScrollVisible(true);
         }
