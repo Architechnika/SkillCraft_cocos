@@ -26,7 +26,7 @@ cc.Class({
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
-        cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapNode");
+        cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibility, onlyRight) {

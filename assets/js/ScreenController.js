@@ -20,8 +20,10 @@ cc.Class({
             this.node.genMapNode = this.node.getChildByName("GameNode");
             //Отпускание мышки
             this.node.on('mouseup', function (event) {
-                var scr = this.genMapNode.getComponent("GenMap");
+                var scr = this.genMapNode.getComponent("ResizeScript");
                 scr.node.isDowned = false;
+                var scr = cc.director._globalVariables.codeMapNode.getComponent("ResizeScript");
+                if(scr) scr.node.isDowned = false;
             });
         }
         this._setWH(cc.winSize);

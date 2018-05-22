@@ -592,8 +592,7 @@
     "node": {
       "__id__": 7
     },
-    "_enabled": true,
-    "GameNode": []
+    "_enabled": true
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2364,10 +2363,7 @@
     "node": {
       "__id__": 62
     },
-    "_enabled": true,
-    "GameNode": {
-      "__uuid__": "1fe81162-7db1-4ffd-be1a-586275ff6961"
-    }
+    "_enabled": true
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2544,7 +2540,7 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true,
+    "_enabled": false,
     "_spriteFrame": {
       "__uuid__": "6e1adf6b-6c0a-4776-bf22-32ecb0ea45ec"
     },

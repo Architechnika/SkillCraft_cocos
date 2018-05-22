@@ -6,7 +6,9 @@ cc.Class({
 
     properties: {
 		scrollStep: 0.0625,
-        
+        maximumScaleX: 0,
+        maximumScaleY: 0,
+        resizeToMouse: true,
     },
 	
 	//Инициализируем внутренние переменные для node 
@@ -14,11 +16,11 @@ cc.Class({
         this.node.FBP = { //Точки по которым проверяется выход за границы области для отрисовки поля
             ul: {
                 x: this.node.x,
-                y: this.node.y
+                y: this.node.y,
             }, //Левая верхняя граница поля
             dr: {
                 x: this.node.x + this.node.width,
-                y: this.node.y - this.node.height
+                y: this.node.y - this.node.height,
             } //Правая нижняя граница поля
         };
         this.node.isDowned = false;
@@ -26,6 +28,9 @@ cc.Class({
         //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
         this.scrollStep *= 2;
         this.node.scrollStep = this.scrollStep;
+        this.node.maximumScaleX = this.maximumScaleX;
+        this.node.maximumScaleY = this.maximumScaleY;
+        this.node.resizeToMouse = this.resizeToMouse;
         //Методы
         this.node.field_move = this.field_move;
     },
@@ -47,9 +52,10 @@ cc.Class({
         });
         //Перемещение мышки
         this.node.on('mousemove', function (event) {
-            if (this.isDowned) { //Если мышка зажата, то двигаем поле
+            var shX = event._x - event._prevX, shY = event._y - event._prevY;
+            if (this.isDowned && (shX !== 0 || shY !== 0)) { //Если мышка зажата, то двигаем поле
                 this.isMoved = true;
-                this.field_move(event._x - event._prevX, event._y - event._prevY);
+                this.field_move(shX,shY);
             }
         });
     },
@@ -62,8 +68,10 @@ cc.Class({
         //Проверяем на минимальный размер
         if (this.scaleX < 1) this.scaleX = 1;
         if (this.scaleY < 1) this.scaleY = 1;
-        var dx = (this.width / 2 - event._x);
-        var dy = (this.height / 2 - event._y);
+        if(this.maximumScaleX != 0 && this.scaleX > this.maximumScaleX) this.scaleX = this.maximumScaleX;
+        if(this.maximumScaleY != 0 && this.scaleY > this.maximumScaleY) this.scaleX = this.maximumScaleY;
+        var dx = this.resizeToMouse ? (this.width / 2 - event._x):0;
+        var dy = this.resizeToMouse ? (this.height / 2 - event._y):0;
         //Смещаем туда куда указывает мышка(или тач)
         this.field_move(dx, dy);
     },

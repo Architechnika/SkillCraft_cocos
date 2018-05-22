@@ -30,12 +30,12 @@ cc.Class({
             cc.director._globalVariables.oldSelectRoad = this;
         }
         if (this.roadCommands.length > 0) {
-            this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);
         } else {
             var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
-            this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").clear();
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
             cc.director._setScrollVisible(true);
         }
     },
