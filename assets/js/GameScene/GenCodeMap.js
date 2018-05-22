@@ -73,7 +73,7 @@ cc.Class({
                     if (el.name == "command_if") {
                         itemWH = el.height
                     }
-
+                    el._parent = null;
                     this.node.addChild(el)
                     el.resetTransform;
                     el.x = x;
@@ -85,8 +85,8 @@ cc.Class({
                 this.plus.anchorY = 1;
                 this.plus.x = x
                 this.plus.y = y;
-                this.node.scaleX = 0.2
-                this.node.scaleY = 0.2
+                //this.node.scaleX = 0.2
+                //this.node.scaleY = 0.2
             }
         }
     },

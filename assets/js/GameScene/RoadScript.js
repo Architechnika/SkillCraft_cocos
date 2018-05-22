@@ -15,46 +15,35 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
+    _onRoadClick(event) {
+        var t = this.parent.getComponent("GenMap");
+        if (t.node.isMoved) return;
+        var tmp = cc.director._globalVariables.oldSelectRoad;
+        if (tmp != undefined && tmp != this) {
+            tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
+            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").clearLeftScroll();
+        }
+        cc.director._globalVariables.selectedRoad = this;
+        if (cc.director._globalVariables.oldSelectRoad !== cc.director._globalVariables.selectedRoad) {
+            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(this.roadCommands);
+            this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
+            cc.director._globalVariables.oldSelectRoad = this;
+        }
+        if (this.roadCommands.length > 0) {
+            this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
+            var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+            cc.director._setScrollVisible(false, true);
+        } else {
+            var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+            this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").clear();
+            cc.director._setScrollVisible(true);
+        }
+    },
+
     onLoad() {
 
         this.node.roadCommands = this.roadCommands
-        this.node.on('mouseup', function (event) { //Обработчик клика по полю
-            var t = this.parent.getComponent("GenMap");
-            if (t.node.isMoved) return;
-            var tmp = cc.director._globalVariables.oldSelectRoad;
-            if (tmp != undefined && tmp != this) {
-                tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
-                cc.director._globalVariables.scrollNode.getComponent("ScrollScript").clearLeftScroll();
-            }
-            cc.director._globalVariables.selectedRoad = this;
-            if (cc.director._globalVariables.oldSelectRoad !== cc.director._globalVariables.selectedRoad) {
-                cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(this.roadCommands);
-                this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
-                cc.director._globalVariables.oldSelectRoad = this;
-
-                if (this.roadCommands.length > 0) {
-                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
-                    var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
-                } else {
-                    var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
-                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").clear();
-                }
-
-            } else {
-                if (this.roadCommands.length > 0) {
-                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
-                    var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
-                } else {
-                    var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
-                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").clear();
-                }
-            }
-            //Показываем скролы выбора команд
-            cc.director._setScrollVisible(true);
-        });
-        /*this.node.on('mousedown', function (event) {
-            event.stopPropagation();
-        });*/
+        this.node.on('mouseup', this._onRoadClick);
     },
 
     start() {
