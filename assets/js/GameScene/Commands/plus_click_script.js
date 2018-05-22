@@ -29,6 +29,10 @@ cc.Class({
                // GN = this.parent.parent.parent.getComponent("command_if_script").gameNode;
                 cc.director._globalVariables.commandAddState = "elseCommands"
             }
+            if(this.parent.name =="CodeMapNode")
+                {
+                     cc.director._globalVariables.commandAddState = "road"
+                }
             cc.director._globalVariables.parentAdd = this.parent;
         });
     },

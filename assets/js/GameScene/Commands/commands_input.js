@@ -59,7 +59,7 @@ cc.Class({
                             scr.addToLeftScroll(element);
                     }
                 }
-
+                 this.parent.parent.parent.parent.parent.getChildByName("GameNode").parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
 
             }
         } else if (commandAddState == "commands") {
