@@ -76,6 +76,7 @@ cc.Class({
                     el._parent = null;
                     this.node.addChild(el)
                     el.resetTransform;
+                    
                     el.x = x;
                     el.y = y;
                     y -= itemWH;
@@ -91,6 +92,5 @@ cc.Class({
         }
     },
 //    update(dt) {
-//
 //    },
 });
