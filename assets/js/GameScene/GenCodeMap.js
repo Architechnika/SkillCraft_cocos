@@ -78,6 +78,7 @@ cc.Class({
                     el._parent = null;
                     this.node.addChild(el)
                     el.resetTransform;
+                    
                     el.x = x;
                     el.y = y;
                     /*if(Math.abs((el.x + el.width)) > Math.abs(p.x))
@@ -101,7 +102,12 @@ cc.Class({
             }
         }
     },
+<<<<<<< HEAD
     //    update(dt) {
     //
     //    },
+=======
+//    update(dt) {
+//    },
+>>>>>>> 35b1e5643986f94dbfad21dedd751c8d53bb4e70
 });
