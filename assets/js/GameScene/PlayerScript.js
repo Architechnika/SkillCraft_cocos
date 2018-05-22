@@ -47,7 +47,8 @@ cc.Class({
                 } else if (other.tag == 5) { //Робот доехал до финиша
                     this._isFinish = true;
                 } else {
-                    this._playerErrorAction("Робот врезался в стену");
+                    if(other.name.split("_")[0] != "command")
+                        this._playerErrorAction("Робот врезался в стену");
                 }
             } else {
                 if (other.node !== this._currentFieldElement && other.tag !== 3) { //Если это не коллизия с ТЕКУЩЕЙ КЛЕТКОЙ то обрабатываем

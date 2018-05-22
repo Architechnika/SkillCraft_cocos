@@ -83,6 +83,9 @@ cc.Class({
                     el.y = y;
                     /*if(Math.abs((el.x + el.width)) > Math.abs(p.x))
                         p.x = el.x + el.width;*/
+                    var bC = el.getComponent(cc.BoxCollider);
+                    if(bC)
+                        bC.offset.x = 50;
                     y -= itemWH;
                 }
                 //Добавляем плюсик вниз

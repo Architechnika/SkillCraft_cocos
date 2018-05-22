@@ -285,7 +285,10 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "ifBlock": null,
+    "repeatIfBlock": null,
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",

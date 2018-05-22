@@ -44,7 +44,7 @@ cc.Class({
                 if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
                     h = comm.children[0].height;
                 }
-                var codeMapPlus = cc.director._globalVariables.scrollNode.parent.getChildByName("CodeMapNode").getChildByName("command_plusCM");
+                var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
                 commands.height += itemWH;

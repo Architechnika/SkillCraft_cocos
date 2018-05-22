@@ -15,19 +15,14 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
     onLoad() {
-
-        if (cc.director._scene.name == "GameScene") {
-            this.node.genMapNode = this.node.getChildByName("GameNode");
-            //Отпускание мышки
-            this.node.on('mouseup', function (event) {
-                var scr = this.genMapNode.getComponent("ResizeScript");
-                scr.node.isDowned = false;
-                var scr = cc.director._globalVariables.codeMapNode.getComponent("ResizeScript");
-                if(scr) scr.node.isDowned = false;
-            });
-        }
         this._setWH(cc.winSize);
         this._calcScreen(this._wSbuff);
+        var gSc = this.node.getChildByName("GameNode");
+        if (!gSc) return;
+
+        //Отпускание мышки
+        this.node.on('mouseup', this._mLeave);
+        this.node.on('mouseleave', this._mLeave);
     },
 
     update(dt) {
@@ -38,19 +33,27 @@ cc.Class({
         }
     },
 
+    _mLeave(event) {
+        var scr = cc.director._globalVariables.gameNode.getComponent("ResizeScript");
+        if (scr.node.isDowned)
+            scr.node.isDowned = false;
+        scr = cc.director._globalVariables.codeMapNode.getComponent("ResizeScript");
+        if (scr.node.isDowned)
+            scr.node.isDowned = false;
+    },
+
     //Производит перерасчет якорей всех нодов на поле под заданное разрешение
-    _calcScreen(wh){
-        if(wh.width > wh.height){//Если ширина больше высоты
-            
-        }
-        else{//Если высота больше ширины
+    _calcScreen(wh) {
+        if (wh.width > wh.height) { //Если ширина больше высоты
+
+        } else { //Если высота больше ширины
             //Определяем сколько процентов - ширина лабиринта от ширины экрана
             cc.director._setScrollVisible(false);
             //this.node.rotation = 90;
         }
         this._setWH(wh);
     },
-    
+
     //Запоминает текущий размер окна
     _setWH(WH) {
         this._wSbuff = {
