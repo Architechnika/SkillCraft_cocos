@@ -42,11 +42,13 @@ cc.Class({
     start() {},
     clear() {
         //чистим весь кодмап
-        if (this.node.children.length > 0) {
-            for (var i = 0; i < this.node.children.length; i++) {
+        if (this.node.children.length > 1) {
+            for (var i = this.node.children.length-1; i > 0; i--) {
                 if (this.node.children[i].name != "command_plusCM")
                     this.node.removeChild(this.node.children[i]);
             }
+            var plus = this.node.getChildByName("command_plusCM");
+            plus.y = 0;
         }
     },
     setCommands(arr) {

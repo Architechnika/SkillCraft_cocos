@@ -31,12 +31,22 @@ cc.Class({
                 cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(this.roadCommands);
                 this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
                 cc.director._globalVariables.oldSelectRoad = this;
+
+                if (this.roadCommands.length > 0) {
+                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
+                    var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+                } else {
+                    var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").clear();
+                }
+
             } else {
                 if (this.roadCommands.length > 0) {
                     this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").generation();
                     var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
                 } else {
                     var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
+                    this.parent.parent.getChildByName("CodeMapNode").getComponent("GenCodeMap").clear();
                 }
             }
             //Показываем скролы выбора команд
