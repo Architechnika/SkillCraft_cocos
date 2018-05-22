@@ -102,12 +102,9 @@ cc.Class({
             }
         }
     },
-<<<<<<< HEAD
     //    update(dt) {
     //
     //    },
-=======
 //    update(dt) {
 //    },
->>>>>>> 35b1e5643986f94dbfad21dedd751c8d53bb4e70
 });
