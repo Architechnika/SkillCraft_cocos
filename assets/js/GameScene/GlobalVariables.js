@@ -25,7 +25,7 @@ cc.Class({
         cc.director._globalVariables.commandAddState = this.commandAddState;
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
-        cc.director._globalVariables.gameNode = this.node.getChildByName("GameNode");
+        cc.director._globalVariables.gameNode = this.node.getChildByName("GameNodeMask").getChildByName("GameNode");
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
@@ -35,7 +35,7 @@ cc.Class({
                 var right = this._globalVariables.scrollNode.getChildByName("rightScroll")
                 if (right)
                     right.active = visibility;
-                //cc.director._globalVariables.codeMapNode.enabled = !visibility;
+                cc.director._globalVariables.codeMapNode.enabled = !visibility;
                 if(onlyRight) return;
                 var left = this._globalVariables.scrollNode.getChildByName("leftScroll");
                 if (left)
