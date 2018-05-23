@@ -46,7 +46,7 @@ cc.Class({
         if (this.node.children.length > 1) {
             for (var i = this.node.children.length - 1; i > 0; i--) {
                 if (this.node.children[i].name != "command_plusCM")
-                    this.node.removeChild(this.node.children[i]);
+                    this.node.removeChild(this.node.children[i],false);
             }
             var plus = this.node.getChildByName("command_plusCM");
             plus.y = 0;
@@ -67,13 +67,17 @@ cc.Class({
                 var itemWH = 0;
                 for (var i = 0; i < roadCommands.length; i++) {
                     var el = roadCommands[i];
+                    el.resetClip
                     el.anchorX = 0;
                     el.anchorY = 1;
                     el.scaleX = el.scaleY = this.defaultElementScale;
-
+//                    if(el.getChildByName("command_block_if"))
+//                        {
+//                            el.getChildByName("command_block_if").getComponent("command_if_script").onLoad();
+//                        }
                     itemWH = (el.height * el.scaleY);
                     if (el.name == "command_if") {
-                        itemWH = el.height
+                       // itemWH = el.height
                     }
                     el._parent = null;
                     this.node.addChild(el)

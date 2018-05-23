@@ -30,7 +30,7 @@ cc.Class({
             cc.director._globalVariables.oldSelectRoad = this;
         }
         if (this.roadCommands.length > 0) {
-            if (this != cc.director._globalVariables.selectedRoad)
+          //  if (this != cc.director._globalVariables.selectedRoad)
                 cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             var rScroll = this.parent.parent.getChildByName("ScrollsNode").getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);

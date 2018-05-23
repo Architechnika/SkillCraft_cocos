@@ -37,10 +37,12 @@ cc.Class({
             cc.director._setScrollVisible(true);
         });
     },
+    d(){console.log("Dd")},
 
     start() {
-
     },
 
-    // update (dt) {},
+//     update (dt) { 
+//
+//     },
 });
