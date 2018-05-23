@@ -72,41 +72,26 @@ cc.Class({
                     el.anchorX = 0;
                     el.anchorY = 1;
                     el.scaleX = el.scaleY = this.defaultElementScale;
-//                    if(el.getChildByName("command_block_if"))
-//                        {
-//                            el.getChildByName("command_block_if").getComponent("command_if_script").onLoad();
-//                        }
                     itemWH = (el.height * el.scaleY);
-                    if (el.name == "command_if") {
-                       // itemWH = el.height
-                    }
                     el._parent = null;
                     this.node.addChild(el)
                     el.resetTransform;
                     
                     el.x = x;
                     el.y = y;
-                    /*if(Math.abs((el.x + el.width)) > Math.abs(p.x))
-                        p.x = el.x + el.width;*/
                     var bC = el.getComponent(cc.BoxCollider);
                     if(bC)
                         bC.offset.x = 50;
                     y -= itemWH;
+                    //Меняем щирину содержимого кодмапа, для ресайза и перемещения
+                    cc.director._globalVariables.codeMapNode.width = Math.abs(el.x + (el.width * el.scaleX));
                 }
                 //Добавляем плюсик вниз
                 this.plus.anchorX = 0;
                 this.plus.anchorY = 1;
                 this.plus.x = x;
                 this.plus.y = y;
-                //Задаем анкор для смещения кодмапа по Y правой нижней точки
-                var py = this.plus.y - itemWH;
-                //this.node.getComponent("ResizeScript").node.FBP.dr.y = py;
-                if (py < (this.node.y - (this.node.height * this.node.scaleY))) {
-                    this.node.scaleX = this.node.scaleY = Math.abs((py - this.node.y) / this.node.height);
-                }
-                // var plus = this.node.getChildByName("command_plusCM");
-                //this.node.scaleX = 0.2
-                //this.node.scaleY = 0.2
+                cc.director._globalVariables.codeMapNode.height = Math.abs(this.plus.y - (this.plus.height * this.plus.scaleY));
             }
         }
     },

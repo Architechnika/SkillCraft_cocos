@@ -61,7 +61,9 @@ cc.Class({
                 comm.x = x;
                 comm.y = y;
                 commands.addChild(comm);
-                cc.director._globalVariables.lastAddCommandH = comm.height
+                cc.director._globalVariables.lastAddCommandH = comm.height;
+                //Меняем щирину содержимого кодмапа, для ресайза и перемещения
+                //cc.director._globalVariables.codeMapNode.width += (comm.width * comm.scaleX) / 3;
             }
         }
     },

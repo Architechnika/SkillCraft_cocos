@@ -15,6 +15,7 @@ cc.Class({
         commandAddState: "road", //флаг обозначающий куда мы добавляем команды из скрола
         parentAdd: null, // родительский элемент куда нужно добовлять команды из скрола
         lastAddCommandH: 0, //высота последней добавленной команды в кодмап
+        lastAddCommandW: 0, //высота последней добавленной команды в кодмап
         labelBoxes: cc.Label,
     },
 
@@ -25,7 +26,7 @@ cc.Class({
         cc.director._globalVariables.commandAddState = this.commandAddState;
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
-        cc.director._globalVariables.gameNode = this.node.getChildByName("GameNodeMask").getChildByName("GameNode");
+        cc.director._globalVariables.gameNode = this.node.getChildByName("GameNode");
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
