@@ -35,6 +35,7 @@ cc.Class({
 
     // onLoad () {},
     onLoad() {
+        //
         // this.declaration();
         // this.generation();
         this.plus = this.node.getChildByName("command_plusCM");
