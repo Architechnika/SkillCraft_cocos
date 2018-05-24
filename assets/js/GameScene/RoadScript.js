@@ -30,8 +30,10 @@ cc.Class({
             cc.director._globalVariables.oldSelectRoad = this;
         }
         if (this.roadCommands.length > 0) {
-          //  if (this != cc.director._globalVariables.selectedRoad)
-                cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            
+            /*cc.director._globalVariables.codeMapNode._children.splice(0,cc.director._globalVariables.codeMapNode.childrenCount);
+            cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").reset();*/
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);
         } else {

@@ -20,8 +20,7 @@ cc.Class({
         var gSc = cc.director._globalVariables.gameNode;
         if (!gSc) return;
         //Отпускание мышки
-        this.node.on('mouseup', this._mLeave);
-        this.node.on('mouseleave', this._mLeave);
+        this.node.on('mouseup', this._mLeave);        
     },
 
     update(dt) {
