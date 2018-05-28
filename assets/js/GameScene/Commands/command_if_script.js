@@ -14,6 +14,7 @@ cc.Class({
     onLoad() {
         this._H = 400;
         this._W = 300;
+        this._maxW = 400;
     },
 
     start() {},
@@ -43,7 +44,7 @@ cc.Class({
                     h = comm.children[0].height;
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
-                        w = 100;
+                        w = this.node.parent.width >= this._maxW ? 0 : 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
@@ -88,12 +89,13 @@ cc.Class({
                 }
                 //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                 if (comm.name == "command_if" || comm.name == "command_repeatif")
-                    w = 100;
+                    w = this.node.parent.width >= this._maxW ? 0 : 100;
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
                 commands.height += itemWH;
                 this.node.parent.height += itemWH;
+                //Увеличиваем ширину родителя на заданный дискрет
                 this.node.parent.width += w;
                 var x = 0;
                 var y = 0;

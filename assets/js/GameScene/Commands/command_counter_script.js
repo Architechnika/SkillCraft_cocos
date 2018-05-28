@@ -1,12 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
@@ -19,6 +10,7 @@ cc.Class({
     onLoad() {
         this._H = 200;
         this._W = 200;
+        this._maxW = 400;
     },
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
@@ -46,19 +38,20 @@ cc.Class({
                     h = comm.children[0].height;
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
-                        w = 200;
+                        w = this.node.parent.width >=this._maxW ? 0 : 200;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
                 commands.height += itemWH;
                 this.node.parent.height += itemWH;
+                //Увеличиваем ширину родителя на заданный дискрет
                 this.node.parent.width += w;
                 var x = 0;
                 var y = 0;
                 var plus = commands.children[0];
-                x = plus.x
-                y = plus.y
+                x = plus.x;
+                y = plus.y;
                 plus.y -= itemWH;
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {

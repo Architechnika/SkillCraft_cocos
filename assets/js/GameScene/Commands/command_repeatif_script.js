@@ -1,12 +1,4 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+
 
 cc.Class({
     extends: cc.Component,
@@ -14,11 +6,14 @@ cc.Class({
     properties: {
         commandType: "repeatif",
     },
+    _H: 200,
+    _W: 300,
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
         this._H = 200;
         this._W = 300;
+        this._maxW = 400;
     },
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
@@ -46,7 +41,7 @@ cc.Class({
                     h = comm.children[0].height;
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
-                        w = 100;
+                        w = this.node.parent.width >=this._maxW ? 0 : 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH

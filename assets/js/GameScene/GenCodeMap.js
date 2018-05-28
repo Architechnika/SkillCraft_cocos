@@ -104,32 +104,4 @@ cc.Class({
             //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
         }
     },
-
-    _changeAnchor(anch) {
-        this.node.anchorX = anch;
-        this.node.anchorY = anch;
-        this.node.x += (this.node.width * this.scaleX) / 2;
-        this.node.y += (this.node.height * this.scaleY) / 2;
-    },
-    _getMaxWFromNode(nd) {
-        var maxw = 0;
-        var wsp = nd.convertToWorldSpace(cc.p(nd.x, nd.y));
-        console.log("wsp: ", wsp);
-        for (var i = 0; i < nd.childrenCount; i++) {
-            maxw = this._getMaxWFromChild(nd._children[i], maxw, wsp);
-        }
-        return maxw == 0 ? nd.width : maxw;
-    },
-
-    _getMaxWFromChild(p, w, wsp) {
-        var ws = p.convertToWorldSpace(cc.p(p.x, p.y));
-        var width = Math.abs((ws.x + (p.width * p.scaleX) - wsp.x));
-        console.log("WS: ", ws, " width: ", width);
-        if (width > w) w = width;
-        for (var i = 0; i < p._children.length; i++) {
-            if (p._children[i]._name != "Label")
-                w = this._getMaxWFromChild(p._children[i], w, wsp);
-        }
-        return w;
-    },
 });
