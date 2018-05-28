@@ -59,8 +59,9 @@ cc.Class({
     generation() {
         var road = cc.director._globalVariables.selectedRoad;
         if (road) {
-            //this.clear();
+            this.clear();
             this.node.resetTransform;
+            this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
                 //cc.director._globalVariables.codeMapNode.width = 0;
@@ -68,6 +69,7 @@ cc.Class({
                 var x = 0;//this.node.x + ();
                 var y = 0;
                 var itemWH = 0;
+                var maxW = 0;
                 for (var i = 0; i < roadCommands.length; i++) {
                     var el = roadCommands[i];
                     el.anchorX = 0;
@@ -75,6 +77,8 @@ cc.Class({
                     el.scaleX = el.scaleY = this.defaultElementScale;
                     itemWH = (el.height * el.scaleY);
                     el._parent = null;
+                    if(el.width > maxW)
+                        maxW = el.width;
                     this.node.addChild(el);
                     el.resetTransform;
 
@@ -94,7 +98,7 @@ cc.Class({
                 var bB = this.node.getBoundingBoxToWorld().size;
                 var k = Math.floor(bB.height / bB.width);
                 console.log(bB.height / bB.width);
-                cc.director._globalVariables.codeMapNode.width = bB.height;//(this.plus.width * this.plus.scaleX) * k;
+                cc.director._globalVariables.codeMapNode.width = maxW;
                 cc.director._globalVariables.codeMapNode.height = Math.abs(this.plus.y - (this.plus.height * this.plus.scaleY));
             }
             //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();

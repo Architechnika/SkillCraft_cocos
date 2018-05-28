@@ -892,7 +892,7 @@
     "maximumScaleY": 0,
     "_minScaleX": 1,
     "_minScaleY": 1,
-    "resizeToMouse": true
+    "resizeToMouse": false
   },
   {
     "__type__": "cc.Sprite",
@@ -901,7 +901,7 @@
     "node": {
       "__id__": 10
     },
-    "_enabled": true,
+    "_enabled": false,
     "_spriteFrame": {
       "__uuid__": "853fe133-4001-45fe-bd5d-68b3403d674f"
     },
@@ -947,7 +947,7 @@
     "node": {
       "__id__": 9
     },
-    "_enabled": false,
+    "_enabled": true,
     "_type": 0,
     "_segements": 64,
     "_N$spriteFrame": {
@@ -3576,14 +3576,13 @@
     },
     "_enabled": true,
     "currentLabSize": 3,
-    "isDebug": true,
+    "isDebug": false,
     "playerSpeed": 0.3,
     "_collisionManager": null,
     "collisionManager": null,
     "commandAddState": "road",
     "parentAdd": null,
     "lastAddCommandH": 0,
-    "lastAddCommandW": 0,
     "labelBoxes": {
       "__id__": 87
     }

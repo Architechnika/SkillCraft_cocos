@@ -7,13 +7,9 @@ cc.Class({
 
     properties: {
     },
-
-
+    
     start () {
 
     },
     
-    onCollisionExit: function (other, self) {
-        console.log(other.node.convertToWorldSpace(cc.p(other.node.x, other.node.y)));
-    },
 });

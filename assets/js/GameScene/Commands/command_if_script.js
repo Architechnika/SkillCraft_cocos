@@ -8,12 +8,12 @@ cc.Class({
         NAME: "default",
         gameNode: null,
     },
-    _H: 400,
     _lastAddCommandH: 0,
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
         this._H = 400;
+        this._W = 300;
     },
 
     start() {},
@@ -38,14 +38,20 @@ cc.Class({
                 comm.anchorY = 1;
                 var itemWH = comm.height;
                 var h = 100;
+                var w = 0;
                 if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
                     h = comm.children[0].height;
+                    //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                    if (comm.name == "command_if" || comm.name == "command_repeatif")
+                        w = 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
                 commands.height += itemWH;
                 this.node.parent.height += itemWH;
+                //Увеличиваем ширину родителя на заданный дискрет
+                this.node.parent.width += w;
                 var x = 0;
                 var y = 0;
                 var plus = commands.children[0];
@@ -75,15 +81,20 @@ cc.Class({
                 comm.anchorY = 1;
                 var itemWH = comm.height;
                 var h = itemWH;
+                var w = 0;
                 if (comm.name == "command_if") {
                     itemWH = comm.height;
                     h = comm.getChildByName("command_block_if").height;
                 }
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (comm.name == "command_if" || comm.name == "command_repeatif")
+                    w = 100;
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
                 commands.height += itemWH;
                 this.node.parent.height += itemWH;
+                this.node.parent.width += w;
                 var x = 0;
                 var y = 0;
                 var plus = commands.children[0];
@@ -153,6 +164,11 @@ cc.Class({
                     el.y -= cc.director._globalVariables.lastAddCommandH;
             }
             this._H = this.node.parent.height;
+        }
+        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
+            var d = this.node.parent.width - this._W;
+            this._W += d;
+            this.node.parent.parent.parent.parent.width += d;
         }
     },
 });

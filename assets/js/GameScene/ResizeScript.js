@@ -50,8 +50,10 @@ cc.Class({
         });
         //Отпускание мышки
         this.node.on('mouseup', function (event) {
+            var retVal = !this.isMoved;
             this.isMoved = false;
             this.isDowned = false;
+            event.cancelBubble = retVal;
         });
         //Перемещение мышки
         this.node.on('mousemove', function (event) {
