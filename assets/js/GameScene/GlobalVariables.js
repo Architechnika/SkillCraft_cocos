@@ -29,6 +29,7 @@ cc.Class({
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
+        cc.director._globalVariables.commandToInit = undefined;//Команда для инициализации значения(используется когда надо инициализировать blockA или blockB или Repeat значение)
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibility, onlyRight) {
             if (this._globalVariables.scrollNode) {

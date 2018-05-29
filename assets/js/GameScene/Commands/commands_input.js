@@ -62,7 +62,7 @@ cc.Class({
                             scr.addToLeftScroll(element);
                     }
                 }
-                 cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+                cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
 
             }
         } else if (commandAddState == "commands") {
@@ -121,7 +121,7 @@ cc.Class({
                 //roadComm.push(element);
                 par.addElseCommand(element)
             }
-        }
+        } 
     },
 
     _onLeftScrollClick(event) {
@@ -131,6 +131,19 @@ cc.Class({
             //this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
     },
+    
+    _onCodeViewCommandClick(event){
+        //Инитим значение, если нужно
+        if (cc.director._globalVariables.commandToInit) {
+            if (cc.director._globalVariables.scrollNode.getComponent("ScrollScript")._commandsMode == "blockA") {
+                console.log("Инитим blockA")
+            } else if (cc.director._globalVariables.scrollNode.getComponent("ScrollScript")._commandsMode == "blockB") {
+                console.log("Инитим blockB")
+            }
+            cc.director._globalVariables.commandToInit = undefined;
+        }
+    },
+    
     onLoad() {
 
         this.node.ifBlock = this.ifBlock;
@@ -146,6 +159,8 @@ cc.Class({
                 this._onLeftScrollClick(event);
             } else if (this.parent.parent.parent.name == "rightScroll") {
                 this._onRightScrollClick(event);
+            } else if (false){
+                this._onCodeViewCommandClick(event);    
             }
         });
     },

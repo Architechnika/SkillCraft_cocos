@@ -173,4 +173,18 @@ cc.Class({
             this.node.parent.parent.parent.parent.width += d;
         }
     },
+    
+    //Обработчик событий клика по кнопкам внутри команды if
+    onCommandIfElementClick(event){
+        var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+        cc.director._globalVariables.commandToInit = this.node;
+        if(event.target.name == "command_block_a"){
+            script.addToRightScroll(script.blockACommands);
+        }
+        else if (event.target.name == "command_block_b"){
+            script.addToRightScroll(script.blockBCommands);
+        }
+        cc.director._setScrollVisible(true);
+        return false;
+    },
 });

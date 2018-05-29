@@ -36,6 +36,17 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        //Массив из набора команд для блока А команд условий
+        blockACommands: {
+            default: [],
+            type: cc.Prefab
+        },
+        //Массив из набора команд для блока B команд условий
+        blockBCommands: {
+            default: [],
+            type: cc.Prefab
+        },
+        _commandsMode:"",
     },
     //
     // LIFE-CYCLE CALLBACKS:
@@ -43,14 +54,18 @@ cc.Class({
     // onLoad () {},
 
     start() {
-        this.addToRightScroll(this.LegendCommands);
+        this.setCommandsState();
         cc.director._setScrollVisible(false);
     },
 
     addToLeftScroll(elements) {
         this.itemsSort(elements, "leftScroll");
     },
-
+    //Установка команд в скролл в зависимости от выбранного состояния
+    setCommandsState(){
+        this.addToRightScroll(this.LegendCommands);
+    },
+    
     //При удалении из левого скрола, команда должна удалится отовсюду
     removeFromLeftScroll(element){
         var cont = this.node.getChildByName("leftScroll").getChildByName("view").getChildByName("content");
@@ -62,6 +77,13 @@ cc.Class({
     },
     
     addToRightScroll(elements) {
+        if(elements == this.blockACommands)
+            this._commandsMode = "blocka";
+        if(elements == this.blockACommands)
+            this._commandsMode = "blockb";
+        else this._commandsMode = "";
+        
+        this.clearRightScroll();
         this.itemsSort(elements, "rightScroll");
     },
 

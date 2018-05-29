@@ -947,7 +947,7 @@
     "node": {
       "__id__": 9
     },
-    "_enabled": true,
+    "_enabled": false,
     "_type": 0,
     "_segements": 64,
     "_N$spriteFrame": {
@@ -2053,7 +2053,42 @@
       {
         "__uuid__": "640d620d-142f-4ab0-8b54-e72f0d19ff54"
       }
-    ]
+    ],
+    "blockACommands": [
+      {
+        "__uuid__": "762c4523-d480-4c39-8cd2-b9042103a288"
+      },
+      {
+        "__uuid__": "86f0645c-ada1-4510-881d-151a046aa68d"
+      },
+      {
+        "__uuid__": "1eb4e86a-ee3b-43db-b01a-343ea5e0a880"
+      },
+      {
+        "__uuid__": "8fc400b7-7ce6-46ed-be4c-cc47a207eb06"
+      },
+      {
+        "__uuid__": "128af382-2e1f-43da-a8f0-e227c251156f"
+      }
+    ],
+    "blockBCommands": [
+      {
+        "__uuid__": "968cac52-b0be-4103-af73-42324e7e8433"
+      },
+      {
+        "__uuid__": "352dde2f-596a-4d7b-b1e4-fecec7e0b7de"
+      },
+      {
+        "__uuid__": "c2f208fa-2185-4426-8c83-590272dea161"
+      },
+      {
+        "__uuid__": "7025e1b3-2936-44ae-8d6e-6a044fc61ab0"
+      },
+      {
+        "__uuid__": "f4f50d29-aacb-453e-8473-f50eb73d64a9"
+      }
+    ],
+    "_commandsMode": ""
   },
   {
     "__type__": "cc.Node",

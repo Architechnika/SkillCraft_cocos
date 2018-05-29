@@ -10,7 +10,7 @@ cc.Class({
         maximumScaleY: 0,
         _minScaleX: 1,
         _minScaleY: 1,
-        resizeToMouse: true,        
+        resizeToMouse: true,
     },
 
     //Инициализируем внутренние переменные для node 
@@ -49,12 +49,7 @@ cc.Class({
             this.isDowned = true;
         });
         //Отпускание мышки
-        this.node.on('mouseup', function (event) {
-            var retVal = !this.isMoved;
-            this.isMoved = false;
-            this.isDowned = false;
-            event.cancelBubble = retVal;
-        });
+        this.node.on('mouseup', this.mouseUpEvent);
         //Перемещение мышки
         this.node.on('mousemove', function (event) {
             var shX = event._x - event._prevX,
@@ -64,6 +59,11 @@ cc.Class({
                 this.move(shX, shY);
             }
         });
+    },
+    mouseUpEvent(event) {
+        var retVal = !this.isMoved;
+        this.isMoved = false;
+        this.isDowned = false;
     },
 
     //Функция обрабатывающая события скролинга(в центр)
@@ -91,7 +91,8 @@ cc.Class({
         //------------------
         var oldX = this.x,
             oldY = this.y;
-        var w = (this.width * this.scaleX), h = (this.height * this.scaleY);
+        var w = (this.width * this.scaleX),
+            h = (this.height * this.scaleY);
         var rx = this.x + w,
             ry = this.y - h;
         //Если по x входит в диапазон
@@ -117,17 +118,17 @@ cc.Class({
             } else this.y = this.FBP.dr.y + (this.height * this.scaleY);
         } else this.y = this.FBP.ul.y;
         //Это если содержимое меньше заданной рамки, то все изменения отменяем
-        if(oldX == this.FBP.ul.x && rx < this.FBP.dr.x)
+        if (oldX == this.FBP.ul.x && rx < this.FBP.dr.x)
             this.x = oldX;
-        if(oldY == this.FBP.ul.y && ry > this.FBP.dr.y)
+        if (oldY == this.FBP.ul.y && ry > this.FBP.dr.y)
             this.y = oldY;
     },
     //Сбросит всю ноду к начальному состоянию - координаты размер
-    reset(){
+    reset() {
         this.node.x = this.node.FBP.ul.x;
         this.node.y = this.node.FBP.ul.y;
         this.node.scaleX = this.node._minScaleX;
         this.node.scaleY = this.node._minScaleY;
     }
-    
+
 });
