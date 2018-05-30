@@ -133,12 +133,10 @@ cc.Class({
     update(dt) {
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H != this.node.parent.height) {
             var itemWH = this.node.height;
-            if (this._H)
-                var d = this.node.parent.height - this._H
 
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
-            //  console.log(cc.director._gobalVariables.lastAddCommandH)
-            this.node.parent.parent.height += this.H
+              //console.log(cc.director._globalVariables.lastAddCommandH)
+            this.node.parent.parent.height += this.H;
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {
                     if (this.node.parent.parent.parent.getComponent("command_if_script"))
@@ -166,25 +164,32 @@ cc.Class({
                     el.y -= cc.director._globalVariables.lastAddCommandH;
             }
             this._H = this.node.parent.height;
+            console.log(this.node.height + " : " + this.node.parent.height)
         }
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
             this.node.parent.parent.parent.parent.width += d;
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
     },
     
     //Обработчик событий клика по кнопкам внутри команды if
-    onCommandIfElementClick(event){
+    onCommandElementClick(event){
         var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
-        cc.director._globalVariables.commandToInit = this.node;
+        //Инитим скролл нужными значениями
         if(event.target.name == "command_block_a"){
             script.addToRightScroll(script.blockACommands);
         }
         else if (event.target.name == "command_block_b"){
             script.addToRightScroll(script.blockBCommands);
         }
-        cc.director._setScrollVisible(true);
-        return false;
+        //Запоминаем эту ноду для инициализации
+        cc.director._globalVariables.nodeCommandToInit = event.target;
+        cc.director._setScrollVisible(true);  
     },
+    //Функция
+    getCommand(playerObj) {
+        
+    }
 });

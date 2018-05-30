@@ -29,14 +29,14 @@ cc.Class({
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
-        cc.director._globalVariables.commandToInit = undefined;//Команда для инициализации значения(используется когда надо инициализировать blockA или blockB или Repeat значение)
+        cc.director._globalVariables.nodeCommandToInit = undefined;//ССылка но обьект в который мы добавляем значение(blockA blockB или countBlock в кодмапе)
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibility, onlyRight) {
             if (this._globalVariables.scrollNode) {
                 var right = this._globalVariables.scrollNode.getChildByName("rightScroll")
                 if (right)
                     right.active = visibility;
-                cc.director._globalVariables.codeMapNode.enabled = !visibility;
+                //cc.director._globalVariables.codeMapNode.active = !visibility;
                 if(onlyRight) return;
                 var left = this._globalVariables.scrollNode.getChildByName("leftScroll");
                 if (left)

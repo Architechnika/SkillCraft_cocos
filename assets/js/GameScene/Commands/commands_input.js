@@ -1,12 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
@@ -37,33 +28,25 @@ cc.Class({
                 var roadComm = road.getComponent("RoadScript").roadCommands;
                 if (roadComm != null) {
                     var element = cc.instantiate(this);
-                    var elementCopy = cc.instantiate(element);
                     if (element.name == "command_block_if") {
-                        elementCopy = cc.instantiate(this.ifBlock);
-                        var ifScript = elementCopy.getChildByName("command_block_if").getComponent("command_if_script")
+                        element = cc.instantiate(this.ifBlock);
+                        var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
                         ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
                         cc.director._setScrollVisible(false, true);
                     } else if (element.name == "command_block_repeatif") {
-                        elementCopy = cc.instantiate(this.repeatIfBlock);
-                        var repeatifScript = elementCopy.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
+                        element = cc.instantiate(this.repeatIfBlock);
+                        var repeatifScript = element.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
                         repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
                         cc.director._setScrollVisible(false, true);
                     } else if (element.name == "command_block_repeat") {
-                        elementCopy = cc.instantiate(this.counterBlock);
-                        var repeatifScript = elementCopy.getChildByName("command_block_repeat").getComponent("command_counter_script")
+                        element = cc.instantiate(this.counterBlock);
+                        var repeatifScript = element.getChildByName("command_block_repeat").getComponent("command_counter_script")
                         repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
                         cc.director._setScrollVisible(false, true);
                     }
-                    elementCopy._simpleIcon = element;
-                    roadComm.push(elementCopy);
-                    if (cc.director._globalVariables.scrollNode) {
-                        var scr = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
-                        if (scr.addToLeftScroll)
-                            scr.addToLeftScroll(element);
-                    }
+                    roadComm.push(element);
+                    cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
                 }
-                cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
-
             }
         } else if (commandAddState == "commands") {
             if (parentAdd) {
@@ -85,19 +68,22 @@ cc.Class({
                     element = cc.instantiate(this.ifBlock);
                     var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
                     ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                    cc.director._setScrollVisible(false, true);
 
                 } else if (element.name == "command_block_repeatif") {
                     element = cc.instantiate(this.repeatIfBlock);
                     var repeatifScript = element.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
                     repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                    cc.director._setScrollVisible(false, true);
                 }
                 if (element.name == "command_block_repeat") {
                     element = cc.instantiate(this.counterBlock);
                     var repeatifScript = element.getChildByName("command_block_repeat").getComponent("command_counter_script")
                     repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                    cc.director._setScrollVisible(false, true);
                 }
-                //roadComm.push(element);
-                par.addCommand(element)
+                par.addCommand(element);
+                cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
             }
         } else if (commandAddState == "elseCommands") {
             if (parentAdd) {
@@ -113,15 +99,21 @@ cc.Class({
                     element = cc.instantiate(this.ifBlock);
                     var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
                     ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-
-                } else if (element.name == "command_block_repeatif")
+                    cc.director._setScrollVisible(false, true);
+                } else if (element.name == "command_block_repeatif"){
                     element = cc.instantiate(this.repeatIfBlock);
-                else if (element.name == "command_block_repeat")
+                    cc.director._setScrollVisible(false, true);
+                }
+                else if (element.name == "command_block_repeat"){
                     element = cc.instantiate(this.counterBlock);
+                    cc.director._setScrollVisible(false, true);
+                }
                 //roadComm.push(element);
-                par.addElseCommand(element)
+                par.addElseCommand(element);
+                cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
             }
-        } 
+        }
+        cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
     },
 
     _onLeftScrollClick(event) {
@@ -131,19 +123,35 @@ cc.Class({
             //this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
     },
-    
-    _onCodeViewCommandClick(event){
+
+    _onCodeViewCommandClick(event) {
         //Инитим значение, если нужно
-        if (cc.director._globalVariables.commandToInit) {
-            if (cc.director._globalVariables.scrollNode.getComponent("ScrollScript")._commandsMode == "blockA") {
-                console.log("Инитим blockA")
-            } else if (cc.director._globalVariables.scrollNode.getComponent("ScrollScript")._commandsMode == "blockB") {
-                console.log("Инитим blockB")
+        if (cc.director._globalVariables.nodeCommandToInit) {
+            if (cc.director._globalVariables.nodeCommandToInit.name == "command_block_count") {
+
+            } else {
+                //Получаем родителя
+                var daddy = cc.director._globalVariables.nodeCommandToInit.parent;
+                var n = cc.director._globalVariables.nodeCommandToInit;
+                //Копируем выбранную команду
+                var cpy = cc.instantiate(event.target)
+                cpy.x = n.x + (n.width / 2);
+                cpy.y = n.y + (n.height / 2);
+                cpy.width = n.height;
+                cpy.width = n.height;
+                cpy.scaleX = n.scaleX;
+                cpy.scaleY = n.scaleY;
+                //Уничтожаем старую команду
+                n.destroy();
+                //Заменяем ее новой
+                daddy.addChild(cpy);
             }
-            cc.director._globalVariables.commandToInit = undefined;
+            cc.director._globalVariables.nodeCommandToInit = undefined;
+            cc.director._setScrollVisible(false, true);
         }
+        this._cLC = 0;
     },
-    
+
     onLoad() {
 
         this.node.ifBlock = this.ifBlock;
@@ -153,14 +161,18 @@ cc.Class({
         this.node.globalVar = cc.director._globalVariables;
         this.node._onLeftScrollClick = this._onLeftScrollClick;
         this.node._onRightScrollClick = this._onRightScrollClick;
+        this.node._onCodeViewCommandClick = this._onCodeViewCommandClick;
+        this.node._clC = 0; //Счетчик кликов по элементам скрола(нужен для отмены срабатывания на один клик, когда жмешь на кодмап и скорл сразу нажимается тоже)
 
         this.node.on('mouseup', function (event) {
-            if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле
+            if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
+                return false;
+            if (cc.director._globalVariables.nodeCommandToInit) {
+                this._onCodeViewCommandClick(event);
+            } else if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле
                 this._onLeftScrollClick(event);
             } else if (this.parent.parent.parent.name == "rightScroll") {
                 this._onRightScrollClick(event);
-            } else if (false){
-                this._onCodeViewCommandClick(event);    
             }
         });
     },

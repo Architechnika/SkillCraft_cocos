@@ -20,9 +20,13 @@
     ],
     "_tag": -1,
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 32
+      }
+    ],
     "_prefab": {
-      "__id__": 32
+      "__id__": 33
     },
     "_id": "",
     "_opacity": 255,
@@ -1029,6 +1033,26 @@
     },
     "fileId": "dfcDVmcZBOsJHXarNT9U5x",
     "sync": false
+  },
+  {
+    "__type__": "cc.BoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 100,
+      "y": -100
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 200,
+      "height": 200
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

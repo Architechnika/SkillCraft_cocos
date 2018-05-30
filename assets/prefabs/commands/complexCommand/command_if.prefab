@@ -1212,7 +1212,7 @@
       "__id__": 2
     },
     "component": "command_if_script",
-    "handler": "onCommandIfElementClick",
+    "handler": "onCommandElementClick",
     "customEventData": ""
   },
   {
@@ -1400,7 +1400,7 @@
       "__id__": 2
     },
     "component": "command_if_script",
-    "handler": "onCommandIfElementClick",
+    "handler": "onCommandElementClick",
     "customEventData": ""
   },
   {

@@ -1,12 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
@@ -34,12 +25,20 @@ cc.Class({
                      cc.director._globalVariables.commandAddState = "road"
                 }
             cc.director._globalVariables.parentAdd = this.parent;
-            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").setCommandsState();
+            //Инитим правый скролл
+            var scrollScript = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+            scrollScript.setCommandsState();
+            //Инитим левый скролл
+            var elems = [];
+            for(var i = 0 ; i < this.parent._children.length; i++){
+                if(this.parent._children[i] !== this)
+                    elems.push(this.parent._children[i]);
+            }
+            scrollScript.addToLeftScroll(elems, true);
             cc.director._setScrollVisible(true);
         });
     },
-    d(){console.log("Dd")},
-
+    
     start() {
     },
 

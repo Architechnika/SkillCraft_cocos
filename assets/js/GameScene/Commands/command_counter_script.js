@@ -39,6 +39,7 @@ cc.Class({
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
                         w = this.node.parent.width >=this._maxW ? 0 : 200;
+                    else w = 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
@@ -111,6 +112,7 @@ cc.Class({
             var d = this.node.parent.width - this._W;
             this._W += d;
             this.node.parent.parent.parent.parent.width += d;
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
     },
 

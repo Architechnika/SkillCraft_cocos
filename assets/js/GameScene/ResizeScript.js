@@ -59,11 +59,16 @@ cc.Class({
                 this.move(shX, shY);
             }
         });
+        this.node.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
+            this.isDowned = false;
+            this.isMoved = false;
+        });
     },
     mouseUpEvent(event) {
         var retVal = !this.isMoved;
         this.isMoved = false;
         this.isDowned = false;
+        event.stopPropagation();
     },
 
     //Функция обрабатывающая события скролинга(в центр)

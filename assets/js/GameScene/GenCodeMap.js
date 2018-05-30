@@ -39,6 +39,7 @@ cc.Class({
         // this.declaration();
         // this.generation();
         this.plus = this.node.getChildByName("command_plusCM");
+        this.node.active = false;
     },
 
     start() {},
@@ -97,7 +98,7 @@ cc.Class({
                 this.plus.y = y;
                 var bB = this.node.getBoundingBoxToWorld().size;
                 var k = Math.floor(bB.height / bB.width);
-                console.log(bB.height / bB.width);
+                //console.log(bB.height / bB.width);
                 cc.director._globalVariables.codeMapNode.width = maxW;
                 cc.director._globalVariables.codeMapNode.height = Math.abs(this.plus.y - (this.plus.height * this.plus.scaleY));
             }

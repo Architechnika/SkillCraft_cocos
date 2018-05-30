@@ -901,7 +901,7 @@
     "node": {
       "__id__": 10
     },
-    "_enabled": false,
+    "_enabled": true,
     "_spriteFrame": {
       "__uuid__": "853fe133-4001-45fe-bd5d-68b3403d674f"
     },
@@ -947,7 +947,7 @@
     "node": {
       "__id__": 9
     },
-    "_enabled": false,
+    "_enabled": true,
     "_type": 0,
     "_segements": 64,
     "_N$spriteFrame": {
@@ -2088,6 +2088,15 @@
         "__uuid__": "f4f50d29-aacb-453e-8473-f50eb73d64a9"
       }
     ],
+    "blockIF": {
+      "__uuid__": "cc463290-5e4a-40db-976a-973d418a5436"
+    },
+    "blockRepeatIF": {
+      "__uuid__": "640d620d-142f-4ab0-8b54-e72f0d19ff54"
+    },
+    "blockCount": {
+      "__uuid__": "e0ae35a1-a73a-4d55-ab3f-165341c30585"
+    },
     "_commandsMode": ""
   },
   {

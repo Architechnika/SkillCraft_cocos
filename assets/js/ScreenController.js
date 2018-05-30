@@ -18,9 +18,6 @@ cc.Class({
         this._setWH(cc.winSize);
         this._calcScreen(this._wSbuff);
         var gSc = cc.director._globalVariables.gameNode;
-        if (!gSc) return;
-        //Отпускание мышки
-        this.node.on('mouseleave', this._mLeave);        
     },
 
     update(dt) {
@@ -29,15 +26,6 @@ cc.Class({
             console.log(this.node)
             this._calcScreen(cc.winSize);
         }
-    },
-
-    _mLeave(event) {
-        var scr = cc.director._globalVariables.gameNode.getComponent("ResizeScript");
-        if (scr.node.isDowned)
-            scr.node.isDowned = false;
-        scr = cc.director._globalVariables.codeMapNode.getComponent("ResizeScript");
-        if (scr.node.isDowned)
-            scr.node.isDowned = false;
     },
 
     //Производит перерасчет якорей всех нодов на поле под заданное разрешение

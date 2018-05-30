@@ -113,6 +113,22 @@ cc.Class({
             var d = this.node.parent.width - this._W;
             this._W += d;
             this.node.parent.parent.parent.parent.width += d;
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
+    },
+    
+    //Обработчик событий клика по кнопкам внутри команды if
+    onCommandElementClick(event){
+        var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+        //Инитим скролл нужными значениями
+        if(event.target.name == "command_block_a"){
+            script.addToRightScroll(script.blockACommands);
+        }
+        else if (event.target.name == "command_block_b"){
+            script.addToRightScroll(script.blockBCommands);
+        }
+        //Запоминаем эту ноду для инициализации
+        cc.director._globalVariables.nodeCommandToInit = event.target;
+        cc.director._setScrollVisible(true);  
     },
 });

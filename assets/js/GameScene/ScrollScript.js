@@ -46,7 +46,19 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
-        _commandsMode:"",
+        blockIF: {
+            default: null,
+            type: cc.Prefab
+        },
+        blockRepeatIF: {
+            default: null,
+            type: cc.Prefab
+        },
+        blockCount: {
+            default: null,
+            type: cc.Prefab
+        },
+        _commandsMode: "",
     },
     //
     // LIFE-CYCLE CALLBACKS:
@@ -58,31 +70,32 @@ cc.Class({
         cc.director._setScrollVisible(false);
     },
 
-    addToLeftScroll(elements) {
+    addToLeftScroll(elements, isClear) {
+        if (isClear) this.clearLeftScroll();
         this.itemsSort(elements, "leftScroll");
     },
     //Установка команд в скролл в зависимости от выбранного состояния
-    setCommandsState(){
+    setCommandsState() {
         this.addToRightScroll(this.LegendCommands);
     },
-    
+
     //При удалении из левого скрола, команда должна удалится отовсюду
-    removeFromLeftScroll(element){
+    removeFromLeftScroll(element) {
         var cont = this.node.getChildByName("leftScroll").getChildByName("view").getChildByName("content");
         cont.removeChild(element);
         var commArr = cc.director._globalVariables.oldSelectRoad.getComponent("RoadScript").roadCommands;
-        commArr.splice(commArr.indexOf(element),1);
+        commArr.splice(commArr.indexOf(element), 1);
         this.clearLeftScroll();
         this.addToLeftScroll(commArr);
     },
-    
+
     addToRightScroll(elements) {
-        if(elements == this.blockACommands)
+        if (elements == this.blockACommands)
             this._commandsMode = "blocka";
-        if(elements == this.blockACommands)
+        if (elements == this.blockACommands)
             this._commandsMode = "blockb";
         else this._commandsMode = "";
-        
+
         this.clearRightScroll();
         this.itemsSort(elements, "rightScroll");
     },
@@ -106,19 +119,26 @@ cc.Class({
         if (arr && !Array.isArray(arr)) {
             if (!arr.active)
                 arr.active = true;
-            if(arr._simpleIcon)
-                cont.addChild(cc.instantiate(arr._simpleIcon));
-            else cont.addChild(cc.instantiate(arr));
+            if (arr.name == "command_if")
+                arr = cc.instantiate(this.blockIF);
+            else if (arr.name == "command_repeatif")
+                arr = cc.instantiate(this.blockRepeatIF);
+            else if (arr.name == "command_repeat")
+                arr = cc.instantiate(this.blockCount);
+            cont.addChild(cc.instantiate(arr));
         } else {
             for (var i = 0; i < arr.length; i++) {
                 if (!arr[i].active)
                     arr[i].active = true;
-                if(arr[i]._simpleIcon)
-                    cont.addChild(cc.instantiate(arr[i]._simpleIcon));
+                if (arr[i].name == "command_if")
+                    cont.addChild(cc.instantiate(this.blockIF));
+                else if (arr[i].name == "command_repeatif")
+                    cont.addChild(cc.instantiate(this.blockRepeatIF));
+                else if (arr[i].name == "command_repeat")
+                    cont.addChild(cc.instantiate(this.blockCount));
                 else cont.addChild(cc.instantiate(arr[i]));
             }
         }
-
         cont.anchorX = 1;
         cont.anchorY = 1;
         var itemWH = cont.getContentSize().width / columnCount;

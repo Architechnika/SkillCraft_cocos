@@ -16,6 +16,8 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     _onRoadClick(event) {
+        if(!cc.director._globalVariables.codeMapNode.active)
+            cc.director._globalVariables.codeMapNode.active = true;
         var t = this.parent.getComponent("GenMap");
         if (t.node.isMoved) return;
         var tmp = cc.director._globalVariables.oldSelectRoad;
@@ -30,7 +32,6 @@ cc.Class({
             cc.director._globalVariables.oldSelectRoad = this;
         }
         if (this.roadCommands.length > 0) {
-            
             /*cc.director._globalVariables.codeMapNode._children.splice(0,cc.director._globalVariables.codeMapNode.childrenCount);
             cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").reset();*/
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
