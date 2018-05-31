@@ -21,6 +21,8 @@ cc.Class({
     },
     
     onContinueButtonClick(button){
+        cc.sys.localStorage.setItem("isNewGame",false)
+        cc.director.loadScene("GameScene");
         console.log("Continue button pressed");
     },
     
