@@ -110,9 +110,16 @@ cc.Class({
             }
         }
     },
-    //    update(dt) {
-    //
-    //    },
-//    update(dt) {
-//    },
+
+    update(dt) 
+    {
+//         var ls = cc.director._globalVariables.localStorageScript
+//         if(cc.director._globalVariables.selectedRoad && cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands.length>0)
+//             {
+//                 var r = ls.generationArrayRoadCommands(cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands,ls.arrayRoadCommandsNames);
+//                 console.log(r)
+//                 r.length = 0;
+//                 ls.arrayRoadCommandsNames.length = 0;
+//             }
+    },
 });

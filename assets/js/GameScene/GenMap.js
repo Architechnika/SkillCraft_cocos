@@ -27,7 +27,7 @@ cc.Class({
         global_GameObjects: [], //Массив для хранения игровых элементов поля(ящики и тд)
     },
     onLoad() {
-        
+
     },
     start() {
         this.initField(cc.director._globalVariables.currentLabSize);
@@ -52,11 +52,13 @@ cc.Class({
         var stX = 0,
             stY = 0;
         var roadElemsArr = []; //Массив для хранения элементов дорог на поле
+        var roadElemsForScript = [] //элементы где могут быть скрипты
         var startElem = undefined;
         //Создаем элементы из массива префабов
         for (var i = 0; i < elementsInLine; i++) {
             for (var j = 0; j < elementsInLine; j++) {
-                var element = cc.instantiate(this.global_PrefFieldArray[i][j]);
+                //var element = cc.instantiate(this.global_PrefFieldArray[i][j]);
+                var element = this.global_PrefFieldArray[i][j];
                 element.scaleX = elemSizeX / element.width;
                 element.scaleY = elemSizeY / element.height;
                 element.x = stX + ((element.width * element.scaleX) / 2);
@@ -70,6 +72,7 @@ cc.Class({
                         startcommand.active = false;
                         element.getComponent("RoadScript").roadCommands.push(startcommand);
                     } else roadElemsArr.push(element);
+                    roadElemsForScript.push(element);
                 }
                 //Adding the element to this node's child
                 this.node.addChild(element);
@@ -79,8 +82,41 @@ cc.Class({
             stY -= stepY;
             stX = 0;
         }
+        cc.director._globalVariables.localStorageScript.roadElemsArr = roadElemsForScript; //храним массив дорог где потенциально могут быть скрипты
         //Если включены ящики, то спавним их на поле в случайных местах
-        if (this.isBoxesSpawn && this.gameObjects.length > 0) {
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false) {
+            //загружаем из сохранений
+            var objs = cc.director._globalVariables.localStorageScript.saveData.arrayRoadGameObjectsNames;
+            for (var i = 0; i < objs.length - 1; i++) {
+                for (var j = 0; j < objs.length - 1; j++) {
+                    var objEl = objs[i][j];
+                    var road = this.global_PrefFieldArray[i][j];
+                    if (cc.director._globalVariables.localStorageScript.arrayRoadCommands != null && cc.director._globalVariables.localStorageScript.arrayRoadCommands.length > 0) {
+                        if (cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].name == "command_none" && road.getComponent("RoadScript")) {
+                            //если на этой дороге есть скриптны которые можно загрузить, то загружаем
+                           // road.getComponent("RoadScript").roadCommands = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children
+                            for(var ic=0;ic<cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children.length;ic++)
+                                {
+                                    var el = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children[ic]
+                                    road.getComponent("RoadScript").roadCommands.push(cc.instantiate(el))
+                                }
+                        }
+                    }
+                    if (objEl == this.gameObjects[0].data.name) {
+                        var obj = cc.instantiate(this.gameObjects[0]);
+                        obj.x = road.x;
+                        obj.y = road.y;
+                        obj.scaleX = (road.width * road.scaleX) * this.boxSize / obj.width;
+                        obj.scaleY = (road.height * road.scaleY) * this.boxSize / obj.height;
+                        if( road.getComponent("RoadScript"))
+                        road.getComponent("RoadScript").isGameObjectName = obj.name;
+                        this.node.addChild(obj);
+                        this.global_GameObjects.push(obj);
+                    }
+                }
+            }
+            cc.director._globalVariables.localStorageScript.isFieldDataLoaded = true;
+        } else if (this.isBoxesSpawn && this.gameObjects.length > 0) {
             var totalBoxes = Math.floor(cc.director._globalVariables.currentLabSize / 2);
             totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;
             totalBoxes = totalBoxes > roadElemsArr.length ? roadElemsArr.length : totalBoxes;
@@ -91,6 +127,8 @@ cc.Class({
                 var el = cc.instantiate(this.gameObjects[0]); //Пока что есть только один префаб это ящик
                 el.x = r_el.x;
                 el.y = r_el.y;
+                r_el.getComponent("RoadScript").isGameObjectName = el.name;
+                //console.log(r_el.getComponent("RoadScript").arri+" "+r_el.getComponent("RoadScript").arrj+ r_el.name)
                 //Задаем размер элемента
                 el.scaleX = (r_el.width * r_el.scaleX) * this.boxSize / el.width;
                 el.scaleY = (r_el.height * r_el.scaleY) * this.boxSize / el.height;
@@ -116,7 +154,12 @@ cc.Class({
 
     generateMap(w, h, labSize) {
         //Получаем массив сгенерированного поля
-        return this.graphicsMapSort(this.genBin(labSize, labSize, [], [], [0, 0]), labSize);
+        var bin;
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true) {
+            if (cc.director._globalVariables.localStorageScript.saveData.arrayBinRoad)
+                bin = cc.director._globalVariables.localStorageScript.arrayCopy(cc.director._globalVariables.localStorageScript.saveData.arrayBinRoad)
+        }else bin = this.genBin(labSize, labSize, [], [], [0, 0]);
+        return this.graphicsMapSort(bin, labSize);
     },
 
     //Генерит лабиринт в виде строк с кодами элементов поля
@@ -211,6 +254,7 @@ cc.Class({
             //Ставим вход или выход на нижней стенке
             mazeTmp[mazeTmp.length - 1][indx] = isEntry ? exitCode : entryCode;
         }
+        cc.director._globalVariables.localStorageScript.arrayBinRoad = mazeTmp;
         return mazeTmp;
     },
 
@@ -270,38 +314,42 @@ cc.Class({
                 if (newArr[i][j] == entryCode || newArr[i][j] == exitCode) {
                     if (newArr[i][j] == entryCode) {
                         if (i == 0) { //Верх
-                            newArr[i][j] = this.fields[34];
+                            newArr[i][j] = cc.instantiate(this.fields[34]);
+                            newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                             continue;
                         }
                         if (i == rouColCount - 1) { //Низ
-                            newArr[i][j] = this.fields[31];
+                            newArr[i][j] = cc.instantiate(this.fields[31]);
+                            newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                             continue;
                         }
                         if (j == 0) { //Лево
-                            newArr[i][j] = this.fields[32];
+                            newArr[i][j] = cc.instantiate(this.fields[32]);
+                            newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                             continue;
                         }
                         if (j == rouColCount - 1) { //Право
-                            newArr[i][j] = this.fields[33];
+                            newArr[i][j] = cc.instantiate(this.fields[33]);
+                            newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                             continue;
                         }
 
                     }
                     if (newArr[i][j] == exitCode) {
                         if (i == 0) {
-                            newArr[i][j] = this.fields[15];
+                            newArr[i][j] = cc.instantiate(this.fields[15]);
                             continue;
                         }
                         if (i == rouColCount - 1) {
-                            newArr[i][j] = this.fields[12];
+                            newArr[i][j] = cc.instantiate(this.fields[12]);
                             continue;
                         }
                         if (j == 0) {
-                            newArr[i][j] = this.fields[13];
+                            newArr[i][j] = cc.instantiate(this.fields[13]);
                             continue;
                         }
                         if (j == rouColCount - 1) {
-                            newArr[i][j] = this.fields[14];
+                            newArr[i][j] = cc.instantiate(this.fields[14]);
                             continue;
                         }
 
@@ -312,57 +360,57 @@ cc.Class({
                 if (j == 0) { //картинка для левого верхнего угла внешних стен
                     if (i == 0) {
                         //картинка 20
-                        newArr[i][j] = this.fields[5];
+                        newArr[i][j] = cc.instantiate(this.fields[5]);
                         continue;
                     }
                     if (i == rouColCount - 1) {
                         //картинка 23
-                        newArr[i][j] = this.fields[4];
+                        newArr[i][j] = cc.instantiate(this.fields[4]);
                         continue;
                     }
                     if (arr[i][j + 1] == "1") {
-                        newArr[i][j] = this.fields[2];
+                        newArr[i][j] = cc.instantiate(this.fields[2]);
                         continue;
                     }
                     //картинка 27
-                    newArr[i][j] = this.fields[9];
+                    newArr[i][j] = cc.instantiate(this.fields[9]);
                     continue;
                 }
                 if (j == rouColCount - 1) { //картинка для правого верхнего угла внешних стен
                     if (i == 0) {
                         //картинка 21
-                        newArr[i][j] = this.fields[7];
+                        newArr[i][j] = cc.instantiate(this.fields[7])
                         continue;
                     }
                     if (i == rouColCount - 1) {
                         //картинка 22
-                        newArr[i][j] = this.fields[6];
+                        newArr[i][j] = cc.instantiate(this.fields[6])
                         continue;
                     }
                     if (arr[i][j - 1] == "1") {
-                        newArr[i][j] = this.fields[1];
+                        newArr[i][j] = cc.instantiate(this.fields[1])
                         continue;
                     }
                     //картинка 26
-                    newArr[i][j] = this.fields[10];
+                    newArr[i][j] = cc.instantiate(this.fields[10]);
                     continue;
                 }
                 if (i == rouColCount - 1) {
                     if (arr[i - 1][j] == "1") {
-                        newArr[i][j] = this.fields[3];
+                        newArr[i][j] = cc.instantiate(this.fields[3])
                         continue;
                     }
-                    newArr[i][j] = this.fields[8];
+                    newArr[i][j] = cc.instantiate(this.fields[8])
                     continue;
                 }
                 //
                 if (i == 0 && j != 0 && j != rouColCount - 1) {
                     if (arr[i + 1][j] == "1") {
-                        newArr[i][j] = this.fields[0];
+                        newArr[i][j] = cc.instantiate(this.fields[0])
                         continue;
                     }
                     //картинка 24
-                    newArr[i][j] = this.fields[11];
+                    newArr[i][j] = cc.instantiate(this.fields[11]);
                     continue;
                 }
                 //если дорога
@@ -388,74 +436,89 @@ cc.Class({
 
                     if (isLeftWall && isRightWall && !isTopWall && !isBottomWall) {
                         //картинка 1) из бумажки
-                        newArr[i][j] = this.fields[29];
+                        newArr[i][j] = cc.instantiate(this.fields[29]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && !isRightWall && isBottomWall) {
                         //картинка 9)
-                        newArr[i][j] = this.fields[19];
+                        newArr[i][j] = cc.instantiate(this.fields[19]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && isBottomWall && !isLeftWall && !isRightWall) {
                         //картинка 5)
-                        newArr[i][j] = this.fields[28];
+                        newArr[i][j] = cc.instantiate(this.fields[28]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && !isBottomWall && isRightWall) {
                         //картинка 11)
-                        newArr[i][j] = this.fields[17];
+                        newArr[i][j] = cc.instantiate(this.fields[17]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 2)
-                        newArr[i][j] = this.fields[18];
+                        newArr[i][j] = cc.instantiate(this.fields[18]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 3)
-                        newArr[i][j] = this.fields[25];
+                        newArr[i][j] = cc.instantiate(this.fields[25]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && !isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 10)
-                        newArr[i][j] = this.fields[16];
+                        newArr[i][j] = cc.instantiate(this.fields[16]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && !isLeftWall && !isBottomWall && isRightWall) {
                         //картинка 4)
-                        newArr[i][j] = this.fields[23];
+                        newArr[i][j] = cc.instantiate(this.fields[23]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && isLeftWall && isBottomWall && !isRightWall) {
                         //картинка 6)
-                        newArr[i][j] = this.fields[20];
+                        newArr[i][j] = cc.instantiate(this.fields[20]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && isLeftWall && !isBottomWall && !isRightWall) {
                         //картинка 7)
-                        newArr[i][j] = this.fields[21];
+                        newArr[i][j] = cc.instantiate(this.fields[21]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && !isLeftWall && isBottomWall && isRightWall) {
                         //картинка 8)
-                        newArr[i][j] = this.fields[22];
+                        newArr[i][j] = cc.instantiate(this.fields[22]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && !isLeftWall && isBottomWall && isRightWall) {
-                        newArr[i][j] = this.fields[27];
+                        newArr[i][j] = cc.instantiate(this.fields[27]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && isLeftWall && isBottomWall && !isRightWall) {
-                        newArr[i][j] = this.fields[26];
+                        newArr[i][j] = cc.instantiate(this.fields[26]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (isTopWall && isLeftWall && !isBottomWall && isRightWall) {
-                        newArr[i][j] = this.fields[30];
+                        newArr[i][j] = cc.instantiate(this.fields[30]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
                         continue;
                     }
                     if (!isTopWall && isLeftWall && isBottomWall && isRightWall) {
-                        newArr[i][j] = this.fields[24];
-                        continue;
+                        newArr[i][j] = cc.instantiate(this.fields[24]);
+                        newArr[i][j].getComponent("RoadScript").setIJ(i, j)
+                        continue
                     }
                 }
                 if (arr[i][j] == "1") {
@@ -479,70 +542,70 @@ cc.Class({
 
                     if (isLeftRoad && isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 12
-                        newArr[i][j] = this.fields[43];
+                        newArr[i][j] = cc.instantiate(this.fields[43]);
                         continue;
                     }
                     if (isLeftRoad && isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 13
-                        newArr[i][j] = this.fields[46];
+                        newArr[i][j] = cc.instantiate(this.fields[46]);
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && isBottomRoad && isTopRoad) {
                         //картинка 14
-                        newArr[i][j] = this.fields[45];
+                        newArr[i][j] = cc.instantiate(this.fields[45]);
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && isBottomRoad && isTopRoad) {
                         //картинка 15
-                        newArr[i][j] = this.fields[44];
+                        newArr[i][j] = cc.instantiate(this.fields[44]);
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 16
-                        newArr[i][j] = this.fields[42];
+                        newArr[i][j] = cc.instantiate(this.fields[42]);
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && !isBottomRoad && isTopRoad) {
                         //картинка 17
-                        newArr[i][j] = this.fields[40];
+                        newArr[i][j] = cc.instantiate(this.fields[40]);
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 18
-                        newArr[i][j] = this.fields[39];
+                        newArr[i][j] = cc.instantiate(this.fields[39]);
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && isBottomRoad && !isTopRoad) {
                         //картинка 19
-                        newArr[i][j] = this.fields[41];
+                        newArr[i][j] = cc.instantiate(this.fields[41]);
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && !isBottomRoad && isTopRoad) {
-                        newArr[i][j] = this.fields[35];
+                        newArr[i][j] = cc.instantiate(this.fields[35]);
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[38];
+                        newArr[i][j] = cc.instantiate(this.fields[38]);
                         continue;
                     }
                     if (!isLeftRoad && isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[36];
+                        newArr[i][j] = cc.instantiate(this.fields[36]);
                         continue;
                     }
                     if (isLeftRoad && !isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[37];
+                        newArr[i][j] = cc.instantiate(this.fields[37]);
                         continue;
                     }
                     if (isLeftRoad && isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[49];
+                        newArr[i][j] = cc.instantiate(this.fields[49]);
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && isBottomRoad && isTopRoad) {
-                        newArr[i][j] = this.fields[47];
+                        newArr[i][j] = cc.instantiate(this.fields[47]);
                         continue;
                     }
                     if (!isLeftRoad && !isRightRoad && !isBottomRoad && !isTopRoad) {
-                        newArr[i][j] = this.fields[48];
+                        newArr[i][j] = cc.instantiate(this.fields[48]);
                         continue;
                     }
                 }

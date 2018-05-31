@@ -11,11 +11,15 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        arri: 0, //положение данной дороги в массиве
+        arrj: 0,
+        isGameObjectName: null,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     _onRoadClick(event) {
+        console.log(this.roadCommands.length)
         var t = this.parent.getComponent("GenMap");
         if (t.node.isMoved) return;
         var tmp = cc.director._globalVariables.oldSelectRoad;
@@ -30,8 +34,8 @@ cc.Class({
             cc.director._globalVariables.oldSelectRoad = this;
         }
         if (this.roadCommands.length > 0) {
-          //  if (this != cc.director._globalVariables.selectedRoad)
-                cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            //  if (this != cc.director._globalVariables.selectedRoad)
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);
         } else {
@@ -48,7 +52,22 @@ cc.Class({
     },
 
     start() {
-
+        // var ser = this.node.parent.getComponent("serializer");
+        // var s = ser.serialize(this,"road");
+        //var d = ser.deserialize(s);
+        //  console.log(s)
+    },
+    setIJ(i, j) {//функция для установки позиции дороги в общем массиве
+        this.arri = i;
+        this.arrj = j;
+    },
+    getI() {
+        if (this.arri !== null)
+            return this.arri;
+    },
+    getJ() {
+        if (this.arrj !== null)
+            return this.arrj;
     },
 
 
@@ -62,6 +81,11 @@ cc.Class({
             if (this.node.getChildByName("isCommands").getComponent(cc.Sprite))
                 this.node.getChildByName("isCommands").getComponent(cc.Sprite).enabled = false;
         }
+        //
+        // if(cc.director._globalVariables.selectedRoad)
+        //  console.log(cc.director._globalVariables.selectedRoad.i+" "+cc.director._globalVariables.selectedRoad.j)
+        //
+
         //
     },
 });
