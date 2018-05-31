@@ -16,10 +16,16 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     _onRoadClick(event) {
+        var t = cc.director._globalVariables.codeMapNode;
+        //Если начали нажатие в кодмапе а закончили на поле то не обрабатываем это нажатие
+        if (t.isMoved || (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn !== "GameNode")) 
+            return;
+        //Если мы отпускаем клик после того как подвигали поле то не обрабатываем его
+        if (this.parent.isMoved)
+            return;
+        //Отображаем кодмап
         if(!cc.director._globalVariables.codeMapNode.active)
             cc.director._globalVariables.codeMapNode.active = true;
-        var t = this.parent.getComponent("GenMap");
-        if (t.node.isMoved) return;
         var tmp = cc.director._globalVariables.oldSelectRoad;
         if (tmp != undefined && tmp != this) {
             tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;

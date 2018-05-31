@@ -11,6 +11,8 @@ cc.Class({
     onLoad() {
         this.node.GameNode = this.GameNode;
         this.node.on('mouseup', function (event) {
+            if(cc.director._globalVariables.codeMapNode.isMoved)
+                return;
             var GN = null;
             if (this.parent.parent.getComponent("command_if_script") || this.parent.parent.name == "command_block_repeatif" || this.parent.parent.name == "command_block_repeat") {
               //  GN = this.parent.parent.getComponent("command_if_script").gameNode;

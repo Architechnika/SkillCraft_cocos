@@ -30,6 +30,7 @@ cc.Class({
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
         cc.director._globalVariables.nodeCommandToInit = undefined;//ССылка но обьект в который мы добавляем значение(blockA blockB или countBlock в кодмапе)
+        cc.director._globalVariables.eventDownedOn = undefined;
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibility, onlyRight) {
             if (this._globalVariables.scrollNode) {

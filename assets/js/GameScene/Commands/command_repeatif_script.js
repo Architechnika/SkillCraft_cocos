@@ -127,6 +127,15 @@ cc.Class({
         else if (event.target.name == "command_block_b"){
             script.addToRightScroll(script.blockBCommands);
         }
+        else {
+            var spl = event.target.name.split('_');
+            if(spl && spl.length >= 2){
+                if(spl[1] == "look")
+                    script.addToRightScroll(script.blockACommands);
+                else if(spl[1] == "interact")
+                    script.addToRightScroll(script.blockBCommands);
+            }
+        }
         //Запоминаем эту ноду для инициализации
         cc.director._globalVariables.nodeCommandToInit = event.target;
         cc.director._setScrollVisible(true);  

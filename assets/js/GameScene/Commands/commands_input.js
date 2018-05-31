@@ -131,10 +131,11 @@ cc.Class({
 
             } else {
                 //Получаем родителя
-                var daddy = cc.director._globalVariables.nodeCommandToInit.parent;
+                /*var daddy = cc.director._globalVariables.nodeCommandToInit.parent;
                 var n = cc.director._globalVariables.nodeCommandToInit;
                 //Копируем выбранную команду
                 var cpy = cc.instantiate(event.target)
+                //if(cpy.anchorX == 0 && cpy.anchorY == 1){
                 cpy.x = n.x + (n.width / 2);
                 cpy.y = n.y + (n.height / 2);
                 cpy.width = n.height;
@@ -144,7 +145,14 @@ cc.Class({
                 //Уничтожаем старую команду
                 n.destroy();
                 //Заменяем ее новой
-                daddy.addChild(cpy);
+                daddy.addChild(cpy);*/
+                for(var i = 0 ; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++){
+                    if(cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name){
+                        cc.director._globalVariables.nodeCommandToInit.active = false;
+                        cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = true;
+                        break;
+                    }
+                }
             }
             cc.director._globalVariables.nodeCommandToInit = undefined;
             cc.director._setScrollVisible(false, true);
@@ -167,6 +175,8 @@ cc.Class({
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
                 return false;
+            if(cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content")
+                return false;
             if (cc.director._globalVariables.nodeCommandToInit) {
                 this._onCodeViewCommandClick(event);
             } else if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле
@@ -174,6 +184,11 @@ cc.Class({
             } else if (this.parent.parent.parent.name == "rightScroll") {
                 this._onRightScrollClick(event);
             }
+            event._propagationStopped = true;
+        });
+        
+        this.node.on('mousedown', function(event) {
+           cc.director._globalVariables.eventDownedOn = this.parent.parent.parent.name;
         });
     },
 

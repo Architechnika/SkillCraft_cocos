@@ -25,7 +25,6 @@ cc.Class({
                 y: this.node.y - this.node.height * this.node.scaleY,
             } //Правая нижняя граница поля
         };
-        this.node.isDowned = false;
         this.node.isMoved = false;
         //Пробрасываем элементы в иерархию(временное решение, надо разобраться с наследованием тут)
         this.scrollStep *= 2;
@@ -46,7 +45,7 @@ cc.Class({
         this.node.on('mousewheel', this.scroll);
         //Нажатие мышки
         this.node.on('mousedown', function (event) {
-            this.isDowned = true;
+            cc.director._globalVariables.eventDownedOn = this.name;
         });
         //Отпускание мышки
         this.node.on('mouseup', this.mouseUpEvent);
@@ -54,21 +53,26 @@ cc.Class({
         this.node.on('mousemove', function (event) {
             var shX = event._x - event._prevX,
                 shY = event._y - event._prevY;
-            if (this.isDowned && (shX !== 0 || shY !== 0)) { //Если мышка зажата, то двигаем поле
+            if (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn == this.name && (shX !== 0 || shY !== 0)) { //Если мышка зажата, то двигаем поле
                 this.isMoved = true;
                 this.move(shX, shY);
             }
         });
         this.node.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
-            this.isDowned = false;
-            this.isMoved = false;
+            if(this.name == "GameNode"){
+                this.isMoved = false;
+            }
+        });
+        this.node.on(cc.Node.EventType.MOUSE_ENTER, function(event){
+            //Если зашли в гейм нод, то отключаем смещение кодмапа
+            if(this.name == "GameNode"){
+                cc.director._globalVariables.codeMapNode.isMoved = false;
+            }
         });
     },
     mouseUpEvent(event) {
-        var retVal = !this.isMoved;
         this.isMoved = false;
-        this.isDowned = false;
-        event.stopPropagation();
+        cc.director._globalVariables.eventDownedOn = undefined;
     },
 
     //Функция обрабатывающая события скролинга(в центр)
@@ -135,5 +139,4 @@ cc.Class({
         this.node.scaleX = this.node._minScaleX;
         this.node.scaleY = this.node._minScaleY;
     }
-
 });
