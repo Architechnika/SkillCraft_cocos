@@ -6,7 +6,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        defaultElementScale: 0.5,
+        defaultElementScale: 1,
         plus: { //команды для отрисовки
             default: null,
             type: cc.Prefab
@@ -39,6 +39,7 @@ cc.Class({
         // this.declaration();
         // this.generation();
         this.plus = this.node.getChildByName("command_plusCM");
+        this.node.active = false;
     },
 
     start() {},
@@ -47,7 +48,7 @@ cc.Class({
         if (this.node.children.length > 1) {
             for (var i = this.node.children.length - 1; i > 0; i--) {
                 if (this.node.children[i].name != "command_plusCM")
-                    this.node.removeChild(this.node.children[i],false);
+                    this.node.removeChild(this.node.children[i], false);
             }
             var plus = this.node.getChildByName("command_plusCM");
             plus.y = 0;
@@ -60,56 +61,51 @@ cc.Class({
         var road = cc.director._globalVariables.selectedRoad;
         if (road) {
             this.clear();
-            this.node.resetTransform
+            this.node.resetTransform;
+            this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
-                var x = 0;
+                //cc.director._globalVariables.codeMapNode.width = 0;
+                //this._changeAnchor(0.5);
+                var x = 0;//this.node.x + ();
                 var y = 0;
                 var itemWH = 0;
+                var maxW = 0;
                 for (var i = 0; i < roadCommands.length; i++) {
                     var el = roadCommands[i];
-                    el.resetClip
                     el.anchorX = 0;
                     el.anchorY = 1;
                     el.scaleX = el.scaleY = this.defaultElementScale;
-//                    if(el.getChildByName("command_block_if"))
-//                        {
-//                            el.getChildByName("command_block_if").getComponent("command_if_script").onLoad();
-//                        }
                     itemWH = (el.height * el.scaleY);
-                    if (el.name == "command_if") {
-                       // itemWH = el.height
-                    }
                     el._parent = null;
-                    this.node.addChild(el)
+                    if(el.width > maxW)
+                        maxW = el.width;
+                    this.node.addChild(el);
                     el.resetTransform;
-                    
+
                     el.x = x;
                     el.y = y;
-                    /*if(Math.abs((el.x + el.width)) > Math.abs(p.x))
-                        p.x = el.x + el.width;*/
                     var bC = el.getComponent(cc.BoxCollider);
-                    if(bC)
+                    if (bC)
                         bC.offset.x = 50;
                     y -= itemWH;
+                    //cc.director._globalVariables.codeMapNode.width = this._getWFromChildren(el, cc.director._globalVariables.codeMapNode.width, el);//Math.abs(el.x + (el.width * el.scaleX));
                 }
                 //Добавляем плюсик вниз
                 this.plus.anchorX = 0;
                 this.plus.anchorY = 1;
                 this.plus.x = x;
                 this.plus.y = y;
-                //Задаем анкор для смещения кодмапа по Y правой нижней точки
-                var py = this.plus.y - itemWH;
-                //this.node.getComponent("ResizeScript").node.FBP.dr.y = py;
-                if (py < (this.node.y - (this.node.height * this.node.scaleY))) {
-                    this.node.scaleX = this.node.scaleY = Math.abs((py - this.node.y) / this.node.height);
-                }
-                // var plus = this.node.getChildByName("command_plusCM");
-                //this.node.scaleX = 0.2
-                //this.node.scaleY = 0.2
+                var bB = this.node.getBoundingBoxToWorld().size;
+                var k = Math.floor(bB.height / bB.width);
+                //console.log(bB.height / bB.width);
+                cc.director._globalVariables.codeMapNode.width = maxW;
+                cc.director._globalVariables.codeMapNode.height = Math.abs(this.plus.y - (this.plus.height * this.plus.scaleY));
             }
+            //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
         }
     },
+<<<<<<< HEAD
 
     update(dt) 
     {
@@ -122,4 +118,6 @@ cc.Class({
 //                 ls.arrayRoadCommandsNames.length = 0;
 //             }
     },
+=======
+>>>>>>> 2a1a8c8323989c97c912868ecb1d896fe25867da
 });

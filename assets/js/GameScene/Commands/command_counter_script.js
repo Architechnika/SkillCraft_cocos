@@ -1,12 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
@@ -14,11 +5,12 @@ cc.Class({
     properties: {
         commandType: "counter",
     },
-    _H: 200,
 
 
     onLoad() {
         this._H = 200;
+        this._W = 200;
+        this._maxW = 400;
     },
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
@@ -41,19 +33,26 @@ cc.Class({
                 comm.anchorY = 1;
                 var itemWH = comm.height;
                 var h = 100;
+                var w = 0;
                 if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
                     h = comm.children[0].height;
+                    //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                    if (comm.name == "command_if" || comm.name == "command_repeatif")
+                        w = this.node.parent.width >=this._maxW ? 0 : 200;
+                    else w = 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
                 commands.height += itemWH;
                 this.node.parent.height += itemWH;
+                //Увеличиваем ширину родителя на заданный дискрет
+                this.node.parent.width += w;
                 var x = 0;
                 var y = 0;
                 var plus = commands.children[0];
-                x = plus.x
-                y = plus.y
+                x = plus.x;
+                y = plus.y;
                 plus.y -= itemWH;
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
@@ -108,6 +107,12 @@ cc.Class({
                     el.y -= cc.director._globalVariables.lastAddCommandH;
             }
             this._H = this.node.parent.height;
+        }
+        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
+            var d = this.node.parent.width - this._W;
+            this._W += d;
+            this.node.parent.parent.parent.parent.width += d;
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
     },
 

@@ -26,18 +26,22 @@ cc.Class({
         cc.director._globalVariables.commandAddState = this.commandAddState;
         cc.director._globalVariables.oldSelectRoad = undefined;
         cc.director._globalVariables.selectedRoad = undefined;
-        cc.director._globalVariables.gameNode = this.node.getChildByName("GameNodeMask").getChildByName("GameNode");
+        cc.director._globalVariables.gameNode = this.node.getChildByName("GameNode");
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
+<<<<<<< HEAD
         cc.director._globalVariables.localStorageScript = this.node.getComponent("LocalStorageController")
+=======
+        cc.director._globalVariables.nodeCommandToInit = undefined;//ССылка но обьект в который мы добавляем значение(blockA blockB или countBlock в кодмапе)
+>>>>>>> 2a1a8c8323989c97c912868ecb1d896fe25867da
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibility, onlyRight) {
             if (this._globalVariables.scrollNode) {
                 var right = this._globalVariables.scrollNode.getChildByName("rightScroll")
                 if (right)
                     right.active = visibility;
-                cc.director._globalVariables.codeMapNode.enabled = !visibility;
+                //cc.director._globalVariables.codeMapNode.active = !visibility;
                 if(onlyRight) return;
                 var left = this._globalVariables.scrollNode.getChildByName("leftScroll");
                 if (left)
