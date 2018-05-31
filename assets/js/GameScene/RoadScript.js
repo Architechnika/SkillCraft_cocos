@@ -11,11 +11,15 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        arri: 0, //положение данной дороги в массиве
+        arrj: 0,
+        isGameObjectName: null,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     _onRoadClick(event) {
+<<<<<<< HEAD
         var t = cc.director._globalVariables.codeMapNode;
         //Если начали нажатие в кодмапе а закончили на поле то не обрабатываем это нажатие
         if (t.isMoved || (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn !== "GameNode")) 
@@ -38,8 +42,6 @@ cc.Class({
             cc.director._globalVariables.oldSelectRoad = this;
         }
         if (this.roadCommands.length > 0) {
-            /*cc.director._globalVariables.codeMapNode._children.splice(0,cc.director._globalVariables.codeMapNode.childrenCount);
-            cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").reset();*/
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);
@@ -57,7 +59,22 @@ cc.Class({
     },
 
     start() {
-
+        // var ser = this.node.parent.getComponent("serializer");
+        // var s = ser.serialize(this,"road");
+        //var d = ser.deserialize(s);
+        //  console.log(s)
+    },
+    setIJ(i, j) {//функция для установки позиции дороги в общем массиве
+        this.arri = i;
+        this.arrj = j;
+    },
+    getI() {
+        if (this.arri !== null)
+            return this.arri;
+    },
+    getJ() {
+        if (this.arrj !== null)
+            return this.arrj;
     },
 
 
@@ -71,6 +88,11 @@ cc.Class({
             if (this.node.getChildByName("isCommands").getComponent(cc.Sprite))
                 this.node.getChildByName("isCommands").getComponent(cc.Sprite).enabled = false;
         }
+        //
+        // if(cc.director._globalVariables.selectedRoad)
+        //  console.log(cc.director._globalVariables.selectedRoad.i+" "+cc.director._globalVariables.selectedRoad.j)
+        //
+
         //
     },
 });
