@@ -196,7 +196,7 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 128,
-      "y": 0
+      "y": -30
     },
     "_size": {
       "__type__": "cc.Size",
@@ -219,24 +219,13 @@
     "_backFieldElement": null,
     "_underFieldElements": [],
     "_isFinish": false,
+    "_addedCommands": [],
+    "_completedCommands": [],
+    "_movedPoints": [],
+    "_playerStarted": false,
+    "_playerMoveTime": 1,
     "parentNode": null,
     "lookDirection": "up",
-    "playerStarted": true,
-    "_playerMoveTime": 1,
-    "testCommands": [
-      {
-        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
-      },
-      {
-        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
-      },
-      {
-        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
-      },
-      {
-        "__uuid__": "ba87aee0-dcc1-4f77-973a-d04f926082b2"
-      }
-    ],
     "commands": [],
     "inventory": []
   },

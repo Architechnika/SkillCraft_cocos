@@ -71,7 +71,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 3
   },
   {
     "__type__": "cc.Node",
@@ -331,7 +331,10 @@
     },
     "_enabled": true,
     "commandsArray": [],
-    "roadCommands": []
+    "roadCommands": [],
+    "arri": 0,
+    "arrj": 0,
+    "isGameObjectName": null
   },
   {
     "__type__": "cc.PrefabInfo",

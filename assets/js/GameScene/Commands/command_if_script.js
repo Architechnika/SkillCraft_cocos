@@ -5,7 +5,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        NAME: "default",
+        commandType: "if",
         gameNode: null,
     },
     _lastAddCommandH: 0,
@@ -199,6 +199,66 @@ cc.Class({
     },
     //Функция
     getCommand(playerObj) {
-        
+        var blockA = undefined;
+        var blockB = undefined;
+        //Ищем текущие blockA и blockB
+        for(var i = 0 ; i < this.node._children.length; i++){
+            var spl = this.node._children[i].name.split('_');
+            if(spl && spl.length == 3){
+                if(this.node._children[i].active){
+                    if(spl[1] == "look"){
+                        blockA = spl[2];
+                    }
+                    else if(spl[1] == "interact"){
+                        blockB = spl[2];
+                    }
+                }
+            }
+        }
+        //Проверяем условие
+        var isTrue = false;
+        if(blockB == "entry"){//ВХОД-----------------------------------------------------------------------
+            if(blockA == "center" && playerObj._currentFieldElement.group == "Entry") isTrue = true;
+            else if(blockA == "left" && playerObj._leftFieldElement.group == "Entry") isTrue = true;
+            else if(blockA == "right" && playerObj._rightFieldElement.group == "Entry") isTrue = true;
+            else if(blockA == "up" && playerObj._frontFieldElement.group == "Entry") isTrue = true;
+            else if(blockA == "down" && playerObj._backFieldElement.group == "Entry") isTrue = true;
+        } else if(blockB == "coin"){//ИГРОВОЙ ОБЬЕКТ-----------------------------------------------------------------------
+            if(blockA == "center" && playerObj._underFieldElements.length > 0) isTrue = true;
+        } else if(blockB == "exit"){//ВЫХОД-----------------------------------------------------------------------
+            if(blockA == "center" && playerObj._currentFieldElement.group == "Exit") isTrue = true;
+            else if(blockA == "left" && playerObj._leftFieldElement.group == "Exit") isTrue = true;
+            else if(blockA == "right" && playerObj._rightFieldElement.group == "Exit") isTrue = true;
+            else if(blockA == "up" && playerObj._frontFieldElement.group == "Exit") isTrue = true;
+            else if(blockA == "down" && playerObj._backFieldElement.group == "Exit") isTrue = true;
+        } else if(blockB == "road"){//ДОРОГА-----------------------------------------------------------------------
+            if(blockA == "center" && playerObj._currentFieldElement.group == "Road") isTrue = true;
+            else if(blockA == "left" && playerObj._leftFieldElement.group == "Road") isTrue = true;
+            else if(blockA == "right" && playerObj._rightFieldElement.group == "Road") isTrue = true;
+            else if(blockA == "up" && playerObj._frontFieldElement.group == "Road") isTrue = true;
+            else if(blockA == "down" && playerObj._backFieldElement.group == "Road") isTrue = true;
+        } else if(blockB == "wall"){//СТЕНА-----------------------------------------------------------------------
+            if(blockA == "center" && playerObj._currentFieldElement.group == "Wall") isTrue = true;
+            else if(blockA == "left" && playerObj._leftFieldElement.group == "Wall") isTrue = true;
+            else if(blockA == "right" && playerObj._rightFieldElement.group == "Wall") isTrue = true;
+            else if(blockA == "up" && playerObj._frontFieldElement.group == "Wall") isTrue = true;
+            else if(blockA == "down" && playerObj._backFieldElement.group == "Wall") isTrue = true;
+        }
+        var resultArr = [];
+        //Если условие выполнилось возвращаем команды из commands
+        if(isTrue){
+            var container = this.node.getChildByName("commands")._children;
+            for(var i = 0 ; i < container.length > 0; i++){
+                if(container[i].name !== "command_plus")
+                    resultArr.push(cc.instantiate(container[i]));
+            }
+        } else {//Иначе из блока elseCommands
+            var container = this.node.getChildByName("bottom").getChildByName("elseCommands")._children;
+            for(var i = 0 ; i < container.length > 0; i++){
+                if(container[i].name !== "command_plus")
+                    resultArr.push(cc.instantiate(container[i]));
+            }
+        }
+        return resultArr;
     }
 });

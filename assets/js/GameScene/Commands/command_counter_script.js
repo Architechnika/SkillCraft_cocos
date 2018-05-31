@@ -115,5 +115,9 @@ cc.Class({
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
     },
-
+    
+    //Функция
+    getCommand(playerObj) {
+        return undefined;
+    }
 });

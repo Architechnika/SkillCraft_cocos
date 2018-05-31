@@ -74,7 +74,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Node",
@@ -288,10 +288,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "GameNode": {
-      "__uuid__": "1fe81162-7db1-4ffd-be1a-586275ff6961"
-    }
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",

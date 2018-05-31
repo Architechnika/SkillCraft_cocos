@@ -518,7 +518,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Node",
@@ -586,7 +586,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Node",
@@ -654,7 +654,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Node",
@@ -706,7 +706,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Label",
@@ -3619,8 +3619,8 @@
       "__id__": 2
     },
     "_enabled": true,
-    "currentLabSize": 3,
-    "isDebug": false,
+    "currentLabSize": 5,
+    "isDebug": true,
     "playerSpeed": 0.3,
     "_collisionManager": null,
     "collisionManager": null,

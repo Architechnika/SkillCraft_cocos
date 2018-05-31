@@ -65,7 +65,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Node",
@@ -4768,7 +4768,7 @@
       "__id__": 2
     },
     "_enabled": true,
-    "NAME": "default",
+    "commandType": "if",
     "gameNode": null
   },
   {

@@ -23,10 +23,6 @@ cc.Class({
         //public
         parentNode: cc.Node,
         lookDirection: "up",
-        testCommands: {
-            default: [],
-            type: cc.Prefab
-        },
         commands: [],
         inventory: [],
     },
@@ -66,6 +62,10 @@ cc.Class({
                             this._rightFieldElement = other.node;
                             break;
                     }
+                   /* console.log("front : " + this._frontFieldElement.name)
+                    console.log("back : " + this._backFieldElement.name)
+                    console.log("left : " + this._leftFieldElement.name)
+                    console.log("right : " + this._rightFieldElement.name)*/
                 }
             }
         }
@@ -74,7 +74,7 @@ cc.Class({
     onCollisionExit: function (other, self) {
         if (other.tag == 3 && self.tag == 0) {
             this._underFieldElements.splice(this._underFieldElements.indexOf(other), 1);
-            console.log(this._underFieldElements.length);
+            //console.log(this._underFieldElements.length);
         }
     },
     /*update(dt) {
@@ -111,8 +111,9 @@ cc.Class({
         if (this._isFinish) { //ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
-            cc.director._globalVariables.currentLabSize += 2;
+            //cc.director._globalVariables.currentLabSize += 2;
             cc.director.getScene().destroy();
+            //ПЕРЕХОД НА СЦЕНУ С РЕЗУЛЬТАТОМ ПРОХОЖДЕНИЯ ЛАБИРИНТА
             cc.director.loadScene("EndGameScene");
             return;
         }
@@ -214,6 +215,7 @@ cc.Class({
         if (isAnim) return angle;
         this.node.rotation = angle;
     },
+    
     //Логика обработки команд
     _processMove() {
         var errStr = "";
@@ -226,32 +228,63 @@ cc.Class({
                 point: p
             };
         }
-        var commScript = this.commands[0].getComponent("command_simple_script");
-        //Получаем скрипт из элемента команды для того чтобы получить логику команды
-        if (commScript) {
-            //Выполняет логику команды с обьектом игрока и возвращает результат обработки
+        if(this.commands[0]._children[0].getComponent("command_if_script")){//Если верхняя команда в стеке это команда из блока с условием IF
+            var commScript = this.commands[0]._children[0].getComponent("command_if_script");
             var whatToDo = commScript.getCommand(this);
-            dir = commScript.DIRECTION;
-            //Это либо массив с другими командами для обработки
-            if (!whatToDo) {
-                errStr = "Робот не может туда поехать";
-            } else if (whatToDo.length && dir !== "pickup") { //Если вернулся массив но не тогда, когда команда PICKUP
-                for (var i = 0; i < whatToDo.length; i++)
+            if(!whatToDo) errStr = "Ошибка при обработке команды IF";
+            else{
+                this.commands.shift();
+                for(var i = whatToDo.length - 1; i >= 0; i--)
                     this.commands.unshift(whatToDo[i]);
-            } //Либо точка куда надо передвинуться
-            else if (whatToDo.x && whatToDo.y) {
-                //Удаляем верхнюю команду из стека так как она уже обработана
-                this.commands.shift();
-                p = whatToDo;
-            } else if (dir == "pickup") {
-                this.commands.shift();
-                if (whatToDo) {
-                    p = whatToDo;
-                } else {
-                    errStr = "Подбирать нечего";
+            }
+        }
+        else if(this.commands[0]._children[0].getComponent("command_repeatif_script")){//Если верхняя команда в стеке это команда из блока с условием REPEATIF
+            var commScript = this.commands[0]._children[0].getComponent("command_repeatif_script");
+            var whatToDo = commScript.getCommand(this);
+            if(!whatToDo) errStr = "Ошибка при обработке команды REPEATIF";
+            else{
+                if(!whatToDo || whatToDo.length == 0)
+                    this.commands.shift();
+                for(var i = whatToDo.length - 1; i >= 0; i--)
+                    this.commands.unshift(whatToDo[i]);
+            }
+        }
+        else if(this.commands[0]._children[0].getComponent("command_count_script")){//Если верхняя команда в стеке это команда из блока с условием COUNT
+            var commScript = this.commands[0]._children[0].getComponent("command_count_script");
+            var whatToDo = commScript.getCommand(this);
+            if(!whatToDo) errStr = "Ошибка при обработке команды COUNT";
+            else{
+                if(!whatToDo || whatToDo.length == 0)
+                    this.commands.shift();
+                for(var i = whatToDo.length - 1; i >= 0; i--)
+                    this.commands.unshift(whatToDo[i]);
+            }
+        }
+        else if(this.commands[0].getComponent("command_simple_script")){//Обработка простых команд
+            //Получаем скрипт из элемента команды для того чтобы получить логику команды
+            var commScript = this.commands[0].getComponent("command_simple_script");
+            if (commScript) {
+                //Выполняет логику команды с обьектом игрока и возвращает результат обработки
+                var whatToDo = commScript.getCommand(this);
+                dir = commScript.DIRECTION;
+                //Если вернулось undefined - ошибка
+                if (!whatToDo) {
+                    errStr = "Робот не может туда поехать";
                 }
-            } else {
-                errStr = "Ошибка при обработке команды";
+                else{ 
+                    if (whatToDo.x && whatToDo.y) {//Если точка то надо передвинуться
+                        p = whatToDo;
+                    } else if (dir == "pickup") {//Если команда подобрать элемент
+                        if (whatToDo) {
+                            p = whatToDo;
+                        } else {
+                            errStr = "Подбирать нечего";
+                        }
+                    } else {
+                        errStr = "Ошибка при обработке команды";
+                    }
+                    this.commands.shift();
+                }
             }
         }
         return {

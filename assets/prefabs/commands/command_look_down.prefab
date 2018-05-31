@@ -71,7 +71,7 @@
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 0
+    "groupIndex": 6
   },
   {
     "__type__": "cc.Node",
@@ -155,7 +155,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "128af382-2e1f-43da-a8f0-e227c251156f"
     },
     "fileId": "dbclhDYB1Dwo7z3ogz9knN",
     "sync": false
@@ -284,7 +284,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "128af382-2e1f-43da-a8f0-e227c251156f"
     },
     "fileId": "b3CT6/PgRHoZVC6AomQe1O",
     "sync": false
