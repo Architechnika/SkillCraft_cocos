@@ -412,7 +412,7 @@
       "__id__": 2
     },
     "component": "MainMenuWindowScript",
-    "handler": "onmenuButtonClick",
+    "handler": "onNewGameButtonClick",
     "customEventData": ""
   },
   {
@@ -650,7 +650,7 @@
       "__id__": 2
     },
     "component": "MainMenuWindowScript",
-    "handler": "onmenuButtonClick",
+    "handler": "onContinueButtonClick",
     "customEventData": ""
   },
   {
@@ -888,7 +888,7 @@
       "__id__": 2
     },
     "component": "MainMenuWindowScript",
-    "handler": "onmenuButtonClick",
+    "handler": "onSettingsButtonClick",
     "customEventData": ""
   },
   {
@@ -1025,7 +1025,13 @@
     "node": {
       "__id__": 2
     },
-    "_enabled": true
+    "_enabled": true,
+    "arrayRoadCommandsNames": [],
+    "arrayBinRoad": [],
+    "arrayRoadGameObjectsNames": [],
+    "time": 0,
+    "coinCount": 0,
+    "allcommands": []
   },
   {
     "__type__": "e5ed0zoN91JG4dX/WEs/wSz",
@@ -1034,6 +1040,15 @@
     "node": {
       "__id__": 2
     },
-    "_enabled": true
+    "_enabled": true,
+    "_wSbuff": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "gameNode": null,
+    "scrollNode": null,
+    "codeMapNode": null,
+    "guiNode": null
   }
 ]

@@ -17,7 +17,6 @@ cc.Class({
     onLoad() {
         this._setWH(cc.winSize);
         this._calcScreen(this._wSbuff);
-        var gSc = cc.director._globalVariables.gameNode;
     },
 
     update(dt) {
