@@ -84,7 +84,7 @@ cc.Class({
         }
         cc.director._globalVariables.localStorageScript.roadElemsArr = roadElemsForScript; //храним массив дорог где потенциально могут быть скрипты
         //Если включены ящики, то спавним их на поле в случайных местах
-        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false) {
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == true) {
             //загружаем из сохранений
             var objs = cc.director._globalVariables.localStorageScript.saveData.arrayRoadGameObjectsNames;
             for (var i = 0; i < objs.length - 1; i++) {
@@ -94,12 +94,11 @@ cc.Class({
                     if (cc.director._globalVariables.localStorageScript.arrayRoadCommands != null && cc.director._globalVariables.localStorageScript.arrayRoadCommands.length > 0) {
                         if (cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].name == "command_none" && road.getComponent("RoadScript")) {
                             //если на этой дороге есть скриптны которые можно загрузить, то загружаем
-                           // road.getComponent("RoadScript").roadCommands = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children
-                            for(var ic=0;ic<cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children.length;ic++)
-                                {
-                                    var el = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children[ic]
-                                    road.getComponent("RoadScript").roadCommands.push(cc.instantiate(el))
-                                }
+                            // road.getComponent("RoadScript").roadCommands = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children
+                            for (var ic = 0; ic < cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children.length; ic++) {
+                                var el = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children[ic]
+                                road.getComponent("RoadScript").roadCommands.push(cc.instantiate(el))
+                            }
                         }
                     }
                     if (objEl == this.gameObjects[0].data.name) {
@@ -108,8 +107,8 @@ cc.Class({
                         obj.y = road.y;
                         obj.scaleX = (road.width * road.scaleX) * this.boxSize / obj.width;
                         obj.scaleY = (road.height * road.scaleY) * this.boxSize / obj.height;
-                        if( road.getComponent("RoadScript"))
-                        road.getComponent("RoadScript").isGameObjectName = obj.name;
+                        if (road.getComponent("RoadScript"))
+                            road.getComponent("RoadScript").isGameObjectName = obj.name;
                         this.node.addChild(obj);
                         this.global_GameObjects.push(obj);
                     }
@@ -155,10 +154,11 @@ cc.Class({
     generateMap(w, h, labSize) {
         //Получаем массив сгенерированного поля
         var bin;
-        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true) {
-            if (cc.director._globalVariables.localStorageScript.saveData.arrayBinRoad)
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == true) {
+            if (cc.director._globalVariables.localStorageScript.saveData.arrayBinRoad) {
                 bin = cc.director._globalVariables.localStorageScript.arrayCopy(cc.director._globalVariables.localStorageScript.saveData.arrayBinRoad)
-        }else bin = this.genBin(labSize, labSize, [], [], [0, 0]);
+            }
+        } else bin = this.genBin(labSize, labSize, [], [], [0, 0]);
         return this.graphicsMapSort(bin, labSize);
     },
 

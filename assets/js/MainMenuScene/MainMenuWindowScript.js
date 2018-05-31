@@ -15,6 +15,7 @@ cc.Class({
 
     onmenuButtonClick(button) {
         if (button.currentTarget._name == "newGameButton") {
+            cc.sys.localStorage.setItem("isNewGame",true)
             cc.director.loadScene("GameScene");
         }
     },
