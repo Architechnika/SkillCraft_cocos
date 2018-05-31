@@ -105,8 +105,6 @@ cc.Class({
             //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
         }
     },
-<<<<<<< HEAD
-
     update(dt) 
     {
 //         var ls = cc.director._globalVariables.localStorageScript
@@ -118,6 +116,4 @@ cc.Class({
 //                 ls.arrayRoadCommandsNames.length = 0;
 //             }
     },
-=======
->>>>>>> 2a1a8c8323989c97c912868ecb1d896fe25867da
 });

@@ -19,7 +19,6 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     _onRoadClick(event) {
-<<<<<<< HEAD
         var t = cc.director._globalVariables.codeMapNode;
         //Если начали нажатие в кодмапе а закончили на поле то не обрабатываем это нажатие
         if (t.isMoved || (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn !== "GameNode")) 
