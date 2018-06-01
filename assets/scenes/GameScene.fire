@@ -3619,8 +3619,8 @@
       "__id__": 2
     },
     "_enabled": true,
-    "currentLabSize": 5,
-    "isDebug": true,
+    "currentLabSize": 3,
+    "isDebug": false,
     "playerSpeed": 0.3,
     "_collisionManager": null,
     "collisionManager": null,

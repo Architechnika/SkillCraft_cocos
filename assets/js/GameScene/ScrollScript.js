@@ -67,7 +67,7 @@ cc.Class({
 
     start() {
         this.setCommandsState();
-        cc.director._setScrollVisible(false);
+        cc.director._setScrollVisible(false, false);
     },
 
     addToLeftScroll(elements, isClear) {

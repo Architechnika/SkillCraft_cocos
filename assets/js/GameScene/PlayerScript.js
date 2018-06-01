@@ -111,7 +111,7 @@ cc.Class({
         if (this._isFinish) { //ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
-            //cc.director._globalVariables.currentLabSize += 2;
+            cc.director._globalVariables.currentLabSize += 2;
             cc.director.getScene().destroy();
             //ПЕРЕХОД НА СЦЕНУ С РЕЗУЛЬТАТОМ ПРОХОЖДЕНИЯ ЛАБИРИНТА
             cc.director.loadScene("EndGameScene");

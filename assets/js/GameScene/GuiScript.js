@@ -44,7 +44,7 @@ cc.Class({
                 break;
         }
         //Скрываем скролы выбора и показа команд
-        cc.director._setScrollVisible(false);
+        cc.director._setScrollVisible(false, false);
     },
     // LIFE-CYCLE CALLBACKS:
 

@@ -26,6 +26,7 @@ cc.Class({
         //Если мы отпускаем клик после того как подвигали поле то не обрабатываем его
         if (this.parent.isMoved)
             return;
+        cc.director._globalVariables.commandAddState = "road";
         //Отображаем кодмап
         if(!cc.director._globalVariables.codeMapNode.active)
             cc.director._globalVariables.codeMapNode.active = true;
@@ -47,7 +48,7 @@ cc.Class({
         } else {
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
-            cc.director._setScrollVisible(true);
+            cc.director._setScrollVisible(true, true);
         }
     },
 
