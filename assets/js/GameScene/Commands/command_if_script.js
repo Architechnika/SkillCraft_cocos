@@ -81,15 +81,14 @@ cc.Class({
                 comm.anchorX = 0;
                 comm.anchorY = 1;
                 var itemWH = comm.height;
-                var h = itemWH;
+                var h = comm.children[0].height;
                 var w = 0;
-                if (comm.name == "command_if") {
-                    itemWH = comm.height;
-                    h = comm.getChildByName("command_block_if").height;
+                if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
+                    h = comm.children[0].height;
+                    //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                    if (comm.name == "command_if" || comm.name == "command_repeatif")
+                        w = this.node.parent.width >= this._maxW ? 0 : 100;
                 }
-                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
-                if (comm.name == "command_if" || comm.name == "command_repeatif")
-                    w = this.node.parent.width >= this._maxW ? 0 : 100;
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
 
@@ -136,7 +135,7 @@ cc.Class({
 
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
             //console.log(cc.director._globalVariables.lastAddCommandH)
-            this.node.parent.parent.height += this.H;
+            // this.node.parent.parent.height += cc.director._globalVariables.lastAddCommandH;
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {
                     if (this.node.parent.parent.parent.getComponent("command_if_script"))
@@ -160,17 +159,18 @@ cc.Class({
                     isGo = true
                     continue;
                 }
-                if (isGo || el.name == "command_plus")
+                if (isGo || el.name == "command_plus") {
                     el.y -= cc.director._globalVariables.lastAddCommandH;
+                }
             }
             this._H = this.node.parent.height;
-            //console.log(this.node.name + " : " + this.node.height + " : " + this.node.parent.height)
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
-            if(this.node.parent.parent.parent.parent.name == "command_if")
-            this.node.parent.parent.parent.parent.width += d;
+            if (this.node.parent.parent.parent.parent.name == "command_if")
+                this.node.parent.parent.parent.parent.width += d;
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
     },

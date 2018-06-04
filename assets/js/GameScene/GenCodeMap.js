@@ -96,6 +96,7 @@ cc.Class({
                 this.plus.anchorY = 1;
                 this.plus.x = x;
                 this.plus.y = y;
+               // console.log(y+" "+itemWH)
                 var bB = this.node.getBoundingBoxToWorld().size;
                 var k = Math.floor(bB.height / bB.width);
                 //console.log(bB.height / bB.width);
