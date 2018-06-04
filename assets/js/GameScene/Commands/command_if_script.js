@@ -135,7 +135,7 @@ cc.Class({
             var itemWH = this.node.height;
 
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
-              //console.log(cc.director._globalVariables.lastAddCommandH)
+            //console.log(cc.director._globalVariables.lastAddCommandH)
             this.node.parent.parent.height += this.H;
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {
@@ -173,89 +173,91 @@ cc.Class({
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
     },
-    
+
     //Обработчик событий клика по кнопкам внутри команды if
-    onCommandElementClick(event){
+    onCommandElementClick(event) {
         var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
         //Инитим скролл нужными значениями
-        if(event.target.name == "command_block_a"){
+        if (event.target.name == "command_block_a") { //Если blockA
             script.addToRightScroll(script.blockACommands);
-        }
-        else if (event.target.name == "command_block_b"){
+        } else if (event.target.name == "command_block_b") { //Если blockB
             script.addToRightScroll(script.blockBCommands);
-        }
-        else {
+        } else if (event.target.name == "command_ifandor_add") { //Если нажали на блок добавления blockB в условия
+            script.addToRightScroll(script.blockBCommands);
+        } else {
             var spl = event.target.name.split('_');
-            if(spl && spl.length >= 2){
-                if(spl[1] == "look")
+            if (spl && spl.length >= 2) {
+                if (spl[1] == "look")
                     script.addToRightScroll(script.blockACommands);
-                else if(spl[1] == "interact")
+                else if (spl[1] == "interact")
                     script.addToRightScroll(script.blockBCommands);
             }
         }
         //Запоминаем эту ноду для инициализации
         cc.director._globalVariables.nodeCommandToInit = event.target;
-        cc.director._setScrollVisible(true);  
+        cc.director._setScrollVisible(true);
     },
     //Функция
     getCommand(playerObj) {
         var blockA = undefined;
-        var blockB = undefined;
+        var blockB = [];
         //Ищем текущие blockA и blockB
-        for(var i = 0 ; i < this.node._children.length; i++){
+        for (var i = 0; i < this.node._children.length; i++) {
             var spl = this.node._children[i].name.split('_');
-            if(spl && spl.length == 3){
-                if(this.node._children[i].active){
-                    if(spl[1] == "look"){
+            if (spl && spl.length == 3) {
+                if (this.node._children[i].active) {
+                    if (spl[1] == "look") {
                         blockA = spl[2];
-                    }
-                    else if(spl[1] == "interact"){
-                        blockB = spl[2];
+                    } else if (spl[1] == "interact") {
+                        blockB.push(spl[2]);
                     }
                 }
             }
         }
         //Проверяем условие
         var isTrue = false;
-        if(blockB == "entry"){//ВХОД-----------------------------------------------------------------------
-            if(blockA == "center" && playerObj._currentFieldElement.group == "Entry") isTrue = true;
-            else if(blockA == "left" && playerObj._leftFieldElement.group == "Entry") isTrue = true;
-            else if(blockA == "right" && playerObj._rightFieldElement.group == "Entry") isTrue = true;
-            else if(blockA == "up" && playerObj._frontFieldElement.group == "Entry") isTrue = true;
-            else if(blockA == "down" && playerObj._backFieldElement.group == "Entry") isTrue = true;
-        } else if(blockB == "coin"){//ИГРОВОЙ ОБЬЕКТ-----------------------------------------------------------------------
-            if(blockA == "center" && playerObj._underFieldElements.length > 0) isTrue = true;
-        } else if(blockB == "exit"){//ВЫХОД-----------------------------------------------------------------------
-            if(blockA == "center" && playerObj._currentFieldElement.group == "Exit") isTrue = true;
-            else if(blockA == "left" && playerObj._leftFieldElement.group == "Exit") isTrue = true;
-            else if(blockA == "right" && playerObj._rightFieldElement.group == "Exit") isTrue = true;
-            else if(blockA == "up" && playerObj._frontFieldElement.group == "Exit") isTrue = true;
-            else if(blockA == "down" && playerObj._backFieldElement.group == "Exit") isTrue = true;
-        } else if(blockB == "road"){//ДОРОГА-----------------------------------------------------------------------
-            if(blockA == "center" && playerObj._currentFieldElement.group == "Road") isTrue = true;
-            else if(blockA == "left" && playerObj._leftFieldElement.group == "Road") isTrue = true;
-            else if(blockA == "right" && playerObj._rightFieldElement.group == "Road") isTrue = true;
-            else if(blockA == "up" && playerObj._frontFieldElement.group == "Road") isTrue = true;
-            else if(blockA == "down" && playerObj._backFieldElement.group == "Road") isTrue = true;
-        } else if(blockB == "wall"){//СТЕНА-----------------------------------------------------------------------
-            if(blockA == "center" && playerObj._currentFieldElement.group == "Wall") isTrue = true;
-            else if(blockA == "left" && playerObj._leftFieldElement.group == "Wall") isTrue = true;
-            else if(blockA == "right" && playerObj._rightFieldElement.group == "Wall") isTrue = true;
-            else if(blockA == "up" && playerObj._frontFieldElement.group == "Wall") isTrue = true;
-            else if(blockA == "down" && playerObj._backFieldElement.group == "Wall") isTrue = true;
+        //Пока только реализация множественных условия с логикой ИЛИ-------------------------------------------------------------------
+        for (var i = 0; i < blockB.length; i++) {
+            if (blockB[i] == "entry") { //ВХОД-----------------------------------------------------------------------
+                if (blockA == "center" && playerObj._currentFieldElement.group == "Entry") isTrue = true;
+                else if (blockA == "left" && playerObj._leftFieldElement.group == "Entry") isTrue = true;
+                else if (blockA == "right" && playerObj._rightFieldElement.group == "Entry") isTrue = true;
+                else if (blockA == "up" && playerObj._frontFieldElement.group == "Entry") isTrue = true;
+                else if (blockA == "down" && playerObj._backFieldElement.group == "Entry") isTrue = true;
+            } else if (blockB[i] == "coin") { //ИГРОВОЙ ОБЬЕКТ-----------------------------------------------------------------------
+                if (blockA == "center" && playerObj._underFieldElements.length > 0) isTrue = true;
+            } else if (blockB[i] == "exit") { //ВЫХОД-----------------------------------------------------------------------
+                if (blockA == "center" && playerObj._currentFieldElement.group == "Exit") isTrue = true;
+                else if (blockA == "left" && playerObj._leftFieldElement.group == "Exit") isTrue = true;
+                else if (blockA == "right" && playerObj._rightFieldElement.group == "Exit") isTrue = true;
+                else if (blockA == "up" && playerObj._frontFieldElement.group == "Exit") isTrue = true;
+                else if (blockA == "down" && playerObj._backFieldElement.group == "Exit") isTrue = true;
+            } else if (blockB[i] == "road") { //ДОРОГА-----------------------------------------------------------------------
+                if (blockA == "center" && playerObj._currentFieldElement.group == "Road") isTrue = true;
+                else if (blockA == "left" && playerObj._leftFieldElement.group == "Road") isTrue = true;
+                else if (blockA == "right" && playerObj._rightFieldElement.group == "Road") isTrue = true;
+                else if (blockA == "up" && playerObj._frontFieldElement.group == "Road") isTrue = true;
+                else if (blockA == "down" && playerObj._backFieldElement.group == "Road") isTrue = true;
+            } else if (blockB[i] == "wall") { //СТЕНА-----------------------------------------------------------------------
+                if (blockA == "center" && playerObj._currentFieldElement.group == "Wall") isTrue = true;
+                else if (blockA == "left" && playerObj._leftFieldElement.group == "Wall") isTrue = true;
+                else if (blockA == "right" && playerObj._rightFieldElement.group == "Wall") isTrue = true;
+                else if (blockA == "up" && playerObj._frontFieldElement.group == "Wall") isTrue = true;
+                else if (blockA == "down" && playerObj._backFieldElement.group == "Wall") isTrue = true;
+            }
         }
         var resultArr = [];
         //Если условие выполнилось возвращаем команды из commands
-        if(isTrue){
+        if (isTrue) {
             var container = this.node.getChildByName("commands")._children;
-            for(var i = 0 ; i < container.length > 0; i++){
-                if(container[i].name !== "command_plus")
+            for (var i = 0; i < container.length > 0; i++) {
+                if (container[i].name !== "command_plus")
                     resultArr.push(cc.instantiate(container[i]));
             }
-        } else {//Иначе из блока elseCommands
+        } else { //Иначе из блока elseCommands
             var container = this.node.getChildByName("bottom").getChildByName("elseCommands")._children;
-            for(var i = 0 ; i < container.length > 0; i++){
-                if(container[i].name !== "command_plus")
+            for (var i = 0; i < container.length > 0; i++) {
+                if (container[i].name !== "command_plus")
                     resultArr.push(cc.instantiate(container[i]));
             }
         }

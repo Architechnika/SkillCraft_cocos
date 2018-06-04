@@ -1,4 +1,3 @@
-
 cc.Class({
     extends: cc.Component,
 
@@ -100,11 +99,10 @@ cc.Class({
                     var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
                     ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
                     cc.director._setScrollVisible(false, true);
-                } else if (element.name == "command_block_repeatif"){
+                } else if (element.name == "command_block_repeatif") {
                     element = cc.instantiate(this.repeatIfBlock);
                     cc.director._setScrollVisible(false, true);
-                }
-                else if (element.name == "command_block_repeat"){
+                } else if (element.name == "command_block_repeat") {
                     element = cc.instantiate(this.counterBlock);
                     cc.director._setScrollVisible(false, true);
                 }
@@ -127,28 +125,51 @@ cc.Class({
     _onCodeViewCommandClick(event) {
         //Инитим значение, если нужно
         if (cc.director._globalVariables.nodeCommandToInit) {
-            if (cc.director._globalVariables.nodeCommandToInit.name == "command_block_count") {
+            if (cc.director._globalVariables.nodeCommandToInit.name == "command_block_count") {//Если вводим количество итераций для блока count
 
+            } else if (cc.director._globalVariables.nodeCommandToInit.name == "command_ifandor_add") {//Если пользователь нажал на кнопку добавления условия blockB                
+                var isNoBCommands = false;
+                for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
+                    if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == "command_block_b") {
+                        if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].active)
+                            isNoBCommands = cc.director._globalVariables.nodeCommandToInit.parent._children[i];
+                        break;
+                    }
+                }
+                if (isNoBCommands) {//Если blockB еще не был инициализирован
+                    cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = false; 
+                    for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
+                        if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name) {
+                            cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = true;    
+                        }
+                    }
+                } else {//Иначе добавляем копию команды которую выбрали
+                    var copy = undefined;
+                    for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
+                        if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name) {
+                            copy = cc.instantiate(cc.director._globalVariables.nodeCommandToInit.parent._children[i]);
+                            break;
+                        }
+                    }
+                    var x = cc.director._globalVariables.nodeCommandToInit.x;
+                    cc.director._globalVariables.nodeCommandToInit.x += copy.width;
+                    
+                    copy.x = x;
+                    copy.y = cc.director._globalVariables.nodeCommandToInit.y;
+                    copy.width = cc.director._globalVariables.nodeCommandToInit.width;
+                    copy.height = cc.director._globalVariables.nodeCommandToInit.height;
+                    copy.active = true;
+                    
+                    cc.director._globalVariables.nodeCommandToInit.parent.addChild(copy);
+                    cc.director._globalVariables.nodeCommandToInit.parent.parent.width += copy.width;
+                    cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+                }
             } else {
-                //Получаем родителя
-                /*var daddy = cc.director._globalVariables.nodeCommandToInit.parent;
-                var n = cc.director._globalVariables.nodeCommandToInit;
-                //Копируем выбранную команду
-                var cpy = cc.instantiate(event.target)
-                //if(cpy.anchorX == 0 && cpy.anchorY == 1){
-                cpy.x = n.x + (n.width / 2);
-                cpy.y = n.y + (n.height / 2);
-                cpy.width = n.height;
-                cpy.width = n.height;
-                cpy.scaleX = n.scaleX;
-                cpy.scaleY = n.scaleY;
-                //Уничтожаем старую команду
-                n.destroy();
-                //Заменяем ее новой
-                daddy.addChild(cpy);*/
-                for(var i = 0 ; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++){
-                    if(cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name){
+                for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
+                    if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name) {
                         cc.director._globalVariables.nodeCommandToInit.active = false;
+                        cc.director._globalVariables.nodeCommandToInit.parent._children[i].x = cc.director._globalVariables.nodeCommandToInit.x;
+                        cc.director._globalVariables.nodeCommandToInit.parent._children[i].y = cc.director._globalVariables.nodeCommandToInit.y;
                         cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = true;
                         break;
                     }
@@ -175,7 +196,7 @@ cc.Class({
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
                 return false;
-            if(cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content")
+            if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content")
                 return false;
             if (cc.director._globalVariables.nodeCommandToInit) {
                 this._onCodeViewCommandClick(event);
@@ -186,9 +207,9 @@ cc.Class({
             }
             event._propagationStopped = true;
         });
-        
-        this.node.on('mousedown', function(event) {
-           cc.director._globalVariables.eventDownedOn = this.parent.parent.parent.name;
+
+        this.node.on('mousedown', function (event) {
+            cc.director._globalVariables.eventDownedOn = this.parent.parent.parent.name;
         });
     },
 

@@ -20,11 +20,11 @@ cc.Class({
     },
 
     update(dt) {
-        if (cc.winSize.width !== this._wSbuff.width || cc.winSize.height !== this._wSbuff.height) {
+        //if (cc.winSize.width !== this._wSbuff.width || cc.winSize.height !== this._wSbuff.height) {
             /*console.log("Screen changed: " + cc.winSize.width + " " + cc.winSize.height);
             console.log(this.node)*/
-            this._calcScreen(cc.winSize);
-        }
+           // this._calcScreen(cc.winSize);
+        //}
     },
 
     //Производит перерасчет якорей всех нодов на поле под заданное разрешение

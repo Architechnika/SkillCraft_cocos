@@ -40,7 +40,7 @@ cc.Class({
         }
         this.global_FieldArray.splice(0, this.global_FieldArray.length - 1);
         //Генерим новое
-        this.global_PrefFieldArray = this.generateMap(500, 500, elementsInLine);
+        var fieldObjects = this.generateMap(500, 500, elementsInLine);
         //Рассчитываем какой шаг по оси для каждого элемента нам нужен
         var stepX = this.node.width / elementsInLine;
         var stepY = this.node.height / elementsInLine;
@@ -57,8 +57,8 @@ cc.Class({
         //Создаем элементы из массива префабов
         for (var i = 0; i < elementsInLine; i++) {
             for (var j = 0; j < elementsInLine; j++) {
-                //var element = cc.instantiate(this.global_PrefFieldArray[i][j]);
-                var element = this.global_PrefFieldArray[i][j];
+                //var element = cc.instantiate(fieldObjects[i][j]);
+                var element = fieldObjects[i][j];
                 element.scaleX = elemSizeX / element.width;
                 element.scaleY = elemSizeY / element.height;
                 element.x = stX + ((element.width * element.scaleX) / 2);
@@ -90,7 +90,7 @@ cc.Class({
             for (var i = 0; i < objs.length - 1; i++) {
                 for (var j = 0; j < objs.length - 1; j++) {
                     var objEl = objs[i][j];
-                    var road = this.global_PrefFieldArray[i][j];
+                    var road = fieldObjects[i][j];
                     if (cc.director._globalVariables.localStorageScript.arrayRoadCommands != null && cc.director._globalVariables.localStorageScript.arrayRoadCommands.length > 0) {
                         if (cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].name == "command_none" && road !==null && typeof road === 'object' && road.getComponent("RoadScript")) {
                             //если на этой дороге есть скриптны которые можно загрузить, то загружаем
@@ -112,6 +112,8 @@ cc.Class({
                         this.node.addChild(obj);
                         this.global_GameObjects.push(obj);
                     }
+                    if(road.group == "Entry")
+                        startElem = road;
                 }
             }
             cc.director._globalVariables.localStorageScript.isFieldDataLoaded = true;

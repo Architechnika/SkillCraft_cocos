@@ -119,26 +119,26 @@ cc.Class({
     
     //Обработчик событий клика по кнопкам внутри команды if
     onCommandElementClick(event){
-        var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+         var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
         //Инитим скролл нужными значениями
-        if(event.target.name == "command_block_a"){
+        if (event.target.name == "command_block_a") { //Если blockA
             script.addToRightScroll(script.blockACommands);
-        }
-        else if (event.target.name == "command_block_b"){
+        } else if (event.target.name == "command_block_b") { //Если blockB
             script.addToRightScroll(script.blockBCommands);
-        }
-        else {
+        } else if (event.target.name == "command_ifandor_add") {//Если нажали на блок добавления blockB в условия
+            script.addToRightScroll(script.blockBCommands);
+        } else {
             var spl = event.target.name.split('_');
-            if(spl && spl.length >= 2){
-                if(spl[1] == "look")
+            if (spl && spl.length >= 2) {
+                if (spl[1] == "look")
                     script.addToRightScroll(script.blockACommands);
-                else if(spl[1] == "interact")
+                else if (spl[1] == "interact")
                     script.addToRightScroll(script.blockBCommands);
             }
         }
         //Запоминаем эту ноду для инициализации
         cc.director._globalVariables.nodeCommandToInit = event.target;
-        cc.director._setScrollVisible(true);  
+        cc.director._setScrollVisible(true);
     },
     
     //Функция

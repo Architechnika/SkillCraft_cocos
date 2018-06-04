@@ -901,7 +901,7 @@
     "node": {
       "__id__": 10
     },
-    "_enabled": true,
+    "_enabled": false,
     "_spriteFrame": {
       "__uuid__": "853fe133-4001-45fe-bd5d-68b3403d674f"
     },
@@ -3609,7 +3609,7 @@
       "height": 640
     },
     "_fitWidth": true,
-    "_fitHeight": false
+    "_fitHeight": true
   },
   {
     "__type__": "9cdabjfXkJG3LfsW9Y6FWQf",
