@@ -30,7 +30,10 @@ cc.Class({
 
     },
     start() {
-        this.initField(cc.director._globalVariables.currentLabSize);
+        var size = cc.director._globalVariables.currentLabSize
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false")
+            size = cc.director._globalVariables.localStorageScript.saveData.rouColCount;
+        this.initField(size);
     },
     //update(dt) {},
     initField(elementsInLine) {
@@ -92,7 +95,7 @@ cc.Class({
                     var objEl = objs[i][j];
                     var road = fieldObjects[i][j];
                     if (cc.director._globalVariables.localStorageScript.arrayRoadCommands != null && cc.director._globalVariables.localStorageScript.arrayRoadCommands.length > 0) {
-                        if (cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].name == "command_none" && road !==null && typeof road === 'object' && road.getComponent("RoadScript")) {
+                        if (cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].name == "command_none" && road !== null && typeof road === 'object' && road.getComponent("RoadScript")) {
                             //если на этой дороге есть скриптны которые можно загрузить, то загружаем
                             // road.getComponent("RoadScript").roadCommands = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children
                             for (var ic = 0; ic < cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children.length; ic++) {
@@ -107,12 +110,12 @@ cc.Class({
                         obj.y = road.y;
                         obj.scaleX = (road.width * road.scaleX) * this.boxSize / obj.width;
                         obj.scaleY = (road.height * road.scaleY) * this.boxSize / obj.height;
-                        if (road !==null && typeof road === 'object' && road.getComponent("RoadScript"))
+                        if (road !== null && typeof road === 'object' && road.getComponent("RoadScript"))
                             road.getComponent("RoadScript").isGameObjectName = obj.name;
                         this.node.addChild(obj);
                         this.global_GameObjects.push(obj);
                     }
-                    if(road.group == "Entry")
+                    if (road.group == "Entry")
                         startElem = road;
                 }
             }

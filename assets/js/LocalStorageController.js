@@ -41,6 +41,8 @@ cc.Class({
             time: 0,
             coinCount: 0,
             isSaved: false,
+            rouColCount: 0,
+
         }
         if (cc.sys.localStorage.getItem(this.key)) {
             this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
@@ -132,6 +134,8 @@ cc.Class({
             this.saveData.arrayRoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames); //массив игровый объектов на дороге
             this.saveData.time = this.time;
             this.saveData.isSaved = true;
+            if (cc.director._globalVariables)
+                this.saveData.rouColCount = cc.director._globalVariables.currentLabSize;
             cc.sys.localStorage.setItem(this.key, JSON.stringify(this.saveData))
         }
     },
