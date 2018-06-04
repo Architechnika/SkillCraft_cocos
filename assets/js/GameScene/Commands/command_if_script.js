@@ -169,6 +169,7 @@ cc.Class({
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
+            if(this.node.parent.parent.parent.parent.name == "command_if")
             this.node.parent.parent.parent.parent.width += d;
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
