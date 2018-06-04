@@ -120,65 +120,11 @@ cc.Class({
             //Удаление элемента
             //this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
+        _onCodeViewCommandClick()
     },
 
     _onCodeViewCommandClick(event) {
-        //Инитим значение, если нужно
-        if (cc.director._globalVariables.nodeCommandToInit) {
-            if (cc.director._globalVariables.nodeCommandToInit.name == "command_block_count") {//Если вводим количество итераций для блока count
-
-            } else if (cc.director._globalVariables.nodeCommandToInit.name == "command_ifandor_add") {//Если пользователь нажал на кнопку добавления условия blockB                
-                var isNoBCommands = false;
-                for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
-                    if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == "command_block_b") {
-                        if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].active)
-                            isNoBCommands = cc.director._globalVariables.nodeCommandToInit.parent._children[i];
-                        break;
-                    }
-                }
-                if (isNoBCommands) {//Если blockB еще не был инициализирован
-                    cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = false; 
-                    for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
-                        if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name) {
-                            cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = true;    
-                        }
-                    }
-                } else {//Иначе добавляем копию команды которую выбрали
-                    var copy = undefined;
-                    for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
-                        if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name) {
-                            copy = cc.instantiate(cc.director._globalVariables.nodeCommandToInit.parent._children[i]);
-                            break;
-                        }
-                    }
-                    var x = cc.director._globalVariables.nodeCommandToInit.x;
-                    cc.director._globalVariables.nodeCommandToInit.x += copy.width;
-                    
-                    copy.x = x;
-                    copy.y = cc.director._globalVariables.nodeCommandToInit.y;
-                    copy.width = cc.director._globalVariables.nodeCommandToInit.width;
-                    copy.height = cc.director._globalVariables.nodeCommandToInit.height;
-                    copy.active = true;
-                    
-                    cc.director._globalVariables.nodeCommandToInit.parent.addChild(copy);
-                    cc.director._globalVariables.nodeCommandToInit.parent.parent.width += copy.width;
-                    cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
-                }
-            } else {
-                for (var i = 0; i < cc.director._globalVariables.nodeCommandToInit.parent._children.length; i++) {
-                    if (cc.director._globalVariables.nodeCommandToInit.parent._children[i].name == event.target.name) {
-                        cc.director._globalVariables.nodeCommandToInit.active = false;
-                        cc.director._globalVariables.nodeCommandToInit.parent._children[i].x = cc.director._globalVariables.nodeCommandToInit.x;
-                        cc.director._globalVariables.nodeCommandToInit.parent._children[i].y = cc.director._globalVariables.nodeCommandToInit.y;
-                        cc.director._globalVariables.nodeCommandToInit.parent._children[i].active = true;
-                        break;
-                    }
-                }
-            }
-            cc.director._globalVariables.nodeCommandToInit = undefined;
-            cc.director._setScrollVisible(false, true);
-        }
-        this._cLC = 0;
+        this.codeViewCommandClickHandler(event.target.name, cc.director._globalVariables.nodeCommandToInit);
     },
 
     onLoad() {
@@ -192,7 +138,8 @@ cc.Class({
         this.node._onRightScrollClick = this._onRightScrollClick;
         this.node._onCodeViewCommandClick = this._onCodeViewCommandClick;
         this.node._clC = 0; //Счетчик кликов по элементам скрола(нужен для отмены срабатывания на один клик, когда жмешь на кодмап и скорл сразу нажимается тоже)
-
+        this.node.codeViewCommandClickHandler = this.codeViewCommandClickHandler;
+        
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
                 return false;
@@ -212,7 +159,67 @@ cc.Class({
             cc.director._globalVariables.eventDownedOn = this.parent.parent.parent.name;
         });
     },
-
+    //Метод обработчик измения blockA blockB и counterBlock в сложных командах
+    //Name - имя добавляемой команды
+    //Obj - указатель на команду которую меняем
+    codeViewCommandClickHandler(name, obj){
+        //Инитим значение, если нужно
+        if (obj) {
+            if (obj.name == "command_block_count") {//Если вводим количество итераций для блока count
+            } else if (obj.name == "command_ifandor_add") {//Если пользователь нажал на кнопку добавления условия blockB                
+                var isNoBCommands = false;
+                for (var i = 0; i < obj.parent._children.length; i++) {
+                    if (obj.parent._children[i].name == "command_block_b") {
+                        if (obj.parent._children[i].active)
+                            isNoBCommands = obj.parent._children[i];
+                        break;
+                    }
+                }
+                if (isNoBCommands) {//Если blockB еще не был инициализирован
+                    obj.parent._children[i].active = false; 
+                    for (var i = 0; i < obj.parent._children.length; i++) {
+                        if (obj.parent._children[i].name == name) {
+                            obj.parent._children[i].active = true;    
+                        }
+                    }
+                } else {//Иначе добавляем копию команды которую выбрали
+                    var copy = undefined;
+                    for (var i = 0; i < obj.parent._children.length; i++) {
+                        if (obj.parent._children[i].name == name) {
+                            copy = cc.instantiate(obj.parent._children[i]);
+                            break;
+                        }
+                    }
+                    var x = obj.x;
+                    obj.x += copy.width;
+                    
+                    copy.x = x;
+                    copy.y = obj.y;
+                    copy.width = obj.width;
+                    copy.height = obj.height;
+                    copy.active = true;
+                    
+                    obj.parent.addChild(copy);
+                    obj.parent.parent.width += copy.width;
+                    cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+                }
+            } else {
+                for (var i = 0; i < obj.parent._children.length; i++) {
+                    if (obj.parent._children[i].name == name) {
+                        obj.active = false;
+                        obj.parent._children[i].x = obj.x;
+                        obj.parent._children[i].y = obj.y;
+                        obj.parent._children[i].active = true;
+                        break;
+                    }
+                }
+            }
+            cc.director._globalVariables.nodeCommandToInit = undefined;
+            cc.director._setScrollVisible(false, true);
+        }
+        this._cLC = 0;
+    },
+    
     setParentAddItem(par) {
         //this._parentAdd = par;
         // this._commandAddState = "commands";
