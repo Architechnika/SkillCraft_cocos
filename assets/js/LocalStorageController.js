@@ -53,7 +53,6 @@ cc.Class({
     },
 
     start() {
-
     },
 
     generationArrayRoadCommands(arr, nameArr) {
@@ -172,6 +171,9 @@ cc.Class({
     },
     complexCommandParse(arr, par, complexPref) {
         if (arr && arr.length > 0 && this.allcommands.length > 0) {
+            //Получаем скрипт в котором функция для инициализации сложных комамнд
+            var complexCommandScript = cc.director._scene.name == "GameScene" ? this.node.getChildByName("staticObj").getComponent("commands_input") : undefined;
+            var method = complexCommandScript.codeViewCommandClickHandler;
             for (var el = 0; el < arr.length; el++) {
                 var comm = arr[el];
                 if (comm == "command_if") {
