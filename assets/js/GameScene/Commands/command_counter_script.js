@@ -133,6 +133,15 @@ cc.Class({
     
     //Функция
     getCommand(playerObj) {
-        return undefined;
+        var resultArr = [];
+        if(this._counter > 0){
+            var container = this.node.getChildByName("commands")._children;
+            for (var i = 0; i < container.length > 0; i++) {
+                if (container[i].name !== "command_plus")
+                    resultArr.push(cc.instantiate(container[i]));
+            }
+            this._counter--;
+        }
+        return resultArr;
     }
 });

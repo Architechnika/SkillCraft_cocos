@@ -120,7 +120,7 @@ cc.Class({
             //Удаление элемента
             //this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
-        _onCodeViewCommandClick()
+        //_onCodeViewCommandClick()
     },
 
     _onCodeViewCommandClick(event) {

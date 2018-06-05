@@ -249,8 +249,8 @@ cc.Class({
                     this.commands.unshift(whatToDo[i]);
             }
         }
-        else if(this.commands[0]._children[0].getComponent("command_count_script")){//Если верхняя команда в стеке это команда из блока с условием COUNT
-            var commScript = this.commands[0]._children[0].getComponent("command_count_script");
+        else if(this.commands[0]._children[0].getComponent("command_counter_script")){//Если верхняя команда в стеке это команда из блока с условием COUNT
+            var commScript = this.commands[0]._children[0].getComponent("command_counter_script");
             var whatToDo = commScript.getCommand(this);
             if(!whatToDo) errStr = "Ошибка при обработке команды COUNT";
             else{
