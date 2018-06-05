@@ -19,6 +19,9 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     _onRoadClick(event) {
+        //Если лейбл отображения итераций в блоке count виден - скрываем его
+        if(cc.director._globalVariables.scrollNode.getChildByName("label_counter").active)
+            cc.director._globalVariables.scrollNode.getChildByName("label_counter").active = false;
         var t = cc.director._globalVariables.codeMapNode;
         //Если начали нажатие в кодмапе а закончили на поле то не обрабатываем это нажатие
         if (t.isMoved || (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn !== "GameNode")) 

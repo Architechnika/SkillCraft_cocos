@@ -5,6 +5,7 @@ cc.Class({
     properties: {
         commandType: "counter",
         _counter: 0,
+        _commCounterLabel: cc.Label,
     },
 
 
@@ -75,10 +76,14 @@ cc.Class({
     //Обработчик событий клика по кнопкам внутри команды counter
     onCommandElementClick(event){
         var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+        var labelNode = cc.director._globalVariables.scrollNode.getChildByName("label_counter");
+        var label = labelNode._components[0];
         //Запоминаем эту ноду для инициализации
         cc.director._globalVariables.nodeCommandToInit = event.target;
-        script.addToRightScroll(script.blockCountCommands);
-        cc.director._setScrollVisible(true);
+        label.string = this._counter.toString();//Инитим лэйбл отображением итераций
+        labelNode.active = true;
+        script.addToRightScroll(script.blockCountCommands);//Добавляем в правый скролл набор команд для ввода цифр
+        cc.director._setScrollVisible(true);//Отображаем правый скролл
     },
 
     update(dt) {

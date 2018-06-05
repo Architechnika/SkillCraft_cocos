@@ -139,6 +139,7 @@ cc.Class({
         this.node._onCodeViewCommandClick = this._onCodeViewCommandClick;
         this.node._clC = 0; //Счетчик кликов по элементам скрола(нужен для отмены срабатывания на один клик, когда жмешь на кодмап и скорл сразу нажимается тоже)
         this.node.codeViewCommandClickHandler = this.codeViewCommandClickHandler;
+        this.node.counterAddHandler = this.counterAddHandler;
         
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
@@ -167,8 +168,9 @@ cc.Class({
         //Инитим значение, если нужно
         if (obj) {
             if (obj.name == "command_counter") {//Если вводим количество итераций для блока count
-                var digitStr = name.split("_")[2];
-                console.log(digitStr);
+                //Вызываем обработчик для добавления итерации в countblock
+                this.counterAddHandler(name == "command_backspace" ? "-1":name.split("_")[2], obj.parent.getComponent("command_counter_script"));
+                return;
             } else if (obj.name == "command_ifandor_add") {//Если пользователь нажал на кнопку добавления условия blockB                
                 var isNoBCommands = false;
                 for (var i = 0; i < obj.parent._children.length; i++) {
@@ -222,6 +224,27 @@ cc.Class({
         }
         if(this)
             this._cLC = 0;
+    },
+    
+    //Функция обрабатывающая ввод числа в counter блок
+    counterAddHandler(digit, objScript){
+        var intDigit = parseInt(digit);
+        var label = cc.director._globalVariables.scrollNode.getChildByName("label_counter")._components[0];
+        //Если надо стереть символ
+        if(intDigit == -1){
+            var str = objScript._counter.toString();            
+            str = str.substring(0,str.length - 1);
+            str = str.length == 0 ? "0":str;
+            objScript._counter = parseInt(str);
+        }
+        else if(label.string.length < 4){//Если символов меньше 4
+            //Добавляем число в переменную счетчика
+            objScript._counter = parseInt(objScript._counter + "" + intDigit);
+        }
+        //Отображаем ее на label текста
+        label.string = objScript._counter.toString();
+        //Меняем значение на label-а на самой команде
+        objScript.node.getChildByName("command_counter").getChildByName("label_counter")._components[0].string = label.string;
     },
     
     setParentAddItem(par) {
