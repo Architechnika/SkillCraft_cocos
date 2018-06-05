@@ -64,7 +64,7 @@ cc.Class({
                 if (el.name == "command_if") {
                     var commandsArr = [] //массив для команд у if
                     var elseCommandsArr = [] //массив для else команд у if
-                     var interactArr = [];
+                    var interactArr = [];
                     var ifCommands = el.getChildByName("command_block_if").getChildByName("commands").children;
                     var elseCommands = el.getChildByName("command_block_if").getChildByName("bottom").getChildByName("elseCommands").children;
                     if (ifCommands.length > 1) {
@@ -74,12 +74,13 @@ cc.Class({
                         this.generationArrayRoadCommands(elseCommands, elseCommandsArr)
                     }
                     nameArr.push(el.name)
+                    var lookName = "null"
                     for (var k = 0; k < el.getChildByName("command_block_if").children.length; k++) {
                         //добавляем проверку того куда смотрит робот
                         var ch = el.getChildByName("command_block_if").children[k]
                         if (ch.name.indexOf("command_look") >= 0) {
                             if (ch.active == true) {
-                                nameArr.push(ch.name)
+                                lookName = ch.name
                             }
                         }
                         if (ch.name.indexOf("command_interact") >= 0) {
@@ -88,16 +89,37 @@ cc.Class({
                             }
                         }
                     }
+                    nameArr.push(lookName)
                     nameArr.push(interactArr)
                     nameArr.push(commandsArr)
                     nameArr.push(elseCommandsArr)
                 } else if (el.name == "command_repeatif") {
-                    var commandsArr = []
+                    var commandsArr = [];
+                    var interactArr = [];
                     var repeatifCommands = el.getChildByName("command_block_repeatif").getChildByName("commands").children;
                     if (repeatifCommands.length > 1) {
                         this.generationArrayRoadCommands(repeatifCommands, commandsArr)
                     }
+                    //
+                    var lookName = "null"
+                    for (var k = 0; k < el.getChildByName("command_block_repeatif").children.length; k++) {
+                        //добавляем проверку того куда смотрит робот
+                        var ch = el.getChildByName("command_block_repeatif").children[k]
+                        if (ch.name.indexOf("command_look") >= 0) {
+                            if (ch.active == true) {
+                                lookName = ch.name
+                            }
+                        }
+                        if (ch.name.indexOf("command_interact") >= 0) {
+                            if (ch.active == true) {
+                                interactArr.push(ch.name)
+                            }
+                        }
+                    }
+                    //
                     nameArr.push(el.name)
+                    nameArr.push(lookName)
+                    nameArr.push(interactArr)
                     nameArr.push(commandsArr)
                 } else if (el.name == "command_repeat") {
                     var commandsArr = []
