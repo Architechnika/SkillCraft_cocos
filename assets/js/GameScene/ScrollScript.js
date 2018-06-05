@@ -127,7 +127,7 @@ cc.Class({
                 arr = cc.instantiate(this.blockIF);
             else if (arr.name == "command_repeatif")
                 arr = cc.instantiate(this.blockRepeatIF);
-            else if (arr.name == "command_repeat");
+            else if (arr.name == "command_repeat")
                 arr = cc.instantiate(this.blockCount);//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
             cont.addChild(cc.instantiate(arr));
         } else {

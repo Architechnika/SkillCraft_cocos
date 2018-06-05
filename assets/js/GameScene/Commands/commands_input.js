@@ -14,6 +14,10 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
+        commandMenu: {
+            default: null,
+            type: cc.Prefab
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -132,6 +136,7 @@ cc.Class({
         this.node.ifBlock = this.ifBlock;
         this.node.repeatIfBlock = this.repeatIfBlock;
         this.node.counterBlock = this.counterBlock;
+        this.node.commandMenu = this.commandMenu;
         this.node._commandAddState = this._commandAddState;
         this.node.globalVar = cc.director._globalVariables;
         this.node._onLeftScrollClick = this._onLeftScrollClick;
@@ -140,6 +145,7 @@ cc.Class({
         this.node._clC = 0; //Счетчик кликов по элементам скрола(нужен для отмены срабатывания на один клик, когда жмешь на кодмап и скорл сразу нажимается тоже)
         this.node.codeViewCommandClickHandler = this.codeViewCommandClickHandler;
         this.node.counterAddHandler = this.counterAddHandler;
+        this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
         
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
@@ -152,8 +158,11 @@ cc.Class({
                 this._onLeftScrollClick(event);
             } else if (this.parent.parent.parent.name == "rightScroll") {
                 this._onRightScrollClick(event);
+            } else if(event.target.name !== "command_plus" && event.target.name !== "command_line" && event.target.name !== "command_plusCM"){//Это если нажали на команду которая находится в codeMapNode
+                this.codeViewElementClickHandler(event);
             }
             event._propagationStopped = true;
+            cc.director._globalVariables.eventDownedOn = undefined;
         });
 
         this.node.on('mousedown', function (event) {
@@ -224,6 +233,25 @@ cc.Class({
         }
         if(this)
             this._cLC = 0;
+    },
+    
+    //Обработчик нажатия на элементы в кодмапе(Отрисовка меню управления элементами)
+    codeViewElementClickHandler(event){
+        var elem = event.target;
+        var menuObj = cc.director._globalVariables.codeMapMenu;
+        var wElem = elem.getBoundingBoxToWorld();//Получаем координаты элемента в мировых координатах
+        
+        menuObj.x = wElem.x + (wElem.width / 2);
+        menuObj.y = wElem.y - (wElem.height / 4);
+        menuObj.width = elem.width;
+        menuObj.height = elem.height;
+        menuObj.scaleX = cc.director._globalVariables.codeMapNode.scaleX;
+        menuObj.scaleY = cc.director._globalVariables.codeMapNode.scaleY;
+        
+        menuObj.active = true;
+        console.log( + " " + elem._width + ":" + elem.height);
+        //console.log(elem.name + " " + this.commandMenu);
+        console.log(menuObj.getBoundingBoxToWorld());
     },
     
     //Функция обрабатывающая ввод числа в counter блок

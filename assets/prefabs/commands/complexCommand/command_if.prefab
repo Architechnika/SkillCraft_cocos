@@ -22,14 +22,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 162
+        "__id__": 163
       },
       {
-        "__id__": 163
+        "__id__": 164
       }
     ],
     "_prefab": {
-      "__id__": 164
+      "__id__": 165
     },
     "_id": "",
     "_opacity": 255,
@@ -134,14 +134,14 @@
         "__id__": 158
       },
       {
-        "__id__": 159
+        "__id__": 160
       },
       {
-        "__id__": 160
+        "__id__": 161
       }
     ],
     "_prefab": {
-      "__id__": 161
+      "__id__": 162
     },
     "_id": "",
     "_opacity": 255,
@@ -1657,7 +1657,10 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": {
+      "__uuid__": "37f89b4b-af42-4973-9a1c-8f912517757e"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1951,7 +1954,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2245,7 +2249,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2539,7 +2544,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2833,7 +2839,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3127,7 +3134,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3421,7 +3429,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3715,7 +3724,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4009,7 +4019,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4303,7 +4314,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4597,7 +4609,8 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4913,7 +4926,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 159
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -4945,6 +4962,15 @@
     "_N$target": {
       "__id__": 2
     }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 42
+    },
+    "component": "commands_input",
+    "handler": "codeViewElementClickHandler",
+    "customEventData": ""
   },
   {
     "__type__": "cc.BoxCollider",

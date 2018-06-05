@@ -288,7 +288,10 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null
+    "counterBlock": null,
+    "commandMenu": {
+      "__uuid__": "37f89b4b-af42-4973-9a1c-8f912517757e"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
