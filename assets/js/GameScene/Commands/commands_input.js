@@ -159,6 +159,7 @@ cc.Class({
             cc.director._globalVariables.eventDownedOn = this.parent.parent.parent.name;
         });
     },
+    
     //Метод обработчик измения blockA blockB и counterBlock в сложных командах
     //Name - имя добавляемой команды
     //Obj - указатель на команду которую меняем
