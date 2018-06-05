@@ -44,7 +44,7 @@ cc.Class({
             rouColCount: 0,
 
         }
-        if (cc.sys.localStorage.getItem(this.key)) {
+        if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
             this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
             this.arrayRoadCommands = this.arrayCopy(this.saveData.arrayRoadCommandsNames);
             this.arrayRoadCommands = this.parseRoadsCommands(this.saveData.arrayRoadCommandsNames);
@@ -52,8 +52,7 @@ cc.Class({
         }
     },
 
-    start() {
-    },
+    start() {},
 
     generationArrayRoadCommands(arr, nameArr) {
         // метод рукурсивно создает древовидный массив имен кодмапа для хранения
@@ -195,6 +194,8 @@ cc.Class({
         if (arr && arr.length > 0 && this.allcommands.length > 0) {
             //Получаем скрипт в котором функция для инициализации сложных комамнд
             var complexCommandScript = cc.director._scene.name == "GameScene" ? this.node.getChildByName("staticObj").getComponent("commands_input") : undefined;
+            if(complexCommandScript === undefined)
+                return;
             var method = complexCommandScript.codeViewCommandClickHandler;
             for (var el = 0; el < arr.length; el++) {
                 var comm = arr[el];
@@ -208,9 +209,15 @@ cc.Class({
                         complexPref.getChildByName("command_block_if").getComponent("command_if_script").addCommand(ifPrefab);
                     else if (par.name == "elseCommands")
                         complexPref.getChildByName("command_block_if").getComponent("command_if_script").addElseCommand(ifPrefab)
-                    this.complexCommandParse(arr[el + 1], ifComm, ifPrefab);
-                    this.complexCommandParse(arr[el + 2], ifCommElse, ifPrefab);
-                    el += 2;
+                    method(arr[el + 1], ifPrefab.getChildByName("command_block_if").getChildByName("command_block_a"));
+                    var interactArr = arr[el + 2];
+                    for (var u = 0; u < interactArr.length; u++) {
+                        var interName = interactArr[u];
+                        method(interName, ifPrefab.getChildByName("command_block_if").getChildByName("command_ifandor_add"));
+                    }
+                    this.complexCommandParse(arr[el + 3], ifComm, ifPrefab);
+                    this.complexCommandParse(arr[el + 4], ifCommElse, ifPrefab);
+                    el += 4;
                 } else if (comm == "command_repeatif") {
                     var repeatifPrefab = cc.instantiate(this.allcommands[1])
                     var repeatifComm = repeatifPrefab.getChildByName("command_block_repeatif").getChildByName("commands");
@@ -218,8 +225,14 @@ cc.Class({
                         par.addChild(repeatifPrefab)
                     else if (par.name == "commands")
                         complexPref.getChildByName("command_block_repeatif").getComponent("command_repeatif_script").addCommand(repeatifPrefab);
-                    this.complexCommandParse(arr[el + 1], repeatifComm, repeatifPrefab);
-                    el += 1;
+                    method(arr[el + 1], repeatifPrefab.getChildByName("command_block_repeatif").getChildByName("command_block_a"));
+                    var interactArr = arr[el + 2];
+                    for (var u = 0; u < interactArr.length; u++) {
+                        var interName = interactArr[u];
+                        method(interName, repeatifPrefab.getChildByName("command_block_repeatif").getChildByName("command_ifandor_add"));
+                    }
+                    this.complexCommandParse(arr[el + 3], repeatifComm, repeatifPrefab);
+                    el += 3;
                 } else if (comm == "command_repeat") {
                     var repeatPrefab = cc.instantiate(this.allcommands[2])
                     var repeatComm = repeatPrefab.getChildByName("command_block_repeat").getChildByName("commands");

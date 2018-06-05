@@ -218,7 +218,8 @@ cc.Class({
             cc.director._globalVariables.nodeCommandToInit = undefined;
             cc.director._setScrollVisible(false, true);
         }
-        this._cLC = 0;
+        if(this)
+            this._cLC = 0;
     },
     
     setParentAddItem(par) {
