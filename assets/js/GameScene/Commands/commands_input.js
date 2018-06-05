@@ -166,7 +166,9 @@ cc.Class({
     codeViewCommandClickHandler(name, obj){
         //Инитим значение, если нужно
         if (obj) {
-            if (obj.name == "command_block_count") {//Если вводим количество итераций для блока count
+            if (obj.name == "command_counter") {//Если вводим количество итераций для блока count
+                var digitStr = name.split("_")[2];
+                console.log(digitStr);
             } else if (obj.name == "command_ifandor_add") {//Если пользователь нажал на кнопку добавления условия blockB                
                 var isNoBCommands = false;
                 for (var i = 0; i < obj.parent._children.length; i++) {

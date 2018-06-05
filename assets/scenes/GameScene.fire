@@ -71,23 +71,23 @@
         "__id__": 27
       },
       {
-        "__id__": 53
+        "__id__": 55
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 92
-      },
-      {
-        "__id__": 93
-      },
-      {
         "__id__": 94
       },
       {
         "__id__": 95
+      },
+      {
+        "__id__": 96
+      },
+      {
+        "__id__": 97
       }
     ],
     "_prefab": null,
@@ -1036,13 +1036,16 @@
       },
       {
         "__id__": 40
+      },
+      {
+        "__id__": 52
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 52
+        "__id__": 54
       }
     ],
     "_prefab": null,
@@ -1967,6 +1970,82 @@
     "_atlas": null
   },
   {
+    "__type__": "cc.Node",
+    "_name": "label_counter",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 27
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": false,
+    "_components": [
+      {
+        "__id__": 53
+      }
+    ],
+    "_prefab": null,
+    "_id": "05XI2W31NCFbzFhT6RvjHN",
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 200
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": -48,
+      "y": 30
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 52
+    },
+    "_enabled": true,
+    "_useOriginalSize": false,
+    "_actualFontSize": 100,
+    "_fontSize": 100,
+    "_lineHeight": 100,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "5a35ec5b-752e-488d-9c98-c551df00d864"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_N$string": "\n",
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0
+  },
+  {
     "__type__": "41a2c1ylwFH2LYHl5sCJrUL",
     "_name": "",
     "_objFlags": 0,
@@ -2155,6 +2234,41 @@
         "__uuid__": "f4f50d29-aacb-453e-8473-f50eb73d64a9"
       }
     ],
+    "blockCountCommands": [
+      {
+        "__uuid__": "c3d86ed4-ddb1-4524-9c39-ad9db537b3e5"
+      },
+      {
+        "__uuid__": "664573c7-e793-4bfa-aa32-f1742eac2f52"
+      },
+      {
+        "__uuid__": "ea4a9506-1fb3-4fe1-894e-774f71a0eb17"
+      },
+      {
+        "__uuid__": "1c69c71c-76d7-49fb-9584-eb89d4cf51ca"
+      },
+      {
+        "__uuid__": "3a745696-dae3-492f-afe1-74d72fdcd6e0"
+      },
+      {
+        "__uuid__": "fddf266d-90db-473a-986c-21d032dc8f45"
+      },
+      {
+        "__uuid__": "2df47c44-03dc-47c3-8b8c-79934dbd1de1"
+      },
+      {
+        "__uuid__": "8c51f904-cbda-4df2-bf21-40fff79d5ad0"
+      },
+      {
+        "__uuid__": "6f1d59f7-de5f-4199-9640-f65387e2eb0d"
+      },
+      {
+        "__uuid__": "3e7fcc56-9701-4a7b-adf3-b6f56fb855f2"
+      },
+      {
+        "__uuid__": "99373d76-b86e-4da4-9273-84fedaaca1ee"
+      }
+    ],
     "blockIF": {
       "__uuid__": "cc463290-5e4a-40db-976a-973d418a5436"
     },
@@ -2175,32 +2289,32 @@
     },
     "_children": [
       {
-        "__id__": 54
+        "__id__": 56
       },
       {
-        "__id__": 60
+        "__id__": 62
       },
       {
-        "__id__": 66
+        "__id__": 68
       },
       {
-        "__id__": 72
+        "__id__": 74
       },
       {
-        "__id__": 78
+        "__id__": 80
       },
       {
-        "__id__": 84
+        "__id__": 86
       },
       {
-        "__id__": 87
+        "__id__": 89
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 91
+        "__id__": 93
       }
     ],
     "_prefab": null,
@@ -2245,21 +2359,21 @@
     "_name": "startButton",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [
       {
-        "__id__": 55
+        "__id__": 57
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 57
+        "__id__": 59
       },
       {
-        "__id__": 58
+        "__id__": 60
       }
     ],
     "_prefab": null,
@@ -2304,14 +2418,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 54
+      "__id__": 56
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 56
+        "__id__": 58
       }
     ],
     "_prefab": null,
@@ -2356,7 +2470,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 55
+      "__id__": 57
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2378,7 +2492,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 54
+      "__id__": 56
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2404,7 +2518,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 54
+      "__id__": 56
     },
     "_enabled": true,
     "transition": 2,
@@ -2426,7 +2540,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 59
+        "__id__": 61
       }
     ],
     "_N$interactable": true,
@@ -2458,13 +2572,13 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 54
+      "__id__": 56
     }
   },
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 53
+      "__id__": 55
     },
     "component": "GuiScript",
     "handler": "onButtonClicked",
@@ -2475,21 +2589,21 @@
     "_name": "prevStepButton",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [
       {
-        "__id__": 61
+        "__id__": 63
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 63
+        "__id__": 65
       },
       {
-        "__id__": 64
+        "__id__": 66
       }
     ],
     "_prefab": null,
@@ -2534,14 +2648,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 60
+      "__id__": 62
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 62
+        "__id__": 64
       }
     ],
     "_prefab": null,
@@ -2586,7 +2700,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 61
+      "__id__": 63
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2608,7 +2722,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 60
+      "__id__": 62
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2634,7 +2748,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 60
+      "__id__": 62
     },
     "_enabled": true,
     "transition": 2,
@@ -2656,7 +2770,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 65
+        "__id__": 67
       }
     ],
     "_N$interactable": true,
@@ -2688,13 +2802,13 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 60
+      "__id__": 62
     }
   },
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 53
+      "__id__": 55
     },
     "component": "GuiScript",
     "handler": "onButtonClicked",
@@ -2705,21 +2819,21 @@
     "_name": "newxtSpetButton",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [
       {
-        "__id__": 67
+        "__id__": 69
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 69
+        "__id__": 71
       },
       {
-        "__id__": 70
+        "__id__": 72
       }
     ],
     "_prefab": null,
@@ -2764,14 +2878,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 66
+      "__id__": 68
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 68
+        "__id__": 70
       }
     ],
     "_prefab": null,
@@ -2816,7 +2930,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 67
+      "__id__": 69
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -2838,7 +2952,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 66
+      "__id__": 68
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -2864,7 +2978,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 66
+      "__id__": 68
     },
     "_enabled": true,
     "transition": 2,
@@ -2886,7 +3000,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 71
+        "__id__": 73
       }
     ],
     "_N$interactable": true,
@@ -2918,13 +3032,13 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 66
+      "__id__": 68
     }
   },
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 53
+      "__id__": 55
     },
     "component": "GuiScript",
     "handler": "onButtonClicked",
@@ -2935,21 +3049,21 @@
     "_name": "reloadButton",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [
       {
-        "__id__": 73
+        "__id__": 75
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 75
+        "__id__": 77
       },
       {
-        "__id__": 76
+        "__id__": 78
       }
     ],
     "_prefab": null,
@@ -2994,14 +3108,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 72
+      "__id__": 74
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 74
+        "__id__": 76
       }
     ],
     "_prefab": null,
@@ -3046,7 +3160,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 73
+      "__id__": 75
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -3068,7 +3182,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 72
+      "__id__": 74
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3094,7 +3208,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 72
+      "__id__": 74
     },
     "_enabled": true,
     "transition": 2,
@@ -3116,7 +3230,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 77
+        "__id__": 79
       }
     ],
     "_N$interactable": true,
@@ -3148,13 +3262,13 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 72
+      "__id__": 74
     }
   },
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 53
+      "__id__": 55
     },
     "component": "GuiScript",
     "handler": "onButtonClicked",
@@ -3165,21 +3279,21 @@
     "_name": "menuButton",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [
       {
-        "__id__": 79
+        "__id__": 81
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 81
+        "__id__": 83
       },
       {
-        "__id__": 82
+        "__id__": 84
       }
     ],
     "_prefab": null,
@@ -3224,14 +3338,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 78
+      "__id__": 80
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 80
+        "__id__": 82
       }
     ],
     "_prefab": null,
@@ -3276,7 +3390,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 79
+      "__id__": 81
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -3298,7 +3412,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 80
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3324,7 +3438,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 80
     },
     "_enabled": true,
     "transition": 2,
@@ -3346,7 +3460,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 83
+        "__id__": 85
       }
     ],
     "_N$interactable": true,
@@ -3378,13 +3492,13 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 78
+      "__id__": 80
     }
   },
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 53
+      "__id__": 55
     },
     "component": "GuiScript",
     "handler": "onButtonClicked",
@@ -3395,17 +3509,17 @@
     "_name": "time",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 85
+        "__id__": 87
       },
       {
-        "__id__": 86
+        "__id__": 88
       }
     ],
     "_prefab": null,
@@ -3450,7 +3564,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 86
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -3474,7 +3588,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 86
     },
     "_enabled": true,
     "_totalSeconds": 0
@@ -3484,18 +3598,18 @@
     "_name": "sprite",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 55
     },
     "_children": [
       {
-        "__id__": 88
+        "__id__": 90
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 90
+        "__id__": 92
       }
     ],
     "_prefab": null,
@@ -3540,14 +3654,14 @@
     "_name": "label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 87
+      "__id__": 89
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 89
+        "__id__": 91
       }
     ],
     "_prefab": null,
@@ -3592,7 +3706,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 88
+      "__id__": 90
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -3616,7 +3730,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 87
+      "__id__": 89
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3642,23 +3756,23 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 53
+      "__id__": 55
     },
     "_enabled": true,
     "startButton": {
-      "__id__": 54
+      "__id__": 56
     },
     "prevStepButton": {
-      "__id__": 60
+      "__id__": 62
     },
     "nextStepButton": {
-      "__id__": 66
+      "__id__": 68
     },
     "reloadButton": {
-      "__id__": 72
+      "__id__": 74
     },
     "menuButton": {
-      "__id__": 78
+      "__id__": 80
     },
     "_playerObj": null
   },
@@ -3695,7 +3809,7 @@
     "parentAdd": null,
     "lastAddCommandH": 0,
     "labelBoxes": {
-      "__id__": 89
+      "__id__": 91
     },
     "localStorageScript": null
   },
@@ -3855,7 +3969,7 @@
       "__id__": 12
     },
     "guiNode": {
-      "__id__": 53
+      "__id__": 55
     }
   }
 ]

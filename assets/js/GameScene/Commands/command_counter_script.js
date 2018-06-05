@@ -4,6 +4,7 @@ cc.Class({
 
     properties: {
         commandType: "counter",
+        _counter: 0,
     },
 
 
@@ -69,6 +70,15 @@ cc.Class({
     },
     start() {
 
+    },
+    
+    //Обработчик событий клика по кнопкам внутри команды counter
+    onCommandElementClick(event){
+        var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+        //Запоминаем эту ноду для инициализации
+        cc.director._globalVariables.nodeCommandToInit = event.target;
+        script.addToRightScroll(script.blockCountCommands);
+        cc.director._setScrollVisible(true);
     },
 
     update(dt) {

@@ -117,7 +117,7 @@ cc.Class({
         }
     },
     
-    //Обработчик событий клика по кнопкам внутри команды if
+    //Обработчик событий клика по кнопкам внутри команды repeatif
     onCommandElementClick(event){
          var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
         //Инитим скролл нужными значениями
