@@ -122,10 +122,12 @@ cc.Class({
                 } else if (el.name == "command_repeat") {
                     var commandsArr = []
                     var repeatCommands = el.getChildByName("command_block_repeat").getChildByName("commands").children;
+                    var counter = el.getChildByName("command_block_repeat").getComponent("command_counter_script")._counter;
                     if (repeatCommands.length > 1) {
                         this.generationArrayRoadCommands(repeatCommands, commandsArr)
                     }
                     nameArr.push(el.name)
+                    nameArr.push(counter)
                     nameArr.push(commandsArr)
                 } else {
                     if (el.name != "command_plus")
@@ -238,12 +240,13 @@ cc.Class({
                 } else if (comm == "command_repeat") {
                     var repeatPrefab = cc.instantiate(this.allcommands[2])
                     var repeatComm = repeatPrefab.getChildByName("command_block_repeat").getChildByName("commands");
+                    repeatPrefab.getChildByName("command_block_repeat").getComponent("command_counter_script")._counter = arr[el + 1]
+                    this.complexCommandParse(arr[el + 2], repeatComm, repeatPrefab.getChildByName("command_block_repeat").getComponent("command_counter_script"));
                     if (par.name == "command_none")
                         par.addChild(repeatPrefab)
                     else if (par.name == "commands")
                         complexPref.addCommand(repeatPrefab);
-                    this.complexCommandParse(arr[el + 1], repeatComm, repeatPrefab.getChildByName("command_block_repeat").getComponent("command_counter_script"));
-                    el += 1;
+                    el += 2;
                 } else {
                     for (var pNames = 0; pNames < this.allcommands.length; pNames++) {
                         var pf = this.allcommands[pNames]
@@ -261,8 +264,6 @@ cc.Class({
                         }
                     }
                 }
-                //  if (complexPref)
-                //  complexPref.update();
             }
         }
     },
