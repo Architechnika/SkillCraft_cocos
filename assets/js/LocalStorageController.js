@@ -183,8 +183,10 @@ cc.Class({
                 var commands = arr[i][j];
                 if (Array.isArray(commands)) {
                     var par = cc.instantiate(this.allcommands[31]);
-                    this.complexCommandParse(commands, par, null)
-                    arrPref[i][j] = par
+                    if (par && par != null) {
+                        this.complexCommandParse(commands, par, null)
+                        arrPref[i][j] = par
+                    }
                 }
             }
         }
@@ -194,7 +196,7 @@ cc.Class({
         if (arr && arr.length > 0 && this.allcommands.length > 0) {
             //Получаем скрипт в котором функция для инициализации сложных комамнд
             var complexCommandScript = cc.director._scene.name == "GameScene" ? this.node.getChildByName("staticObj").getComponent("commands_input") : undefined;
-            if(complexCommandScript === undefined)
+            if (complexCommandScript === undefined)
                 return;
             var method = complexCommandScript.codeViewCommandClickHandler;
             for (var el = 0; el < arr.length; el++) {
@@ -203,35 +205,35 @@ cc.Class({
                     var ifPrefab = cc.instantiate(this.allcommands[0])
                     var ifComm = ifPrefab.getChildByName("command_block_if").getChildByName("commands");
                     var ifCommElse = ifPrefab.getChildByName("command_block_if").getChildByName("bottom").getChildByName("elseCommands");
-                    if (par.name == "command_none")
-                        par.addChild(ifPrefab)
-                    else if (par.name == "commands")
-                        complexPref.getChildByName("command_block_if").getComponent("command_if_script").addCommand(ifPrefab);
-                    else if (par.name == "elseCommands")
-                        complexPref.getChildByName("command_block_if").getComponent("command_if_script").addElseCommand(ifPrefab)
                     method(arr[el + 1], ifPrefab.getChildByName("command_block_if").getChildByName("command_block_a"));
                     var interactArr = arr[el + 2];
                     for (var u = 0; u < interactArr.length; u++) {
                         var interName = interactArr[u];
                         method(interName, ifPrefab.getChildByName("command_block_if").getChildByName("command_ifandor_add"));
                     }
-                    this.complexCommandParse(arr[el + 3], ifComm, ifPrefab);
-                    this.complexCommandParse(arr[el + 4], ifCommElse, ifPrefab);
+                    this.complexCommandParse(arr[el + 3], ifComm, ifPrefab.getChildByName("command_block_if").getComponent("command_if_script"));
+                    this.complexCommandParse(arr[el + 4], ifCommElse, ifPrefab.getChildByName("command_block_if").getComponent("command_if_script"));
+                    if (par.name == "command_none")
+                        par.addChild(ifPrefab)
+                    else if (par.name == "commands") {
+                        complexPref.addCommand(ifPrefab)
+                    } else if (par.name == "elseCommands")
+                        complexPref.addElseCommand(ifPrefab)
                     el += 4;
                 } else if (comm == "command_repeatif") {
                     var repeatifPrefab = cc.instantiate(this.allcommands[1])
                     var repeatifComm = repeatifPrefab.getChildByName("command_block_repeatif").getChildByName("commands");
-                    if (par.name == "command_none")
-                        par.addChild(repeatifPrefab)
-                    else if (par.name == "commands")
-                        complexPref.getChildByName("command_block_repeatif").getComponent("command_repeatif_script").addCommand(repeatifPrefab);
                     method(arr[el + 1], repeatifPrefab.getChildByName("command_block_repeatif").getChildByName("command_block_a"));
                     var interactArr = arr[el + 2];
                     for (var u = 0; u < interactArr.length; u++) {
                         var interName = interactArr[u];
                         method(interName, repeatifPrefab.getChildByName("command_block_repeatif").getChildByName("command_ifandor_add"));
                     }
-                    this.complexCommandParse(arr[el + 3], repeatifComm, repeatifPrefab);
+                    this.complexCommandParse(arr[el + 3], repeatifComm, repeatifPrefab.getChildByName("command_block_repeatif").getComponent("command_repeatif_script"));
+                    if (par.name == "command_none")
+                        par.addChild(repeatifPrefab)
+                    else if (par.name == "commands")
+                        complexPref.addCommand(repeatifPrefab);
                     el += 3;
                 } else if (comm == "command_repeat") {
                     var repeatPrefab = cc.instantiate(this.allcommands[2])
@@ -239,8 +241,8 @@ cc.Class({
                     if (par.name == "command_none")
                         par.addChild(repeatPrefab)
                     else if (par.name == "commands")
-                        complexPref.getChildByName("command_block_repeat").getComponent("command_counter_script").addCommand(repeatPrefab);
-                    this.complexCommandParse(arr[el + 1], repeatComm, repeatPrefab);
+                        complexPref.addCommand(repeatPrefab);
+                    this.complexCommandParse(arr[el + 1], repeatComm, repeatPrefab.getChildByName("command_block_repeat").getComponent("command_counter_script"));
                     el += 1;
                 } else {
                     for (var pNames = 0; pNames < this.allcommands.length; pNames++) {
@@ -249,24 +251,18 @@ cc.Class({
                             var child = cc.instantiate(pf);
                             if (complexPref != null) {
                                 if (par.name == "commands") {
-                                    if (complexPref.name == "command_if") {
-                                        complexPref.getChildByName("command_block_if").getComponent("command_if_script").addCommand(child);
-                                    }
-                                    if (complexPref.name == "command_repeatif") {
-                                        complexPref.getChildByName("command_block_repeatif").getComponent("command_repeatif_script").addCommand(child);
-                                    }
-                                    if (complexPref.name == "command_repeat") {
-                                        complexPref.getChildByName("command_block_repeat").getComponent("command_counter_script").addCommand(child);
-                                    }
+                                    complexPref.addCommand(child);
                                 } else if (par.name == "elseCommands") {
-                                    complexPref.getChildByName("command_block_if").getComponent("command_if_script").addElseCommand(child)
+                                    complexPref.addElseCommand(child)
                                 }
                             } else
                                 par.addChild(child);
-                            continue;
+                            break;
                         }
                     }
                 }
+                //  if (complexPref)
+                //  complexPref.update();
             }
         }
     },

@@ -27,6 +27,7 @@ cc.Class({
         if (this.parent.isMoved)
             return;
         cc.director._globalVariables.commandAddState = "road";
+         cc.director._globalVariables.lastAddCommandH = 0
         //Отображаем кодмап
         if(!cc.director._globalVariables.codeMapNode.active)
             cc.director._globalVariables.codeMapNode.active = true;

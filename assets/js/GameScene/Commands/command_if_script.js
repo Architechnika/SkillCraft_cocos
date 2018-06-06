@@ -17,7 +17,7 @@ cc.Class({
         this._maxW = 400;
     },
 
-    start() {},
+    start() {console.log(this.node.parent.name)},
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
         if (element != null) {
@@ -81,7 +81,7 @@ cc.Class({
                 comm.anchorX = 0;
                 comm.anchorY = 1;
                 var itemWH = comm.height;
-                var h = comm.children[0].height;
+                var h =itemWH;
                 var w = 0;
                 if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
                     h = comm.children[0].height;
@@ -132,9 +132,8 @@ cc.Class({
     update(dt) {
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H != this.node.parent.height) {
             var itemWH = this.node.height;
-
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
-            //console.log(cc.director._globalVariables.lastAddCommandH)
+
             // this.node.parent.parent.height += cc.director._globalVariables.lastAddCommandH;
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {
