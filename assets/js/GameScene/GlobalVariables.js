@@ -29,10 +29,12 @@ cc.Class({
         cc.director._globalVariables.gameNode = this.node.getChildByName("GameNode");
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
+        cc.director._globalVariables.codeMapMenu = this.node.parent.getChildByName("command_menu");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
         cc.director._globalVariables.localStorageScript = this.node.getComponent("LocalStorageController")
         cc.director._globalVariables.nodeCommandToInit = undefined; //ССылка но обьект в который мы добавляем значение(blockA blockB или countBlock в кодмапе)
         cc.director._globalVariables.eventDownedOn = undefined;
+        
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibleRight, visibleLeft) {
             if (this._globalVariables.scrollNode) {

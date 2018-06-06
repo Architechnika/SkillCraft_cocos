@@ -46,6 +46,11 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        //Цыфры для блока итераций
+        blockCountCommands:{
+            default: [],
+            type: cc.Prefab
+        },
         blockIF: {
             default: null,
             type: cc.Prefab
@@ -78,7 +83,6 @@ cc.Class({
     setCommandsState() {
         this.addToRightScroll(this.LegendCommands);
     },
-
     //При удалении из левого скрола, команда должна удалится отовсюду
     removeFromLeftScroll(element) {
         var cont = this.node.getChildByName("leftScroll").getChildByName("view").getChildByName("content");
@@ -123,12 +127,12 @@ cc.Class({
                 arr = cc.instantiate(this.blockIF);
             else if (arr.name == "command_repeatif")
                 arr = cc.instantiate(this.blockRepeatIF);
-            else if (arr.name == "command_repeat");
-                //arr = cc.instantiate(this.blockCount);//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
+            else if (arr.name == "command_repeat")
+                arr = cc.instantiate(this.blockCount);//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
             cont.addChild(cc.instantiate(arr));
         } else {
             for (var i = 0; i < arr.length; i++) {
-                if(arr[i].name == "command_block_repeat") continue;//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
+                //if(arr[i].name == "command_block_repeat") continue;//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
                 if (!arr[i].active)
                     arr[i].active = true;
                 if (arr[i].name == "command_if")

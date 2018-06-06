@@ -14,6 +14,10 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
+        commandMenu: {
+            default: null,
+            type: cc.Prefab
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -120,7 +124,7 @@ cc.Class({
             //Удаление элемента
             //this.globalVar.scrollNode.getComponent("ScrollScript").removeFromLeftScroll(this);
         }
-        _onCodeViewCommandClick()
+        //_onCodeViewCommandClick()
     },
 
     _onCodeViewCommandClick(event) {
@@ -132,6 +136,7 @@ cc.Class({
         this.node.ifBlock = this.ifBlock;
         this.node.repeatIfBlock = this.repeatIfBlock;
         this.node.counterBlock = this.counterBlock;
+        this.node.commandMenu = this.commandMenu;
         this.node._commandAddState = this._commandAddState;
         this.node.globalVar = cc.director._globalVariables;
         this.node._onLeftScrollClick = this._onLeftScrollClick;
@@ -139,6 +144,8 @@ cc.Class({
         this.node._onCodeViewCommandClick = this._onCodeViewCommandClick;
         this.node._clC = 0; //Счетчик кликов по элементам скрола(нужен для отмены срабатывания на один клик, когда жмешь на кодмап и скорл сразу нажимается тоже)
         this.node.codeViewCommandClickHandler = this.codeViewCommandClickHandler;
+        this.node.counterAddHandler = this.counterAddHandler;
+        this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
         
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
@@ -151,8 +158,11 @@ cc.Class({
                 this._onLeftScrollClick(event);
             } else if (this.parent.parent.parent.name == "rightScroll") {
                 this._onRightScrollClick(event);
+            } else if(event.target.name !== "command_plus" && event.target.name !== "command_line" && event.target.name !== "command_plusCM"){//Это если нажали на команду которая находится в codeMapNode
+                this.codeViewElementClickHandler(event);
             }
             event._propagationStopped = true;
+            cc.director._globalVariables.eventDownedOn = undefined;
         });
 
         this.node.on('mousedown', function (event) {
@@ -166,7 +176,10 @@ cc.Class({
     codeViewCommandClickHandler(name, obj){
         //Инитим значение, если нужно
         if (obj) {
-            if (obj.name == "command_block_count") {//Если вводим количество итераций для блока count
+            if (obj.name == "command_counter") {//Если вводим количество итераций для блока count
+                //Вызываем обработчик для добавления итерации в countblock
+                this.counterAddHandler(name == "command_backspace" ? "-1":name.split("_")[2], obj.parent.getComponent("command_counter_script"));
+                return;
             } else if (obj.name == "command_ifandor_add") {//Если пользователь нажал на кнопку добавления условия blockB                
                 var isNoBCommands = false;
                 for (var i = 0; i < obj.parent._children.length; i++) {
@@ -220,6 +233,46 @@ cc.Class({
         }
         if(this)
             this._cLC = 0;
+    },
+    
+    //Обработчик нажатия на элементы в кодмапе(Отрисовка меню управления элементами)
+    codeViewElementClickHandler(event){
+        var elem = event.target;
+        var menuObj = cc.director._globalVariables.codeMapMenu;
+        var wElem = elem.getBoundingBoxToWorld();//Получаем координаты элемента в мировых координатах
+        
+        menuObj.x = wElem.x + (wElem.width / 2);
+        menuObj.y = wElem.y - (wElem.height / 4);
+        menuObj.width = elem.width;
+        menuObj.height = elem.height;
+        menuObj.scaleX = cc.director._globalVariables.codeMapNode.scaleX;
+        menuObj.scaleY = cc.director._globalVariables.codeMapNode.scaleY;
+        
+        menuObj.active = true;
+        console.log( + " " + elem._width + ":" + elem.height);
+        //console.log(elem.name + " " + this.commandMenu);
+        console.log(menuObj.getBoundingBoxToWorld());
+    },
+    
+    //Функция обрабатывающая ввод числа в counter блок
+    counterAddHandler(digit, objScript){
+        var intDigit = parseInt(digit);
+        var label = cc.director._globalVariables.scrollNode.getChildByName("label_counter")._components[0];
+        //Если надо стереть символ
+        if(intDigit == -1){
+            var str = objScript._counter.toString();            
+            str = str.substring(0,str.length - 1);
+            str = str.length == 0 ? "0":str;
+            objScript._counter = parseInt(str);
+        }
+        else if(label.string.length < 4){//Если символов меньше 4
+            //Добавляем число в переменную счетчика
+            objScript._counter = parseInt(objScript._counter + "" + intDigit);
+        }
+        //Отображаем ее на label текста
+        label.string = objScript._counter.toString();
+        //Меняем значение на label-а на самой команде
+        objScript.node.getChildByName("command_counter").getChildByName("label_counter")._components[0].string = label.string;
     },
     
     setParentAddItem(par) {

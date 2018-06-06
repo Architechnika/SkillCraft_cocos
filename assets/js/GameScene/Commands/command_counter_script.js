@@ -4,6 +4,8 @@ cc.Class({
 
     properties: {
         commandType: "counter",
+        _counter: 0,
+        _commCounterLabel: cc.Label,
     },
 
 
@@ -70,6 +72,19 @@ cc.Class({
     start() {
 
     },
+    
+    //Обработчик событий клика по кнопкам внутри команды counter
+    onCommandElementClick(event){
+        var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
+        var labelNode = cc.director._globalVariables.scrollNode.getChildByName("label_counter");
+        var label = labelNode._components[0];
+        //Запоминаем эту ноду для инициализации
+        cc.director._globalVariables.nodeCommandToInit = event.target;
+        label.string = this._counter.toString();//Инитим лэйбл отображением итераций
+        labelNode.active = true;
+        script.addToRightScroll(script.blockCountCommands);//Добавляем в правый скролл набор команд для ввода цифр
+        cc.director._setScrollVisible(true);//Отображаем правый скролл
+    },
 
     update(dt) {
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H != this.node.parent.height) {
@@ -118,6 +133,15 @@ cc.Class({
     
     //Функция
     getCommand(playerObj) {
-        return undefined;
+        var resultArr = [];
+        if(this._counter > 0){
+            var container = this.node.getChildByName("commands")._children;
+            for (var i = 0; i < container.length > 0; i++) {
+                if (container[i].name !== "command_plus")
+                    resultArr.push(cc.instantiate(container[i]));
+            }
+            this._counter--;
+        }
+        return resultArr;
     }
 });
