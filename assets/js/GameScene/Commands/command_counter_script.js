@@ -129,6 +129,8 @@ cc.Class({
             this.node.parent.parent.parent.parent.width += d;
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
+        if(this.node.parent.name !== "content")
+            this.node.getChildByName("command_counter").getChildByName("label_counter")._components[0].string = parseInt(this._counter);
     },
     
     //Функция

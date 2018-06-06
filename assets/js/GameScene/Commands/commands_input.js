@@ -163,6 +163,7 @@ cc.Class({
             }
             event._propagationStopped = true;
             cc.director._globalVariables.eventDownedOn = undefined;
+            cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isMoved = false;
         });
 
         this.node.on('mousedown', function (event) {
@@ -272,7 +273,7 @@ cc.Class({
         //Отображаем ее на label текста
         label.string = objScript._counter.toString();
         //Меняем значение на label-а на самой команде
-        objScript.node.getChildByName("command_counter").getChildByName("label_counter")._components[0].string = label.string;
+        //objScript.node.getChildByName("command_counter").getChildByName("label_counter")._components[0].string = label.string;
     },
     
     setParentAddItem(par) {
