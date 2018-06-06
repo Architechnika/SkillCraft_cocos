@@ -153,6 +153,8 @@ cc.Class({
             }
             for (var i = 0; i < this.roadElemsArr.length; i++) {
                 var road = this.roadElemsArr[i];
+                if(road.name.indexOf("filed_start") >=0) //таким образом мы не сохраняем первую команду под роботом, чтобы не загрузить его каждый раз, он всегда создаеться и вовремя ново игры и при загрузке
+                    continue;
                 var i_r = road.getComponent("RoadScript").getI();
                 var j_r = road.getComponent("RoadScript").getJ();
                 if (road.roadCommands && road.roadCommands.length > 0) { // если дорога имеет команды, то храним их в соответствующем массиве
