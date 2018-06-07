@@ -242,8 +242,8 @@ cc.Class({
         var menuObj = cc.director._globalVariables.codeMapMenu;
         var wElem = elem.getBoundingBoxToWorld();//Получаем координаты элемента в мировых координатах
         
-        menuObj.x = wElem.x + (wElem.width / 2);
-        menuObj.y = wElem.y - (wElem.height / 4);
+        menuObj.x = wElem.x;// + (wElem.width / 2);
+        menuObj.y = wElem.y;// - (wElem.height / 4);
         menuObj.width = elem.width;
         menuObj.height = elem.height;
         menuObj.scaleX = cc.director._globalVariables.codeMapNode.scaleX;
