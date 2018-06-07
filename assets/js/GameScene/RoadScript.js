@@ -42,6 +42,7 @@ cc.Class({
         }
         cc.director._globalVariables.selectedRoad = this;
         if (cc.director._globalVariables.oldSelectRoad !== cc.director._globalVariables.selectedRoad) {
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
             cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(this.roadCommands);
             this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
             cc.director._globalVariables.oldSelectRoad = this;
@@ -52,7 +53,7 @@ cc.Class({
             cc.director._setScrollVisible(false, true);
         } else {
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
-            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
+          //  cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
             cc.director._setScrollVisible(true, true);
         }
     },
