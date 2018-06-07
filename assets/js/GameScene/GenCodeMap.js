@@ -46,9 +46,15 @@ cc.Class({
     clear() {
         //чистим весь кодмап
         if (this.node.children.length > 1) {
+             console.log("f")
             for (var i = this.node.children.length - 1; i > 0; i--) {
-                if (this.node.children[i].name != "command_plusCM")
-                    this.node.removeChild(this.node.children[i], false);
+                if (this.node.children[i].name != "command_plusCM") 
+                {
+                    var el = this.node.children[i];
+                    el.active = false
+                   // this.node.removeChild(this.node.children[i], false);
+                    
+                }
             }
             var plus = this.node.getChildByName("command_plusCM");
             plus.y = 0;
@@ -60,14 +66,14 @@ cc.Class({
     generation() {
         var road = cc.director._globalVariables.selectedRoad;
         if (road) {
-            this.clear();
+            //  this.clear();
             this.node.resetTransform;
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
                 //cc.director._globalVariables.codeMapNode.width = 0;
                 //this._changeAnchor(0.5);
-                var x = 0;//this.node.x + ();
+                var x = 0; //this.node.x + ();
                 var y = 0;
                 var itemWH = 0;
                 var maxW = 0;
@@ -78,7 +84,7 @@ cc.Class({
                     el.scaleX = el.scaleY = this.defaultElementScale;
                     itemWH = (el.height * el.scaleY);
                     el._parent = null;
-                    if(el.width > maxW)
+                    if (el.width > maxW)
                         maxW = el.width;
                     this.node.addChild(el);
                     el.resetTransform;
@@ -96,7 +102,7 @@ cc.Class({
                 this.plus.anchorY = 1;
                 this.plus.x = x;
                 this.plus.y = y;
-               // console.log(y+" "+itemWH)
+                // console.log(y+" "+itemWH)
                 var bB = this.node.getBoundingBoxToWorld().size;
                 var k = Math.floor(bB.height / bB.width);
                 //console.log(bB.height / bB.width);
@@ -106,15 +112,14 @@ cc.Class({
             //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
         }
     },
-    update(dt) 
-    {
-//         var ls = cc.director._globalVariables.localStorageScript
-//         if(cc.director._globalVariables.selectedRoad && cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands.length>0)
-//             {
-//                 var r = ls.generationArrayRoadCommands(cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands,ls.arrayRoadCommandsNames);
-//                 console.log(r)
-//                 r.length = 0;
-//                 ls.arrayRoadCommandsNames.length = 0;
-//             }
+    update(dt) {
+        //         var ls = cc.director._globalVariables.localStorageScript
+        //         if(cc.director._globalVariables.selectedRoad && cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands.length>0)
+        //             {
+        //                 var r = ls.generationArrayRoadCommands(cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands,ls.arrayRoadCommandsNames);
+        //                 console.log(r)
+        //                 r.length = 0;
+        //                 ls.arrayRoadCommandsNames.length = 0;
+        //             }
     },
 });

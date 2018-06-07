@@ -9,15 +9,17 @@ cc.Class({
         gameNode: null,
     },
     _lastAddCommandH: 0,
+    _isNeedGeneration: false,
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
         this._H = 400;
         this._W = 300;
         this._maxW = 400;
+        this._isNeedGeneration = false;
     },
 
-    start() {console.log(this.node.parent.name)},
+    start() {},
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
         if (element != null) {
@@ -81,7 +83,7 @@ cc.Class({
                 comm.anchorX = 0;
                 comm.anchorY = 1;
                 var itemWH = comm.height;
-                var h =itemWH;
+                var h = itemWH;
                 var w = 0;
                 if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
                     h = comm.children[0].height;
@@ -163,14 +165,26 @@ cc.Class({
                 }
             }
             this._H = this.node.parent.height;
-            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode")
+                {
+                this._isNeedGeneration = true;
+                    return;
+                }
         }
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
             if (this.node.parent.parent.parent.parent.name == "command_if")
                 this.node.parent.parent.parent.parent.width += d;
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
+                this._isNeedGeneration = true;
+                return;
+            }
+        }
+        if (this._isNeedGeneration == true) {
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            console.log("f")
+            this._isNeedGeneration = false;
         }
     },
 
