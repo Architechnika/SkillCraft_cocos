@@ -92,7 +92,9 @@ cc.Class({
     },
     //Функция для сдвига поля по дискрету
     move(discX, discY) {
-        if(cc.director._globalVariables.codeMapMenu.active) cc.director._globalVariables.codeMapMenu.active = false;
+        //Отключает отбражение меню на кодмапе если оно активно
+        if(cc.director._globalVariables.codeMapMenu.active) 
+            cc.director._globalVariables.codeMapMenu.active = false;
         var x = this.x + discX,
             y = this.y + discY;
         //----------------

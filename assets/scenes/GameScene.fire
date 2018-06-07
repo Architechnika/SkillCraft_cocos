@@ -973,7 +973,7 @@
     "node": {
       "__id__": 12
     },
-    "_enabled": false,
+    "_enabled": true,
     "_spriteFrame": {
       "__uuid__": "853fe133-4001-45fe-bd5d-68b3403d674f"
     },

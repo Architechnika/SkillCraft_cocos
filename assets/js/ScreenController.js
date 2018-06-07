@@ -17,13 +17,22 @@ cc.Class({
     onLoad() {
         this._setWH(cc.winSize);
         this._calcScreen(this._wSbuff);
+        this.node.on('mouseup', function (event) {
+            //Отключает отбражение меню на кодмапе если оно активно
+            if (cc.director._globalVariables && cc.director._globalVariables.codeMapMenu && cc.director._globalVariables.codeMapMenu.active){
+                //Если это блок команд то на него это правило не распространяется
+                var spl = event.target.name.split("_")[1];
+                if(spl && spl == "block");
+                else cc.director._globalVariables.codeMapMenu.active = false;
+            }
+        });
     },
 
     update(dt) {
         //if (cc.winSize.width !== this._wSbuff.width || cc.winSize.height !== this._wSbuff.height) {
-            /*console.log("Screen changed: " + cc.winSize.width + " " + cc.winSize.height);
-            console.log(this.node)*/
-           // this._calcScreen(cc.winSize);
+        /*console.log("Screen changed: " + cc.winSize.width + " " + cc.winSize.height);
+        console.log(this.node)*/
+        // this._calcScreen(cc.winSize);
         //}
     },
 
