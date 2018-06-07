@@ -131,6 +131,13 @@ cc.Class({
             bott.addChild(element);
         }
     },
+    //Удаляет comm из children-ов если она там есть
+    deleteCommand(comm){
+        var commands = this.node.getChildByName("commands");
+        var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        console.log(commands.removeChild(comm));
+        elseCommands.removeChild(comm);
+    },
     update(dt) {
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H != this.node.parent.height) {
             var itemWH = this.node.height;
@@ -183,7 +190,6 @@ cc.Class({
         }
         if (this._isNeedGeneration == true) {
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
-            console.log("f")
             this._isNeedGeneration = false;
         }
     },

@@ -20,6 +20,7 @@ cc.Class({
         arrayRoadGameObjectsNames: [], //массив с именами игровый объектов
         time: 0, //игровое время
         coinCount: 0, // количество собранных очков
+        _timeCounter: 0,
         allcommands: {
             default: [],
             type: cc.Prefab
@@ -276,7 +277,11 @@ cc.Class({
     },
 
     update(dt) {
-        this.save()
+        this._timeCounter += dt;
+        if(this._timeCounter > 5000){
+            this.save();
+            this._timeCounter = 0;
+        }
         //console.log(this.saveData.arrayRoadCommandsNames)
         // console.log(this.arrayRoadCommandsNames)
     },

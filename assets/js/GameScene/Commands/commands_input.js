@@ -242,9 +242,11 @@ cc.Class({
         if (spl && spl == "block") {//Если это блок со сложной командой то меню надо располагать не в центре а в левом верхнем элементе
             menuObj.x = wElem.x + (wElem.width / 2);
             menuObj.y = wElem.y + (wElem.height / 2.2);
+            menuObj._targetNode = elem.parent.parent;//Запоминаем элемент к которому привязываем меню
         } else {//Если простая команда то располагаем меню в позиции команды
             menuObj.x = wElem.x + (wElem.width / 1.5);
             menuObj.y = wElem.y + (wElem.height / 2.2);
+            menuObj._targetNode = elem;//Запоминаем элемент к которому привязываем меню
         }
         menuObj.width = elem.width;
         menuObj.height = elem.height;
