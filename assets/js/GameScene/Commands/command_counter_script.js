@@ -1,4 +1,3 @@
-
 cc.Class({
     extends: cc.Component,
 
@@ -7,12 +6,14 @@ cc.Class({
         _counter: 0,
         _commCounterLabel: cc.Label,
     },
+    _isNeedGeneration: false,
 
 
     onLoad() {
         this._H = 200;
         this._W = 200;
         this._maxW = 400;
+        this._isNeedGeneration = false;
     },
     addLine() {
         var element = cc.instantiate(this.node.getChildByName("command_line"));
@@ -40,7 +41,7 @@ cc.Class({
                     h = comm.children[0].height;
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
-                        w = this.node.parent.width >=this._maxW ? 0 : 200;
+                        w = this.node.parent.width >= this._maxW ? 0 : 200;
                     else w = 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
@@ -72,18 +73,18 @@ cc.Class({
     start() {
 
     },
-    
+
     //Обработчик событий клика по кнопкам внутри команды counter
-    onCommandElementClick(event){
+    onCommandElementClick(event) {
         var script = cc.director._globalVariables.scrollNode.getComponent("ScrollScript");
         var labelNode = cc.director._globalVariables.scrollNode.getChildByName("label_counter");
         var label = labelNode._components[0];
         //Запоминаем эту ноду для инициализации
         cc.director._globalVariables.nodeCommandToInit = event.target;
-        label.string = this._counter.toString();//Инитим лэйбл отображением итераций
+        label.string = this._counter.toString(); //Инитим лэйбл отображением итераций
         labelNode.active = true;
-        script.addToRightScroll(script.blockCountCommands);//Добавляем в правый скролл набор команд для ввода цифр
-        cc.director._setScrollVisible(true);//Отображаем правый скролл
+        script.addToRightScroll(script.blockCountCommands); //Добавляем в правый скролл набор команд для ввода цифр
+        cc.director._setScrollVisible(true); //Отображаем правый скролл
     },
 
     update(dt) {
@@ -122,21 +123,32 @@ cc.Class({
                     el.y -= cc.director._globalVariables.lastAddCommandH;
             }
             this._H = this.node.parent.height;
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
+                this._isNeedGeneration = true;
+                return;
+            }
         }
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
             this.node.parent.parent.parent.parent.width += d;
-            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
+                this._isNeedGeneration = true;
+                return;
+            }
         }
-        if(this.node.parent.name !== "content")
+        if (this.node.parent.name !== "content")
             this.node.getChildByName("command_counter").getChildByName("label_counter")._components[0].string = parseInt(this._counter);
+        if (this._isNeedGeneration == true) {
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            this._isNeedGeneration = false;
+        }
     },
-    
+
     //Функция
     getCommand(playerObj) {
         var resultArr = [];
-        if(this._counter > 0){
+        if (this._counter > 0) {
             var container = this.node.getChildByName("commands")._children;
             for (var i = 0; i < container.length > 0; i++) {
                 if (container[i].name !== "command_plus")

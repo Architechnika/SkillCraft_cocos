@@ -165,7 +165,7 @@ cc.Class({
                 }
             }
             this._H = this.node.parent.height;
-            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode")
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode")
                 {
                 this._isNeedGeneration = true;
                     return;
@@ -176,13 +176,14 @@ cc.Class({
             this._W += d;
             if (this.node.parent.parent.parent.parent.name == "command_if")
                 this.node.parent.parent.parent.parent.width += d;
-            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode") {
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
                 this._isNeedGeneration = true;
                 return;
             }
         }
         if (this._isNeedGeneration == true) {
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            console.log("f")
             this._isNeedGeneration = false;
         }
     },
