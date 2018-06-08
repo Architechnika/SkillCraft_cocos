@@ -242,7 +242,9 @@
     },
     "_N$hoverSprite": null,
     "hoverSprite": null,
-    "_N$disabledSprite": null,
+    "_N$disabledSprite": {
+      "__uuid__": "b797c960-14a3-4782-a509-4c7b01b0b496"
+    },
     "_N$target": {
       "__id__": 1
     }
@@ -288,10 +290,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": {
-      "__uuid__": "37f89b4b-af42-4973-9a1c-8f912517757e"
-    }
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",

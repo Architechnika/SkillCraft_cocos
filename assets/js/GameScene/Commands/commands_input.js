@@ -144,11 +144,10 @@ cc.Class({
         this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
 
         this.node.on('mouseup', function (event) {
-            if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)
+            if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)//Это для того чтобы клики не срабатывали при смещениях
                 return false;
-            if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content")
+            if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content")//Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
                 return false;
-
             if (cc.director._globalVariables.nodeCommandToInit) {
                 this._onCodeViewCommandClick(event);
             } else if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле
@@ -234,6 +233,19 @@ cc.Class({
 
     //Обработчик нажатия на элементы в кодмапе(Отрисовка меню управления элементами)
     codeViewElementClickHandler(event) {
+        //Если включен режим перемещения элементов кодмапа, то перемещаем
+        if(cc.director._globalVariables.codeMapMenu.isMove){
+            //Вытаскиваем элемент из его текущей позиции
+            var m = cc.director._globalVariables.codeMapMenu;
+            var obj = m._targetNode.parent._children.splice(m._targetNode.parent._children.indexOf(m._targetNode),1)[0];
+            //Теперь вставляем его строго после текущего элемента
+            var indx = event.target.parent._children.indexOf(event.target) + 1;
+            obj.active = true;
+            event.target.parent._children.splice(indx, 0, obj);
+            cc.director._globalVariables.codeMapMenu.isMove = false;
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation()
+            return;
+        }
         var elem = event.target;
         var menuObj = cc.director._globalVariables.codeMapMenu;
         var wElem = elem.getBoundingBoxToWorld(); //Получаем координаты элемента в мировых координатах

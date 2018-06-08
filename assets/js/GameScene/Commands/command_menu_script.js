@@ -5,6 +5,7 @@ cc.Class({
 
     properties: {
         _targetNode: cc.Node,//Элемент на котором висит меню
+        isMove: false,//Флаг который отображает режим перемещения команд в кодмапе
     },
 
     start () {
@@ -12,7 +13,9 @@ cc.Class({
     },
     
     onMoveClick(event){
-        console.log(event.target.name);
+        console.log(event.target.name + " on " + this.node._targetNode.name);
+        this.node._targetNode.active = false;//Отображаем режим перемещения команд
+        this.node.isMove = true;
     },
     
     onReplaceClick(event){
