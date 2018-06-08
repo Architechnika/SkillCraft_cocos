@@ -33,6 +33,23 @@ cc.Class({
             this.node.addChild(element);
         }
     },
+    deleteLine() {
+        var element = this.node.getChildByName("command_line");
+        if (element != null) {
+            var itemWH = element.width;
+            var bott = this.node.getChildByName("bottom")
+            bott.y += itemWH;
+            this.node.removeChild(element);
+            for(var i=0;i<this.node.children.length;i++)
+                {
+                    var el = this.node.children[i];
+                    if(el.name == "command_line")
+                        {
+                            el.y +=itemWH
+                        }
+                }
+        }
+    },
     addCommand(comm) {
         if (comm != null) {
             var commands = this.node.getChildByName("commands");
@@ -131,15 +148,72 @@ cc.Class({
             bott.addChild(element);
         }
     },
+    deleteElseLine(){
+        var bott = this.node.getChildByName("bottom")
+        var element = bott.getChildByName("command_line");
+        if (element != null) {
+            var itemWH = element.width;
+            var bott = this.node.getChildByName("bottom")
+            bott.removeChild(element);
+            for(var i=0;i<bott.children.length;i++)
+                {
+                    var el = bott.children[i];
+                    if(el.name == "command_line")
+                        {
+                            el.y +=itemWH
+                        }
+                }
+        }
+    },
     //Удаляет comm из children-ов если она там есть
-    deleteCommand(comm){
+    deleteCommand(comm) {
         var commands = this.node.getChildByName("commands");
         var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
-        console.log(commands.removeChild(comm));
-        elseCommands.removeChild(comm);
+        var arr = undefined;
+        if(comm.parent == commands)
+            arr = commands;
+        if(comm.parent == elseCommands)
+            arr = elseCommands;
+        if (arr) {
+            var itemH = comm.height;
+            var itemW = comm.width;
+            var h = 100;
+            var x = 0;
+            var y = 0;
+            arr.height -= itemH;
+            this.node.parent.height -= itemH
+
+            var lineCount = itemH / h;
+            for (var i = 0; i < lineCount; i++) {
+                if(arr.name == "commands")
+                this.deleteLine();
+                else this.deleteElseLine();
+            }
+            
+            var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
+            for (var i = 0; i < arr.children.length; i++) 
+            {
+                 //если удаляем элемент то нужно нижние элементы сдвинуть наверх
+                var el = arr.children[i];
+                if(isGo || el.name=="command_plus")
+                    {
+                        el.y+=itemH
+                    }
+                if(el == comm)
+                    {
+                        isGo = true;
+                    }
+                
+            }
+            cc.director._globalVariables.lastDeleteCommandH = itemH;
+            arr.removeChild(comm);
+
+        } else {
+
+        }
     },
     update(dt) {
-        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H != this.node.parent.height) {
+        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height) {
             var itemWH = this.node.height;
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
 
@@ -172,17 +246,60 @@ cc.Class({
                 }
             }
             this._H = this.node.parent.height;
-            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode")
-                {
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
                 this._isNeedGeneration = true;
-                    return;
-                }
+                return;
+            }
         }
+        
+        //
+        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H > this.node.parent.height) {
+            var itemWH = this.node.height;
+            var lineCount = cc.director._globalVariables.lastDeleteCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
+
+            // this.node.parent.parent.height += cc.director._globalVariables.lastAddCommandH;
+            if (this.node.parent.parent.name == "commands") {
+                for (var i = 0; i < lineCount; i++) {
+                    if (this.node.parent.parent.parent.getComponent("command_if_script"))
+                        this.node.parent.parent.parent.getComponent("command_if_script").deleteLine();
+                    else if (this.node.parent.parent.parent.getComponent("command_repeatif_script"))
+                        this.node.parent.parent.parent.getComponent("command_repeatif_script").deleteLine();
+                    else if (this.node.parent.parent.parent.getComponent("command_counter_script"))
+                        this.node.parent.parent.parent.getComponent("command_counter_script").deleteLine();
+                    this.node.parent.parent.parent.parent.height -= itemWH
+                }
+            } else if (this.node.parent.parent.name == "elseCommands") {
+                for (var i = 0; i < lineCount; i++) {
+                    this.node.parent.parent.parent.parent.getComponent("command_if_script").deleteElseLine();
+                    this.node.parent.parent.parent.parent.parent.height -= itemWH
+                }
+            }
+            var isGo = false;
+            for (var j = 0; j < this.node.parent.parent.children.length; j++) {
+                var el = this.node.parent.parent.children[j]
+                if (el == this.node.parent) {
+                    isGo = true
+                    continue;
+                }
+                if (isGo || el.name == "command_plus") {
+                    el.y += cc.director._globalVariables.lastDeleteCommandH;
+                }
+            }
+            this._H = this.node.parent.height;
+            if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
+                this._isNeedGeneration = true;
+                return;
+            }
+        }
+        //
+        
+        
+        
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
-           // if (this.node.parent.parent.parent.parent.name == "command_if")
-                this.node.parent.parent.parent.parent.width += d;
+            // if (this.node.parent.parent.parent.parent.name == "command_if")
+            this.node.parent.parent.parent.parent.width += d;
             if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
                 this._isNeedGeneration = true;
                 return;

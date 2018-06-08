@@ -46,7 +46,6 @@ cc.Class({
     clear() {
         //чистим весь кодмап
         if (this.node.children.length > 1) {
-             console.log("f")
             for (var i = this.node.children.length - 1; i > 0; i--) {
                 if (this.node.children[i].name != "command_plusCM") 
                 {
@@ -67,6 +66,7 @@ cc.Class({
         var road = cc.director._globalVariables.selectedRoad;
         if (road) {
             //  this.clear();
+             console.log("f")
             this.node.resetTransform;
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
