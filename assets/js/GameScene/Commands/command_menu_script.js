@@ -22,11 +22,8 @@ cc.Class({
     },
 
     onDeleteClick(event) {
-        /*var spl = event.target.name.split("_")[1];
-        if (spl && spl == "block") {//Если это блок со сложной командой то меню надо располагать не в центре а в левом верхнем элементе*/
         var par = this.node._targetNode; // элемент над которым кликнули удалить
         if (par.parent && par.parent.name == "CodeMapNode") {
-            //this.node._targetNode.destroy();
             var roadCommands = cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands;
             this._deleteFromRoadCommands(roadCommands, par)
             par.parent.removeChild(par)
@@ -43,9 +40,6 @@ cc.Class({
                 }
             }
         }
-        //        this._deleteFromRoadCommands(cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands, this.node._targetNode);
-        //        cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
-        //console.log(event.target.name + " on " + this.node._targetNode.name);
         cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
     },
     //обходим основной массив команд на дороге и ищем элемент для удаления
