@@ -27,22 +27,12 @@ cc.Class({
                 var roadComm = road.getComponent("RoadScript").roadCommands;
                 if (roadComm != null) {
                     var element = cc.instantiate(this);
-                    if (element.name == "command_block_if") {
-                        element = cc.instantiate(this.ifBlock);
-                        var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
-                        ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                    //Проверяем добавляемый префаб на сложность
+                    var obj = this._getComplexCommandFromSimple(element);
+                    //Если это сложная команда - то открываем скролл
+                    if (obj !== element)
                         cc.director._setScrollVisible(false, true);
-                    } else if (element.name == "command_block_repeatif") {
-                        element = cc.instantiate(this.repeatIfBlock);
-                        var repeatifScript = element.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
-                        repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-                        cc.director._setScrollVisible(false, true);
-                    } else if (element.name == "command_block_repeat") {
-                        element = cc.instantiate(this.counterBlock);
-                        var repeatifScript = element.getChildByName("command_block_repeat").getComponent("command_counter_script")
-                        repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-                        cc.director._setScrollVisible(false, true);
-                    }
+                    element = obj;
                     roadComm.push(element);
                     cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
                 }
@@ -63,24 +53,12 @@ cc.Class({
                 if (parentAdd.parent.getComponent("command_counter_script")) {
                     par = parentAdd.parent.getComponent("command_counter_script")
                 }
-                if (element.name == "command_block_if") {
-                    element = cc.instantiate(this.ifBlock);
-                    var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
-                    ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                //Проверяем добавляемый префаб на сложность
+                var obj = this._getComplexCommandFromSimple(element);
+                //Если это сложная команда - то открываем скролл
+                if (obj !== element)
                     cc.director._setScrollVisible(false, true);
-
-                } else if (element.name == "command_block_repeatif") {
-                    element = cc.instantiate(this.repeatIfBlock);
-                    var repeatifScript = element.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
-                    repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-                    cc.director._setScrollVisible(false, true);
-                }
-                if (element.name == "command_block_repeat") {
-                    element = cc.instantiate(this.counterBlock);
-                    var repeatifScript = element.getChildByName("command_block_repeat").getComponent("command_counter_script")
-                    repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-                    cc.director._setScrollVisible(false, true);
-                }
+                element = obj;
                 par.addCommand(element);
                 cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
             }
@@ -94,24 +72,36 @@ cc.Class({
                 if (parentAdd.parent.parent.getComponent("command_if_script")) {
                     par = parentAdd.parent.parent.getComponent("command_if_script")
                 }
-                if (element.name == "command_block_if") {
-                    element = cc.instantiate(this.ifBlock);
-                    var ifScript = element.getChildByName("command_block_if").getComponent("command_if_script")
-                    ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+                //Проверяем добавляемый префаб на сложность
+                var obj = this._getComplexCommandFromSimple(element);
+                //Если это сложная команда - то открываем скролл
+                if (obj !== element)
                     cc.director._setScrollVisible(false, true);
-                } else if (element.name == "command_block_repeatif") {
-                    element = cc.instantiate(this.repeatIfBlock);
-                    cc.director._setScrollVisible(false, true);
-                } else if (element.name == "command_block_repeat") {
-                    element = cc.instantiate(this.counterBlock);
-                    cc.director._setScrollVisible(false, true);
-                }
+                element = obj;
                 //roadComm.push(element);
                 par.addElseCommand(element);
                 cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
             }
         }
         cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+    },
+
+    //Возвращает инстанс сложной команды из простой
+    _getComplexCommandFromSimple(simple) {
+        if (simple.name == "command_block_if") {
+            simple = cc.instantiate(this.ifBlock);
+            var ifScript = simple.getChildByName("command_block_if").getComponent("command_if_script")
+            ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+        } else if (simple.name == "command_block_repeatif") {
+            simple = cc.instantiate(this.repeatIfBlock);
+            var repeatifScript = simple.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
+            repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+        } else if (simple.name == "command_block_repeat") {
+            simple = cc.instantiate(this.counterBlock);
+            var repeatifScript = simple.getChildByName("command_block_repeat").getComponent("command_counter_script")
+            repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+        }
+        return simple;
     },
 
     _onLeftScrollClick(event) {
@@ -142,6 +132,7 @@ cc.Class({
         this.node.codeViewCommandClickHandler = this.codeViewCommandClickHandler;
         this.node.counterAddHandler = this.counterAddHandler;
         this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
+        this.node._getComplexCommandFromSimple = this._getComplexCommandFromSimple
 
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned) //Это для того чтобы клики не срабатывали при смещениях
@@ -152,7 +143,7 @@ cc.Class({
                 if (cc.director._globalVariables.eventDownedOn != "command_menu") {
                     var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
                     if (objScr.obj.node.name == "command_block_if") {
-                        objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, event.target, true);
+                        objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), true);
                     }
                     cc.director._globalVariables.addCommandMode = false;
                     cc.director._setScrollVisible(false, true);
