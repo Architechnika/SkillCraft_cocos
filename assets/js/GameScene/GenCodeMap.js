@@ -66,7 +66,6 @@ cc.Class({
         var road = cc.director._globalVariables.selectedRoad;
         if (road) {
             //  this.clear();
-             console.log("f")
             this.node.resetTransform;
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;

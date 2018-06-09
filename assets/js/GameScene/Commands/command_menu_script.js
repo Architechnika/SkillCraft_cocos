@@ -23,6 +23,10 @@ cc.Class({
     onReplaceClick(event) {
         console.log(event.target.name);
     },
+    
+    onEnable(){
+        cc.director._globalVariables.eventDownedOn = this.name; 
+    },
 
     onAddClick(event) {
         //console.log(event.target.name);
@@ -38,7 +42,7 @@ cc.Class({
             this._deleteFromRoadCommands(roadCommands, complComm.obj)
             complComm.obj.parent.removeChild(complComm.obj);
         } else {
-            complComm.obj.deleteCommand(par);
+            complComm.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
         }
         cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         cc.director._globalVariables.codeMapMenu.active = false;
