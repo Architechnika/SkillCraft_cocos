@@ -148,13 +148,15 @@ cc.Class({
                 return false;
             if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content") //Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
                 return false;
-            if (cc.director._globalVariables.addCommandMode && cc.director._globalVariables.eventDownedOn != "command_menu") {
-                var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
-                if(objScr.obj.node.name == "command_block_if"){
-                    objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, cc.instantiate(event.target), true);
+            if (cc.director._globalVariables.addCommandMode) {
+                if (cc.director._globalVariables.eventDownedOn != "command_menu") {
+                    var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
+                    if (objScr.obj.node.name == "command_block_if") {
+                        objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, event.target, true);
+                    }
+                    cc.director._globalVariables.addCommandMode = false;
+                    cc.director._setScrollVisible(false, true);
                 }
-                cc.director._globalVariables.addCommandMode = false;
-                cc.director._setScrollVisible(false, true);
             } else if (cc.director._globalVariables.nodeCommandToInit) {
                 this._onCodeViewCommandClick(event);
             } else if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле

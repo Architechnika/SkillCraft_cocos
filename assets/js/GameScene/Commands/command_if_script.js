@@ -92,6 +92,8 @@ cc.Class({
         }
     },
     insertCommand(upCommand, newCommand, isInsert) {
+        console.log(upCommand.name+" "+newCommand.name)
+        var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
         var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
         var arr = undefined;
@@ -137,7 +139,7 @@ cc.Class({
                                 y = el.y;
                                 isCheckPos = true;
                                 }
-                                el.y+=itemWH;
+                                el.y-=itemWH;
                             }
                         if(el == upCommand)
                             isGo=true;
