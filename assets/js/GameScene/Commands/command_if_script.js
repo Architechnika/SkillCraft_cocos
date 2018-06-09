@@ -91,6 +91,75 @@ cc.Class({
             }
         }
     },
+    insertCommand(upCommand, newCommand, isInsert) {
+        var commands = this.node.getChildByName("commands");
+        var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        var arr = undefined;
+        if (upCommand.parent == commands)
+            arr = commands;
+        if (upCommand.parent == elseCommands)
+            arr = elseCommands;
+        if (arr) {
+            newCommand.anchorX = upCommand.anchorX
+            newCommand.anchorY = upCommand.anchorY
+            newCommand.x = upCommand.x
+            newCommand.y = upCommand.y
+            var itemWH = newCommand.height;
+
+            var h = 100;
+            var w = 0;
+            if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
+                h = newCommand.children[0].height;
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (newCommand.name == "command_if" || newCommand.name == "command_repeatif")
+                    w = this.node.parent.width >= this._maxW ? 0 : 100;
+            }
+
+            arr.height += itemWH;
+            this.node.parent.height += itemWH;
+            this.node.parent.width += w;
+
+            //
+                var x = 0;
+                var y = 0;
+            if (isInsert) {
+                
+                var isGo = false;
+                var isCheckPos = false;
+                for(var i=0;i<arr.lenght;i++)
+                    {
+                        var el = arr[i];
+                        if(isGo || el.name == "command_plus")
+                            {
+                            if(!isCheckPos && el.name != "command_plus")
+                                {
+                                x = el.x;
+                                y = el.y;
+                                isCheckPos = true;
+                                }
+                                el.y+=itemWH;
+                            }
+                        if(el == upCommand)
+                            isGo=true;
+                    }
+                
+//                var plus = arr.children[0];
+//                x = plus.x
+//                y = plus.y
+//                plus.y -= itemWH;
+                var lineCount = itemWH / h;
+                for (var i = 0; i < lineCount; i++) {
+                    this.addLine();
+                }
+                newCommand.x = x;
+                newCommand.y = y;
+                arr.addChild(newCommand);
+                cc.director._globalVariables.lastAddCommandH = newCommand.height;
+            }
+            //
+        }
+
+    },
     addElseCommand(comm) {
         if (comm != null) {
             var commands = this.node.getChildByName("bottom").getChildByName("elseCommands");
@@ -178,11 +247,11 @@ cc.Class({
             var y = 0;
             var w = 0;
             if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
-              //  h = comm.children[0].height;
+                //  h = comm.children[0].height;
                 //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
-                if (comm.name == "command_if" || comm.name == "command_repeatif"){
+                if (comm.name == "command_if" || comm.name == "command_repeatif") {
                     var p = this.node.getChildByName("command_ifandor_add");
-                    w = this.node.parent.width - (p.x + p.width);//Вычисляем разность между + и крайней правой точкой элемента(дискрет)
+                    w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
                 }
             }
 
