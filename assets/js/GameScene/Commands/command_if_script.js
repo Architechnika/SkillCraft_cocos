@@ -126,9 +126,9 @@ cc.Class({
                 
                 var isGo = false;
                 var isCheckPos = false;
-                for(var i=0;i<arr.lenght;i++)
+                for(var i=0;i<arr.children.length;i++)
                     {
-                        var el = arr[i];
+                        var el = arr.children[i];
                         if(isGo || el.name == "command_plus")
                             {
                             if(!isCheckPos && el.name != "command_plus")

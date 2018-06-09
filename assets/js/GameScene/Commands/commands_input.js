@@ -144,11 +144,18 @@ cc.Class({
         this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
 
         this.node.on('mouseup', function (event) {
-            if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned)//Это для того чтобы клики не срабатывали при смещениях
+            if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned) //Это для того чтобы клики не срабатывали при смещениях
                 return false;
-            if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content")//Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
+            if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content") //Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
                 return false;
-            if (cc.director._globalVariables.nodeCommandToInit) {
+            if (cc.director._globalVariables.addCommandMode && cc.director._globalVariables.eventDownedOn != "command_menu") {
+                var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
+                if(objScr.obj.node.name == "command_block_if"){
+                    objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, cc.instantiate(event.target), true);
+                }
+                cc.director._globalVariables.addCommandMode = false;
+                cc.director._setScrollVisible(false, true);
+            } else if (cc.director._globalVariables.nodeCommandToInit) {
                 this._onCodeViewCommandClick(event);
             } else if (this.parent.parent.parent.name == "leftScroll") { //Обработчик клика по команде на левом скроле
                 this._onLeftScrollClick(event);
@@ -234,10 +241,10 @@ cc.Class({
     //Обработчик нажатия на элементы в кодмапе(Отрисовка меню управления элементами)
     codeViewElementClickHandler(event) {
         //Если включен режим перемещения элементов кодмапа, то перемещаем
-        if(cc.director._globalVariables.codeMapMenu.isMove){
+        if (cc.director._globalVariables.codeMapMenu.isMove) {
             //Вытаскиваем элемент из его текущей позиции
             var m = cc.director._globalVariables.codeMapMenu;
-            var obj = m._targetNode.parent._children.splice(m._targetNode.parent._children.indexOf(m._targetNode),1)[0];
+            var obj = m._targetNode.parent._children.splice(m._targetNode.parent._children.indexOf(m._targetNode), 1)[0];
             //Теперь вставляем его строго после текущего элемента
             var indx = event.target.parent._children.indexOf(event.target) + 1;
             obj.active = true;
@@ -251,14 +258,14 @@ cc.Class({
         var wElem = elem.getBoundingBoxToWorld(); //Получаем координаты элемента в мировых координатах
         //Инициализируем его размеры
         var spl = event.target.name.split("_")[1];
-        if (spl && spl == "block") {//Если это блок со сложной командой то меню надо располагать не в центре а в левом верхнем элементе
+        if (spl && spl == "block") { //Если это блок со сложной командой то меню надо располагать не в центре а в левом верхнем элементе
             menuObj.x = wElem.x + (wElem.width / 2);
             menuObj.y = wElem.y + (wElem.height / 2.2);
-            menuObj._targetNode = elem.parent.parent;//Запоминаем элемент к которому привязываем меню
-        } else {//Если простая команда то располагаем меню в позиции команды
+            menuObj._targetNode = elem.parent.parent; //Запоминаем элемент к которому привязываем меню
+        } else { //Если простая команда то располагаем меню в позиции команды
             menuObj.x = wElem.x + (wElem.width / 1.5);
             menuObj.y = wElem.y + (wElem.height / 2.2);
-            menuObj._targetNode = elem;//Запоминаем элемент к которому привязываем меню
+            menuObj._targetNode = elem; //Запоминаем элемент к которому привязываем меню
         }
         menuObj.width = elem.width;
         menuObj.height = elem.height;

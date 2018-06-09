@@ -192,8 +192,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.Node",
@@ -581,8 +580,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 256,
-      "y": 315
+      "x": 255,
+      "y": 320
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -915,8 +914,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "e1faaB/J7BKGpOWEWcwUxCK",
@@ -3813,6 +3811,7 @@
     "commandAddState": "road",
     "parentAdd": null,
     "lastAddCommandH": 0,
+    "lastDeleteCommandH": 0,
     "labelBoxes": {
       "__id__": 91
     },
@@ -3831,6 +3830,7 @@
     "arrayRoadGameObjectsNames": [],
     "time": 0,
     "coinCount": 0,
+    "_timeCounter": 0,
     "allcommands": [
       {
         "__uuid__": "a0cb8b99-33bd-41c4-ae0b-3d5a1324531b"
@@ -4735,7 +4735,8 @@
       "__id__": 98
     },
     "_enabled": true,
-    "_targetNode": null
+    "_targetNode": null,
+    "isMove": false
   },
   {
     "__type__": "cc.PrefabInfo",
