@@ -139,11 +139,13 @@ cc.Class({
                 return false;
             if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content") //Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
                 return false;
-            if (cc.director._globalVariables.addCommandMode) {
-                if (cc.director._globalVariables.eventDownedOn != "command_menu") {
+            if (cc.director._globalVariables.addCommandMode) { //Если включен режим добавления команды после существующей команды ИЛИ замены команды в кодмапе
+                if (cc.director._globalVariables.eventDownedOn != "command_menu") { //Это флаг проверки чтобы не было срабатываний пересекающихся ивентов
+                    //Если режим ДОБАВЛЕНИЯ команды после существующей команды isAdd = true, Если режим ЗАМЕНЫ команды в кодмапе isAdd = false
+                    var isAdd = cc.director._globalVariables.addCommandMode == "add" ? true : false;
                     var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
                     if (objScr.obj.node.name == "command_block_if") {
-                        objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), true);
+                        objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd);
                     }
                     cc.director._globalVariables.addCommandMode = false;
                     cc.director._setScrollVisible(false, true);
@@ -235,15 +237,9 @@ cc.Class({
     codeViewElementClickHandler(event) {
         //Если включен режим перемещения элементов кодмапа, то перемещаем
         if (cc.director._globalVariables.codeMapMenu.isMove) {
-            //Вытаскиваем элемент из его текущей позиции
-            var m = cc.director._globalVariables.codeMapMenu;
-            var obj = m._targetNode.parent._children.splice(m._targetNode.parent._children.indexOf(m._targetNode), 1)[0];
-            //Теперь вставляем его строго после текущего элемента
-            var indx = event.target.parent._children.indexOf(event.target) + 1;
-            obj.active = true;
-            event.target.parent._children.splice(indx, 0, obj);
+            console.log("перемещаем")
+            cc.director._globalVariables.codeMapMenu._targetNode.active = true;
             cc.director._globalVariables.codeMapMenu.isMove = false;
-            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation()
             return;
         }
         var elem = event.target;
