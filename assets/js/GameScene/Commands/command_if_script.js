@@ -92,7 +92,7 @@ cc.Class({
         }
     },
     insertCommand(upCommand, newCommand, isInsert) {
-        console.log(upCommand.name+" "+newCommand.name)
+        console.log(upCommand.name + " " + newCommand.name)
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
         var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
@@ -122,40 +122,41 @@ cc.Class({
             this.node.parent.width += w;
 
             //
-                var x = 0;
-                var y = 0;
+            var x = 0;
+            var y = 0;
             if (isInsert) {
-                
+
                 var isGo = false;
                 var isCheckPos = false;
-                for(var i=0;i<arr.children.length;i++)
-                    {
-                        var el = arr.children[i];
-                        if(isGo || el.name == "command_plus")
-                            {
-                            if(!isCheckPos && el.name != "command_plus")
-                                {
-                                x = el.x;
-                                y = el.y;
-                                isCheckPos = true;
-                                }
-                                el.y-=itemWH;
-                            }
-                        if(el == upCommand)
-                            isGo=true;
+                var index = 0;
+                for (var i = 0; i < arr.children.length; i++) {
+                    var el = arr.children[i];
+                    if (isGo || el.name == "command_plus") {
+                        if (!isCheckPos && el.name != "command_plus") {
+                            x = el.x;
+                            y = el.y;
+                            isCheckPos = true;
+                        }
+                        el.y -= itemWH;
                     }
-                
-//                var plus = arr.children[0];
-//                x = plus.x
-//                y = plus.y
-//                plus.y -= itemWH;
+                    if (el == upCommand) {
+                        isGo = true;
+                        index = arr.children.indexOf(el);
+                    }
+                }
+                if (!isCheckPos) {
+                    //если инсертим к последнему элементу,
+                    y =  arr.children[arr.children.length-1].y-itemWH;
+                }
+                var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
+                codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
                     this.addLine();
                 }
                 newCommand.x = x;
                 newCommand.y = y;
-                arr.addChild(newCommand);
+                arr.insertChild(newCommand, index + 1);
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
             }
             //
