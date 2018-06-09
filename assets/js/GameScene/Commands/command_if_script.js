@@ -99,7 +99,7 @@ cc.Class({
         var arr = undefined;
         if (upCommand.parent == commands)
             arr = commands;
-        if (upCommand.parent == elseCommands)
+        else if (upCommand.parent == elseCommands)
             arr = elseCommands;
         if (arr) {
             newCommand.anchorX = upCommand.anchorX
