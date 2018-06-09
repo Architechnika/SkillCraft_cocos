@@ -96,6 +96,7 @@ cc.Class({
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
         var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
         var arr = undefined;
         if (upCommand.parent == commands)
             arr = commands;
@@ -117,18 +118,19 @@ cc.Class({
                     w = this.node.parent.width >= this._maxW ? 0 : 100;
             }
 
-            arr.height += itemWH;
-            this.node.parent.height += itemWH;
+            
             this.node.parent.width += w;
 
             //
             var x = 0;
             var y = 0;
-            if (isInsert) {
+        if (isInsert) {
 
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
+            arr.height += itemWH;
+            this.node.parent.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -148,7 +150,7 @@ cc.Class({
                     //если инсертим к последнему элементу,
                     y =  arr.children[arr.children.length-1].y-itemWH;
                 }
-                var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
+                
                 codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
@@ -160,8 +162,46 @@ cc.Class({
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
             }else{
                 var index = arr.children.indexOf(upCommand);
-                arr.removeChild(upCommand);
-                arr.insertChild(newCommand,index);
+                var upCommH = upCommand.height;
+                var newCommH = newCommand.height;
+                var com =  arr.children[index-1]
+                this.deleteCommand(upCommand);
+//                arr.removeChild(upCommand);
+//                arr.insertChild(newCommand,index);
+//                var desH =0// Math.abs(upCommH - newCommH);
+//               // if(upCommH >= newCommH)
+//               //     desH = upCommH - newCommH;
+//              //  else desH = newCommH - upCommH
+//                desH = upCommH - newCommH
+//                console.log(desH)
+//            arr.height -= desH;
+//                 codeMapPlus.y += desH
+//            this.node.parent.height -= desH;
+//                
+//                
+//                    for (var i = 0; i < arr.children.length; i++) {
+//                    var el = arr.children[i];
+//                    if (isGo || el.name == "command_plus") {
+//                        if (!isCheckPos && el.name != "command_plus") {
+//                            x = el.x;
+//                            y = el.y;
+//                            isCheckPos = true;
+//                        }
+//                        el.y += desH;
+//                    }
+//                    if (el == newCommand) {
+//                        isGo = true;
+//                       // index = arr.children.indexOf(el);
+//                    }
+//                }
+//                
+//                var e = desH;
+//                var lineCount = Math.abs(desH) / h;
+//                for (var i = 0; i < lineCount; i++) {
+//                    if(e>0)
+//                    this.addLine();
+//                    else this.deleteLine()
+                }
             }
             //
         }
