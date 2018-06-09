@@ -9,19 +9,24 @@ cc.Class({
     start() {
 
     },
+    
     onMoveClick(event) {
-        /*console.log(event.target.name + " on " + this.node._targetNode.name);
         this.node._targetNode.active = false;//Отображаем режим перемещения команд
-        this.node.isMove = true;*/
+        this.node.isMove = true;
+        cc.director._globalVariables.codeMapMenu.active = false;
     },
+    
     onLoad() {
         this.node.getScriptComplexCommand = this.getScriptComplexCommand;
         this.node.on('mousedown', function (event) {
             cc.director._globalVariables.eventDownedOn = this.name;
         });
     },
+    
     onReplaceClick(event) {
-        console.log(event.target.name);
+        cc.director._globalVariables.addCommandMode = "replace";
+        cc.director._setScrollVisible(true, false);
+        cc.director._globalVariables.codeMapMenu.active = false;
     },
     
     onEnable(){
@@ -30,7 +35,7 @@ cc.Class({
 
     onAddClick(event) {
         //console.log(event.target.name);
-        cc.director._globalVariables.addCommandMode = true;
+        cc.director._globalVariables.addCommandMode = "add";
         cc.director._setScrollVisible(true, false);
         cc.director._globalVariables.codeMapMenu.active = false;
     },
