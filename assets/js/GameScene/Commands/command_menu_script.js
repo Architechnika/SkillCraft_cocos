@@ -2,28 +2,17 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-<<<<<<< HEAD
         _targetNode: cc.Node,//Элемент на котором висит меню
         isMove: false,//Флаг который отображает режим перемещения команд в кодмапе
-=======
-        _targetNode: cc.Node, //Элемент на котором висит меню
->>>>>>> 1b91807d249f1d3aeedcd26b3c9c6a042302c5aa
     },
 
     start() {
 
-    },
-<<<<<<< HEAD
-    
+    },    
     onMoveClick(event){
         console.log(event.target.name + " on " + this.node._targetNode.name);
         this.node._targetNode.active = false;//Отображаем режим перемещения команд
         this.node.isMove = true;
-=======
-
-    onMoveClick(event) {
-        console.log(event.target.name);
->>>>>>> 1b91807d249f1d3aeedcd26b3c9c6a042302c5aa
     },
 
     onReplaceClick(event) {

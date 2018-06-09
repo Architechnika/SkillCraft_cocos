@@ -40,14 +40,12 @@ cc.Class({
             var bott = this.node.getChildByName("bottom")
             bott.y += itemWH;
             this.node.removeChild(element);
-            for(var i=0;i<this.node.children.length;i++)
-                {
-                    var el = this.node.children[i];
-                    if(el.name == "command_line")
-                        {
-                            el.y +=itemWH
-                        }
+            for (var i = 0; i < this.node.children.length; i++) {
+                var el = this.node.children[i];
+                if (el.name == "command_line") {
+                    el.y += itemWH
                 }
+            }
         }
     },
     addCommand(comm) {
@@ -148,21 +146,19 @@ cc.Class({
             bott.addChild(element);
         }
     },
-    deleteElseLine(){
+    deleteElseLine() {
         var bott = this.node.getChildByName("bottom")
         var element = bott.getChildByName("command_line");
         if (element != null) {
             var itemWH = element.width;
             var bott = this.node.getChildByName("bottom")
             bott.removeChild(element);
-            for(var i=0;i<bott.children.length;i++)
-                {
-                    var el = bott.children[i];
-                    if(el.name == "command_line")
-                        {
-                            el.y +=itemWH
-                        }
+            for (var i = 0; i < bott.children.length; i++) {
+                var el = bott.children[i];
+                if (el.name == "command_line") {
+                    el.y += itemWH
                 }
+            }
         }
     },
     //Удаляет comm из children-ов если она там есть
@@ -170,9 +166,9 @@ cc.Class({
         var commands = this.node.getChildByName("commands");
         var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
         var arr = undefined;
-        if(comm.parent == commands)
+        if (comm.parent == commands)
             arr = commands;
-        if(comm.parent == elseCommands)
+        if (comm.parent == elseCommands)
             arr = elseCommands;
         if (arr) {
             var itemH = comm.height;
@@ -180,30 +176,38 @@ cc.Class({
             var h = 100;
             var x = 0;
             var y = 0;
+            var w = 0;
+            if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
+              //  h = comm.children[0].height;
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (comm.name == "command_if" || comm.name == "command_repeatif"){
+                    var p = this.node.getChildByName("command_ifandor_add");
+                    w = this.node.parent.width - (p.x + p.width);//Вычисляем разность между + и крайней правой точкой элемента(дискрет)
+                }
+            }
+
+
             arr.height -= itemH;
             this.node.parent.height -= itemH
-
+            this.node.parent.width -= w;
             var lineCount = itemH / h;
             for (var i = 0; i < lineCount; i++) {
-                if(arr.name == "commands")
-                this.deleteLine();
+                if (arr.name == "commands")
+                    this.deleteLine();
                 else this.deleteElseLine();
             }
-            
+
             var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
-            for (var i = 0; i < arr.children.length; i++) 
-            {
-                 //если удаляем элемент то нужно нижние элементы сдвинуть наверх
+            for (var i = 0; i < arr.children.length; i++) {
+                //если удаляем элемент то нужно нижние элементы сдвинуть наверх
                 var el = arr.children[i];
-                if(isGo || el.name=="command_plus")
-                    {
-                        el.y+=itemH
-                    }
-                if(el == comm)
-                    {
-                        isGo = true;
-                    }
-                
+                if (isGo || el.name == "command_plus") {
+                    el.y += itemH
+                }
+                if (el == comm) {
+                    isGo = true;
+                }
+
             }
             cc.director._globalVariables.lastDeleteCommandH = itemH;
             arr.removeChild(comm);
@@ -251,7 +255,7 @@ cc.Class({
                 return;
             }
         }
-        
+
         //
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H > this.node.parent.height) {
             var itemWH = this.node.height;
@@ -292,9 +296,9 @@ cc.Class({
             }
         }
         //
-        
-        
-        
+
+
+
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;

@@ -99,9 +99,20 @@ cc.Class({
             var h = 100;
             var x = 0;
             var y = 0;
+            var w = 0;
+            if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
+                //  h = comm.children[0].height;
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (comm.name == "command_if" || comm.name == "command_repeatif") {
+                    var p = this.node.getChildByName("command_ifandor_add");
+                    w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
+                }
+            }
+            
             arr.height -= itemH;
             this.node.parent.height -= itemH
-
+            this.node.parent.width -= w;
+            
             var lineCount = itemH / h;
             for (var i = 0; i < lineCount; i++) {
                 if(arr.name == "commands")

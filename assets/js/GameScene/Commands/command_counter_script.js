@@ -99,9 +99,20 @@ cc.Class({
             var h = 100;
             var x = 0;
             var y = 0;
+
+            var w = 0;
+            if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
+                //  h = comm.children[0].height;
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (comm.name == "command_if" || comm.name == "command_repeatif") {
+                    var p = this.node.getChildByName("command_counter");
+                    w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
+                }
+            }
+
             arr.height -= itemH;
             this.node.parent.height -= itemH
-
+            this.node.parent.width -= w;
             var lineCount = itemH / h;
             for (var i = 0; i < lineCount; i++) {
                 if (arr.name == "commands")
@@ -186,8 +197,8 @@ cc.Class({
                 return;
             }
         }
-        
-                        //
+
+        //
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H > this.node.parent.height) {
             var itemWH = this.node.height;
             var lineCount = cc.director._globalVariables.lastDeleteCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
@@ -227,7 +238,7 @@ cc.Class({
             }
         }
         //
-        
+
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;

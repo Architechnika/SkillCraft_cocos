@@ -395,7 +395,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 299,
+      "x": 300,
       "y": 0
     },
     "_skewX": 0,
@@ -532,10 +532,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": {
-      "__uuid__": "37f89b4b-af42-4973-9a1c-8f912517757e"
-    }
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2159,8 +2156,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2454,8 +2450,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2749,8 +2744,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3044,8 +3038,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3339,8 +3332,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3634,8 +3626,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3929,8 +3920,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4224,8 +4214,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4519,8 +4508,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4814,8 +4802,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": null
+    "counterBlock": null
   },
   {
     "__type__": "cc.PrefabInfo",
