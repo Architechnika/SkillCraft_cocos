@@ -158,6 +158,10 @@ cc.Class({
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
+            }else{
+                var index = arr.children.indexOf(upCommand);
+                arr.removeChild(upCommand);
+                arr.insertChild(newCommand,index);
             }
             //
         }
