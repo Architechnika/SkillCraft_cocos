@@ -166,6 +166,7 @@ cc.Class({
                 var newCommH = newCommand.height;
                 var com =  arr.children[index-1]
                 this.deleteCommand(upCommand);
+               // this.in
 //                arr.removeChild(upCommand);
 //                arr.insertChild(newCommand,index);
 //                var desH =0// Math.abs(upCommH - newCommH);
