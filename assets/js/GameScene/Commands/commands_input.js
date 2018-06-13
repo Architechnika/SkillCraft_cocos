@@ -134,7 +134,7 @@ cc.Class({
         this.node.counterAddHandler = this.counterAddHandler;
         this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
         this.node._getComplexCommandFromSimple = this._getComplexCommandFromSimple
-
+//
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned) //Это для того чтобы клики не срабатывали при смещениях
                 return false;
