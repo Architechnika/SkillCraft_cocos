@@ -37,6 +37,7 @@ cc.Class({
                     this._underFieldElements.push(other.node);
                 } else if (other.tag == 1) { //Если это дорога(или вход или выход)
                     this._currentFieldElement = other.node;
+                    cc.director._globalVariables.player_cellCounter++;//Счетчик того сколько клеток проехал робот
                     //Добавляем команды из клетки поля в стек команд
                     this._addCommands(this._currentFieldElement);
                     this._underFieldElements.splice(0, this._underFieldElements.length);
@@ -124,8 +125,11 @@ cc.Class({
             if (pr.point == "pickup") { //Если это команда подобрать обьект под собой
                 var el = this._underFieldElements[0];
                 this.inventory.push(this._underFieldElements[0]._prefab);
+                //Увеличиваем счетчик собранных ящиков
+                if(el.name == "gameObject_box")
+                    cc.director._globalVariables.player_totalBoxes++;
                 //Обновляем инфу на экране о собранных ящиках
-                cc.director._globalVariables.labelBoxes.node._components[0].string = this.inventory.length+"";
+                cc.director._globalVariables.labelBoxes.node._components[0].string = cc.director._globalVariables.player_totalBoxes+"";
                 this._underFieldElements[0].destroy();
                 this.makeAMove();
             } else { //Иначе это команда передвинуться в точку------------------------------------
