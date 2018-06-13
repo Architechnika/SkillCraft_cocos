@@ -82,7 +82,7 @@ cc.Class({
                     el.anchorY = 1;
                     el.scaleX = el.scaleY = this.defaultElementScale;
                     itemWH = (el.height * el.scaleY);
-                    el._parent = null;
+                 //   el._parent = null;
                     if (el.width > maxW)
                         maxW = el.width;
                     el.resetTransform;
@@ -192,6 +192,60 @@ cc.Class({
             }
         }
 
+    },
+    
+        deleteCommand(comm) {
+        var arr  = cc.director._globalVariables.codeMapNode;
+       // var bottomChild = this.node.getChildByName("bottom");
+//        if (comm.parent == commands)
+//            arr = commands;
+//        if (comm.parent == elseCommands)
+//            arr = elseCommands;
+        if (arr) {
+            var itemH = comm.height;
+            var itemW = comm.width;
+            var h = 100;
+            var x = 0;
+            var y = 0;
+            var w = 0;
+            if (comm.name == "command_if" || comm.name == "command_repeat" || comm.name == "command_repeatif") {
+                //  h = comm.children[0].height;
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (comm.name == "command_if" || comm.name == "command_repeatif") {
+                    var p = this.node.getChildByName("command_ifandor_add");
+                    w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
+                }
+            }
+
+
+            arr.height -= itemH;
+            this.node.parent.height -= itemH
+            this.node.parent.width -= w;
+//            var lineCount = itemH / h;
+//            for (var i = 0; i < lineCount; i++) {
+//                if (arr.name == "commands")
+//                    this.deleteLine();
+//                else this.deleteElseLine();
+//            }
+
+            var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
+            for (var i = 0; i < arr.children.length; i++) {
+                //если удаляем элемент то нужно нижние элементы сдвинуть наверх
+                var el = arr.children[i];
+                if (isGo || el.name == "command_plusCM") {
+                    el.y += itemH
+                }
+                if (el == comm) {
+                    isGo = true;
+                }
+
+            }
+            cc.director._globalVariables.lastDeleteCommandH = itemH;
+            arr.removeChild(comm);
+
+        } else {
+
+        }
     },
     update(dt) {
         //         var ls = cc.director._globalVariables.localStorageScript
