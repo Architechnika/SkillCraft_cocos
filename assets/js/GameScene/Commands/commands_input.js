@@ -144,7 +144,7 @@ cc.Class({
                     //Если режим ДОБАВЛЕНИЯ команды после существующей команды isAdd = true, Если режим ЗАМЕНЫ команды в кодмапе isAdd = false
                     var isAdd = cc.director._globalVariables.addCommandMode == "add" ? true : false;
                     var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
-                    if (objScr.obj.node.name == "command_block_if") {
+                    if (objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
                         objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd);
                     }
                     cc.director._globalVariables.addCommandMode = false;
@@ -238,7 +238,12 @@ cc.Class({
         //Если включен режим перемещения элементов кодмапа, то перемещаем
         if (cc.director._globalVariables.codeMapMenu.isMove) {
             console.log("перемещаем")
-            cc.director._globalVariables.codeMapMenu._targetNode.active = true;
+            var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
+            cc.director._globalVariables.codeMapMenu._targetNode.active = true;//Делаем команду видимой
+            if (objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
+                objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
+                objScr.obj.insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, true);
+            }
             cc.director._globalVariables.codeMapMenu.isMove = false;
             return;
         }
