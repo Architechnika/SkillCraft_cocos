@@ -91,7 +91,7 @@ cc.Class({
             }
         }
     },
-    insertCommand(upCommand, newCommand, isInsert,isReplace) {
+    insertCommand(upCommand, newCommand, isInsert, isReplace) {
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
         var bottomChild = this.node.getChildByName("bottom");
@@ -148,15 +148,17 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                   // y = arr.children[arr.children.length - 1].y - itemWH;
-                    y =arr.children[arr.children.length - 1].y-100;
+                    // y = arr.children[arr.children.length - 1].y - itemWH;
+                    y = arr.children[arr.children.length - 1].y - 100;
                 }
-                if(!isReplace)
-                codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
-                    this.addLine();
+                    if (arr.name == "commands")
+                        this.addLine();
+                    else this.addElseLine();
                 }
+                if (!isReplace)
+                    codeMapPlus.y -= itemWH
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
@@ -165,8 +167,9 @@ cc.Class({
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com, newCommand, true,true)
+                this.insertCommand(com, newCommand, true, true)
             }
+              cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
 
     },
@@ -228,9 +231,11 @@ cc.Class({
     deleteElseLine() {
         var bott = this.node.getChildByName("bottom")
         var element = bott.getChildByName("command_line");
+        var pos = this.node.getChildByName("bottom").getChildByName("elseLineNode")
         if (element != null) {
             var itemWH = element.width;
             var bott = this.node.getChildByName("bottom")
+            pos.y+=itemWH;
             bott.removeChild(element);
             for (var i = 0; i < bott.children.length; i++) {
                 var el = bott.children[i];
