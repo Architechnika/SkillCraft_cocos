@@ -92,7 +92,6 @@ cc.Class({
         }
     },
     insertCommand(upCommand, newCommand, isInsert) {
-        console.log(upCommand.name + " " + newCommand.name)
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
         var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
@@ -162,46 +161,9 @@ cc.Class({
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
             }else{
                 var index = arr.children.indexOf(upCommand);
-                var upCommH = upCommand.height;
-                var newCommH = newCommand.height;
                 var com =  arr.children[index-1]
                 this.deleteCommand(upCommand);
-               // this.in
-//                arr.removeChild(upCommand);
-//                arr.insertChild(newCommand,index);
-//                var desH =0// Math.abs(upCommH - newCommH);
-//               // if(upCommH >= newCommH)
-//               //     desH = upCommH - newCommH;
-//              //  else desH = newCommH - upCommH
-//                desH = upCommH - newCommH
-//                console.log(desH)
-//            arr.height -= desH;
-//                 codeMapPlus.y += desH
-//            this.node.parent.height -= desH;
-//                
-//                
-//                    for (var i = 0; i < arr.children.length; i++) {
-//                    var el = arr.children[i];
-//                    if (isGo || el.name == "command_plus") {
-//                        if (!isCheckPos && el.name != "command_plus") {
-//                            x = el.x;
-//                            y = el.y;
-//                            isCheckPos = true;
-//                        }
-//                        el.y += desH;
-//                    }
-//                    if (el == newCommand) {
-//                        isGo = true;
-//                       // index = arr.children.indexOf(el);
-//                    }
-//                }
-//                
-//                var e = desH;
-//                var lineCount = Math.abs(desH) / h;
-//                for (var i = 0; i < lineCount; i++) {
-//                    if(e>0)
-//                    this.addLine();
-//                    else this.deleteLine()
+                this.insertCommand(com,newCommand,true)
             }
         }
 

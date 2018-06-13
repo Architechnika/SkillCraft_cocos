@@ -139,6 +139,84 @@ cc.Class({
 
         }
     },
+        insertCommand(upCommand, newCommand, isInsert) {
+        console.log(upCommand.name + " " + newCommand.name)
+        var newCommand = cc.instantiate(newCommand)
+        var commands = this.node.getChildByName("commands");
+        var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
+        var arr = undefined;
+        if (upCommand.parent == commands)
+            arr = commands;
+        else if (upCommand.parent == elseCommands)
+            arr = elseCommands;
+        if (arr) {
+            newCommand.anchorX = upCommand.anchorX
+            newCommand.anchorY = upCommand.anchorY
+            newCommand.x = upCommand.x
+            newCommand.y = upCommand.y
+            var itemWH = newCommand.height;
+
+            var h = 100;
+            var w = 0;
+            if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
+                h = newCommand.children[0].height;
+                //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
+                if (newCommand.name == "command_if" || newCommand.name == "command_repeatif")
+                    w = this.node.parent.width >= this._maxW ? 0 : 100;
+            }
+
+            
+            this.node.parent.width += w;
+
+            //
+            var x = 0;
+            var y = 0;
+        if (isInsert) {
+
+                var isGo = false;
+                var isCheckPos = false;
+                var index = 0;
+            arr.height += itemWH;
+            this.node.parent.height += itemWH;
+                for (var i = 0; i < arr.children.length; i++) {
+                    var el = arr.children[i];
+                    if (isGo || el.name == "command_plus") {
+                        if (!isCheckPos && el.name != "command_plus") {
+                            x = el.x;
+                            y = el.y;
+                            isCheckPos = true;
+                        }
+                        el.y -= itemWH;
+                    }
+                    if (el == upCommand) {
+                        isGo = true;
+                        index = arr.children.indexOf(el);
+                    }
+                }
+                if (!isCheckPos) {
+                    //если инсертим к последнему элементу,
+                    y =  arr.children[arr.children.length-1].y-itemWH;
+                }
+                
+                codeMapPlus.y -= itemWH
+                var lineCount = itemWH / h;
+                for (var i = 0; i < lineCount; i++) {
+                    this.addLine();
+                }
+                newCommand.x = x;
+                newCommand.y = y;
+                arr.insertChild(newCommand, index + 1);
+                cc.director._globalVariables.lastAddCommandH = newCommand.height;
+            }else{
+                var index = arr.children.indexOf(upCommand);
+                var com =  arr.children[index-1]
+                this.deleteCommand(upCommand);
+                this.insertCommand(com,newCommand,true)
+            }
+        }
+
+    },
     start() {
 
     },
