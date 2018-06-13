@@ -144,7 +144,7 @@ cc.Class({
                     //Если режим ДОБАВЛЕНИЯ команды после существующей команды isAdd = true, Если режим ЗАМЕНЫ команды в кодмапе isAdd = false
                     var isAdd = cc.director._globalVariables.addCommandMode == "add" ? true : false;
                     var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
-                    if (objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
+                    if (objScr.obj.node && objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
                         objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd);
                     }
                     cc.director._globalVariables.addCommandMode = false;

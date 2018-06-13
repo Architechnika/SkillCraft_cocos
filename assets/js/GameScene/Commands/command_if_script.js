@@ -202,9 +202,7 @@ cc.Class({
 //                    if(e>0)
 //                    this.addLine();
 //                    else this.deleteLine()
-                }
             }
-            //
         }
 
     },
