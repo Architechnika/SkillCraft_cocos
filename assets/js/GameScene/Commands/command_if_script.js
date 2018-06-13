@@ -94,7 +94,8 @@ cc.Class({
     insertCommand(upCommand, newCommand, isInsert) {
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
-        var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        var bottomChild = this.node.getChildByName("bottom");
+        var elseCommands = bottomChild ? bottomChild.getChildByName("elseCommands") : undefined;
         var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
         var arr = undefined;
         if (upCommand.parent == commands)
@@ -241,7 +242,8 @@ cc.Class({
     //Удаляет comm из children-ов если она там есть
     deleteCommand(comm) {
         var commands = this.node.getChildByName("commands");
-        var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        var bottomChild = this.node.getChildByName("bottom");
+        var elseCommands = bottomChild ? bottomChild.getChildByName("elseCommands") : undefined;
         var arr = undefined;
         if (comm.parent == commands)
             arr = commands;

@@ -114,14 +114,14 @@ cc.Class({
         insertCommand(upCommand, newCommand, isInsert) {
         console.log(upCommand.name + " " + newCommand.name)
         var newCommand = cc.instantiate(newCommand)
-        var commands = this.node.getChildByName("commands");
-        var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        //var commands = this.node.getChildByName("commands");
+        //var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
         var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
-        var arr = undefined;
-        if (upCommand.parent == commands)
+        var arr = codeMapPlus.parent;
+        /*if (upCommand.parent == commands)
             arr = commands;
         else if (upCommand.parent == elseCommands)
-            arr = elseCommands;
+            arr = elseCommands;*/
         if (arr) {
             newCommand.anchorX = upCommand.anchorX
             newCommand.anchorY = upCommand.anchorY
@@ -172,10 +172,10 @@ cc.Class({
                 }
                 
                 codeMapPlus.y -= itemWH
-                var lineCount = itemWH / h;
+                /*var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
                     this.addLine();
-                }
+                }*/
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);

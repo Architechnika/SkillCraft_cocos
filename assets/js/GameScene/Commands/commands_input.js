@@ -144,8 +144,12 @@ cc.Class({
                     //Если режим ДОБАВЛЕНИЯ команды после существующей команды isAdd = true, Если режим ЗАМЕНЫ команды в кодмапе isAdd = false
                     var isAdd = cc.director._globalVariables.addCommandMode == "add" ? true : false;
                     var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
-                    if (objScr.obj.node && objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
-                        objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd);
+                    if (objScr.obj.node) { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
+                        if (objScr.obj.node.name == "command_block_if" || objScr.obj.node.name == "command_block_repeat" || objScr.obj.node.name == "command_block_repeatif") {
+                            objScr.obj.insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd);
+                        }
+                    }else{
+                        cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd);
                     }
                     cc.director._globalVariables.addCommandMode = false;
                     cc.director._setScrollVisible(false, true);
@@ -239,10 +243,10 @@ cc.Class({
         if (cc.director._globalVariables.codeMapMenu.isMove) {
             console.log("перемещаем")
             var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
-            cc.director._globalVariables.codeMapMenu._targetNode.active = true;//Делаем команду видимой
+            cc.director._globalVariables.codeMapMenu._targetNode.active = true; //Делаем команду видимой
             if (objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
                 objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
-                objScr.obj.insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, true);
+                objScr.obj.insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, false);
             }
             cc.director._globalVariables.codeMapMenu.isMove = false;
             return;
