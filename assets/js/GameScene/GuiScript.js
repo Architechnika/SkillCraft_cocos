@@ -11,6 +11,7 @@ cc.Class({
         nextStepButton: cc.Node,
         reloadButton: cc.Node,
         menuButton: cc.Node,
+        exp_progressBar: cc.Node,
         _playerObj: null, //Указатель на робота(на скрипт робота)
     },
 
@@ -48,7 +49,12 @@ cc.Class({
     },
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        var onePerc = (cc.director._globalVariables.player_nLvlExp - cc.director._globalVariables.player_pLvlExp) / 100;
+        var gExp_perc = (cc.director._globalVariables.player_gExp - cc.director._globalVariables.player_pLvlExp) / onePerc;
+        this.exp_progressBar._components[1].progress = gExp_perc / 100;
+        this.exp_progressBar.getChildByName("lvl_label")._components[0].string = cc.director._globalVariables.player_lvl.toString();
+    },
 
     start() {
         //Инициализируем указатель но обьект игрока
