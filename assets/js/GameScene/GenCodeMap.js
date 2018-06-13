@@ -174,13 +174,10 @@ cc.Class({
                 }
 
                 codeMapPlus.y -= itemWH
-                /*var lineCount = itemWH / h;
-                for (var i = 0; i < lineCount; i++) {
-                    this.addLine();
-                }*/
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
+                roadCommands.splice(index,0,newCommand)
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
             } else {
                 var index = arr.children.indexOf(upCommand);
@@ -194,11 +191,7 @@ cc.Class({
     
         deleteCommand(comm) {
         var arr  = cc.director._globalVariables.codeMapNode;
-       // var bottomChild = this.node.getChildByName("bottom");
-//        if (comm.parent == commands)
-//            arr = commands;
-//        if (comm.parent == elseCommands)
-//            arr = elseCommands;
+        var roadCommands = cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands;
         if (arr) {
             var itemH = comm.height;
             var itemW = comm.width;
@@ -219,13 +212,6 @@ cc.Class({
             arr.height -= itemH;
             this.node.parent.height -= itemH
             this.node.parent.width -= w;
-//            var lineCount = itemH / h;
-//            for (var i = 0; i < lineCount; i++) {
-//                if (arr.name == "commands")
-//                    this.deleteLine();
-//                else this.deleteElseLine();
-//            }
-
             var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
             for (var i = 0; i < arr.children.length; i++) {
                 //если удаляем элемент то нужно нижние элементы сдвинуть наверх
@@ -239,10 +225,16 @@ cc.Class({
 
             }
             cc.director._globalVariables.lastDeleteCommandH = itemH;
+            for(var i=0;i<roadCommands.length;i++)
+                {
+                    var el = roadCommands[i]
+                    if(el == comm)
+                        {
+                            roadCommands.splice(i,1)
+                            break;
+                        }
+                }
             arr.removeChild(comm);
-
-        } else {
-
         }
     },
     update(dt) {
