@@ -113,7 +113,7 @@ cc.Class({
             this.node.addChild(comm);
         }
     },
-    insertCommand(upCommand, newCommand, isInsert,isReplace) {
+    insertCommand(upCommand, newCommand, isInsert, isReplace) {
         //        console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
         var newCommand = cc.instantiate(newCommand)
         var roadCommands = cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands;
@@ -136,11 +136,11 @@ cc.Class({
                 h = newCommand.children[0].height;
                 //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                 if (newCommand.name == "command_if" || newCommand.name == "command_repeatif")
-                    w = this.node.parent.width >= this._maxW ? 0 : 100;
+                    w = newCommand.width;
             }
 
 
-            this.node.parent.width += w;
+           // this.node.width += w;
 
             //
             var x = 0;
@@ -150,8 +150,8 @@ cc.Class({
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
-                arr.height += itemWH;
-                this.node.parent.height += itemWH;
+                //arr.height += itemWH;
+               // this.node.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -172,8 +172,8 @@ cc.Class({
                     //  y = arr.children[arr.children.length - 1].y - itemWH;
                     y = arr.children[arr.children.length - 1].y - 100;
                 }
-                if(!isReplace)
-                codeMapPlus.y -= itemWH
+                if (!isReplace)
+                    codeMapPlus.y -= itemWH
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
@@ -183,10 +183,13 @@ cc.Class({
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com, newCommand, true,true)
+                this.insertCommand(com, newCommand, true, true);
+                return;
             }
         }
-
+        console.log(this.node.height+" 1")
+        cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+        console.log(this.node.height+" 1")
     },
     deleteCommand(comm) {
         var arr = cc.director._globalVariables.codeMapNode;
@@ -202,15 +205,15 @@ cc.Class({
                 //  h = comm.children[0].height;
                 //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                 if (comm.name == "command_if" || comm.name == "command_repeatif") {
-                    var p = this.node.getChildByName("command_ifandor_add");
-                    w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
+                    // var p = this.node.getChildByName("command_ifandor_add");
+                    // w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
                 }
             }
 
 
             arr.height -= itemH;
-            this.node.parent.height -= itemH
-            this.node.parent.width -= w;
+            this.node.height -= itemH
+            // this.node.parent.width -= w;
             var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
             for (var i = 0; i < arr.children.length; i++) {
                 //если удаляем элемент то нужно нижние элементы сдвинуть наверх
