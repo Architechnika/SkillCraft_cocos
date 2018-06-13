@@ -201,7 +201,8 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                    y =  arr.children[arr.children.length-1].y-itemWH;
+                   // y =  arr.children[arr.children.length-1].y-itemWH;
+                    y =arr.children[arr.children.length - 1].y-100;
                 }
                 
                 codeMapPlus.y -= itemWH

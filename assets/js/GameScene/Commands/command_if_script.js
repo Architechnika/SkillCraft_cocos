@@ -118,19 +118,19 @@ cc.Class({
                     w = this.node.parent.width >= this._maxW ? 0 : 100;
             }
 
-            
+
             this.node.parent.width += w;
 
             //
             var x = 0;
             var y = 0;
-        if (isInsert) {
+            if (isInsert) {
 
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
-            arr.height += itemWH;
-            this.node.parent.height += itemWH;
+                arr.height += itemWH;
+                this.node.parent.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -148,9 +148,10 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                    y =  arr.children[arr.children.length-1].y-itemWH;
+                   // y = arr.children[arr.children.length - 1].y - itemWH;
+                    y =arr.children[arr.children.length - 1].y-100;
                 }
-                
+
                 codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
@@ -160,11 +161,11 @@ cc.Class({
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
-            }else{
+            } else {
                 var index = arr.children.indexOf(upCommand);
-                var com =  arr.children[index-1]
+                var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com,newCommand,true)
+                this.insertCommand(com, newCommand, true)
             }
         }
 
