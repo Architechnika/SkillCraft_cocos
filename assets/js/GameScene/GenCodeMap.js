@@ -69,7 +69,6 @@ cc.Class({
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
-                console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
                 //cc.director._globalVariables.codeMapNode.width = 0;
                 //this._changeAnchor(0.5);
                 var x = 0; //this.node.x + ();
@@ -118,8 +117,7 @@ cc.Class({
     insertCommand(upCommand, newCommand, isInsert) {
         //        console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
         var newCommand = cc.instantiate(newCommand)
-        //var commands = this.node.getChildByName("commands");
-        //var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
+        var roadCommands = cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands;
         var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
         var arr = codeMapPlus.parent;
         /*if (upCommand.parent == commands)
@@ -172,7 +170,8 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                    y = arr.children[arr.children.length - 1].y - itemWH;
+                  //  y = arr.children[arr.children.length - 1].y - itemWH;
+                    y =arr.children[arr.children.length - 1].y-100;
                 }
 
                 codeMapPlus.y -= itemWH
