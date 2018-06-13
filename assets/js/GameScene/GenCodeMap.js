@@ -192,14 +192,14 @@ cc.Class({
         }
 
     },
-    
-        deleteCommand(comm) {
-        var arr  = cc.director._globalVariables.codeMapNode;
-       // var bottomChild = this.node.getChildByName("bottom");
-//        if (comm.parent == commands)
-//            arr = commands;
-//        if (comm.parent == elseCommands)
-//            arr = elseCommands;
+
+    deleteCommand(comm) {
+        var arr = cc.director._globalVariables.codeMapNode;
+        // var bottomChild = this.node.getChildByName("bottom");
+        //        if (comm.parent == commands)
+        //            arr = commands;
+        //        if (comm.parent == elseCommands)
+        //            arr = elseCommands;
         if (arr) {
             var itemH = comm.height;
             var itemW = comm.width;
@@ -220,12 +220,12 @@ cc.Class({
             arr.height -= itemH;
             this.node.parent.height -= itemH
             this.node.parent.width -= w;
-//            var lineCount = itemH / h;
-//            for (var i = 0; i < lineCount; i++) {
-//                if (arr.name == "commands")
-//                    this.deleteLine();
-//                else this.deleteElseLine();
-//            }
+            //            var lineCount = itemH / h;
+            //            for (var i = 0; i < lineCount; i++) {
+            //                if (arr.name == "commands")
+            //                    this.deleteLine();
+            //                else this.deleteElseLine();
+            //            }
 
             var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
             for (var i = 0; i < arr.children.length; i++) {
