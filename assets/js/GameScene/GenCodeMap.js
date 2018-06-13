@@ -113,7 +113,7 @@ cc.Class({
             this.node.addChild(comm);
         }
     },
-    insertCommand(upCommand, newCommand, isInsert) {
+    insertCommand(upCommand, newCommand, isInsert,isReplace) {
         //        console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
         var newCommand = cc.instantiate(newCommand)
         var roadCommands = cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands;
@@ -172,7 +172,7 @@ cc.Class({
                   //  y = arr.children[arr.children.length - 1].y - itemWH;
                     y =arr.children[arr.children.length - 1].y-100;
                 }
-
+                if(!isReplace)
                 codeMapPlus.y -= itemWH
                 newCommand.x = x;
                 newCommand.y = y;
@@ -183,7 +183,7 @@ cc.Class({
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com, newCommand, true)
+                this.insertCommand(com, newCommand, true,true)
             }
         }
 

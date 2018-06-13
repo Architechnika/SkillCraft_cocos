@@ -139,7 +139,7 @@ cc.Class({
 
         }
     },
-        insertCommand(upCommand, newCommand, isInsert) {
+        insertCommand(upCommand, newCommand, isInsert,isReplace) {
         console.log(upCommand.name + " " + newCommand.name)
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
@@ -200,7 +200,7 @@ cc.Class({
                    // y =  arr.children[arr.children.length-1].y-itemWH;
                     y =arr.children[arr.children.length - 1].y-100;
                 }
-                
+                if(!isReplace)
                 codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
@@ -214,7 +214,7 @@ cc.Class({
                 var index = arr.children.indexOf(upCommand);
                 var com =  arr.children[index-1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com,newCommand,true)
+                this.insertCommand(com,newCommand,true,true)
             }
         }
 
