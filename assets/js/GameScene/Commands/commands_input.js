@@ -245,7 +245,7 @@ cc.Class({
             console.log("перемещаем")
             var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
             cc.director._globalVariables.codeMapMenu._targetNode.active = true; //Делаем команду видимой
-            if (objScr.obj.node && objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
+            if (objScr.obj.node.name == "command_block_if") { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
                 objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
                 objScr.obj.insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, false);
             }

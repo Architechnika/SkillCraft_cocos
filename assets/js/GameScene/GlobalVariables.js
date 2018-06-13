@@ -33,6 +33,7 @@ cc.Class({
         cc.director._globalVariables.codeMapMenu = this.node.parent.getChildByName("command_menu");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;
         cc.director._globalVariables.localStorageScript = this.node.getComponent("LocalStorageController")
+        cc.director._globalVariables.expBar = this.node.getChildByName("GUINode").getChildByName("exp_progressBar");//Прогресс бар для опыта
         cc.director._globalVariables.nodeCommandToInit = undefined; //ССылка но обьект в который мы добавляем значение(blockA blockB или countBlock в кодмапе)
         cc.director._globalVariables.addCommandMode = false;//Флаг для включения режима добавления команды к команде
         cc.director._globalVariables.eventDownedOn = undefined;
