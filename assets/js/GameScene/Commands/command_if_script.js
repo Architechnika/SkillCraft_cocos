@@ -115,7 +115,7 @@ cc.Class({
                 h = newCommand.children[0].height;
                 //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                 if (newCommand.name == "command_if" || newCommand.name == "command_repeatif")
-                    w = this.node.parent.width >= this._maxW ? 0 : 100;
+                    w = this.node.parent.width > this._maxW ? 0 : 100;
             }
 
 
@@ -186,7 +186,7 @@ cc.Class({
                     h = comm.children[0].height;
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
-                        w = this.node.parent.width >= this._maxW ? 0 : 100;
+                        w = this.node.parent.width > this._maxW ? 0 : 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
