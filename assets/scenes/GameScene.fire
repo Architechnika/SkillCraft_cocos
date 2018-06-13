@@ -3802,8 +3802,8 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 1.25,
-    "_scaleY": 0.92,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 63,
@@ -3849,7 +3849,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 50,
+      "width": 194.4,
       "height": 15
     },
     "_rotationX": 0,
@@ -3858,7 +3858,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -50,
+      "x": -107,
       "y": 0
     },
     "_skewX": 0,
@@ -3928,12 +3928,12 @@
       "__id__": 93
     },
     "_enabled": true,
-    "_N$totalLength": 100,
+    "_N$totalLength": 216,
     "_N$barSprite": {
       "__id__": 95
     },
     "_N$mode": 0,
-    "_N$progress": 0.5,
+    "_N$progress": 0.9,
     "_N$reverse": false
   },
   {

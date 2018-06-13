@@ -82,7 +82,7 @@ cc.Class({
                     el.anchorY = 1;
                     el.scaleX = el.scaleY = this.defaultElementScale;
                     itemWH = (el.height * el.scaleY);
-                    el._parent = null;
+                    //el._parent = null;
                     if (el.width > maxW)
                         maxW = el.width;
                     el.resetTransform;
