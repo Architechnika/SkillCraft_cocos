@@ -47,12 +47,11 @@ cc.Class({
         //чистим весь кодмап
         if (this.node.children.length > 1) {
             for (var i = this.node.children.length - 1; i > 0; i--) {
-                if (this.node.children[i].name != "command_plusCM") 
-                {
+                if (this.node.children[i].name != "command_plusCM") {
                     var el = this.node.children[i];
                     el.active = false
-                   // this.node.removeChild(this.node.children[i], false);
-                    
+                    // this.node.removeChild(this.node.children[i], false);
+
                 }
             }
             var plus = this.node.getChildByName("command_plusCM");
@@ -70,6 +69,7 @@ cc.Class({
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
+                console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
                 //cc.director._globalVariables.codeMapNode.width = 0;
                 //this._changeAnchor(0.5);
                 var x = 0; //this.node.x + ();
@@ -85,7 +85,6 @@ cc.Class({
                     el._parent = null;
                     if (el.width > maxW)
                         maxW = el.width;
-                    this.node.addChild(el);
                     el.resetTransform;
 
                     el.x = x;
@@ -111,8 +110,13 @@ cc.Class({
             //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
         }
     },
-        insertCommand(upCommand, newCommand, isInsert) {
-        console.log(upCommand.name + " " + newCommand.name)
+    addCommand(comm) {
+        if (comm) {
+            this.node.addChild(comm);
+        }
+    },
+    insertCommand(upCommand, newCommand, isInsert) {
+        //        console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
         var newCommand = cc.instantiate(newCommand)
         //var commands = this.node.getChildByName("commands");
         //var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
@@ -138,19 +142,19 @@ cc.Class({
                     w = this.node.parent.width >= this._maxW ? 0 : 100;
             }
 
-            
+
             this.node.parent.width += w;
 
             //
             var x = 0;
             var y = 0;
-        if (isInsert) {
+            if (isInsert) {
 
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
-            arr.height += itemWH;
-            this.node.parent.height += itemWH;
+                arr.height += itemWH;
+                this.node.parent.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -168,9 +172,9 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                    y =  arr.children[arr.children.length-1].y-itemWH;
+                    y = arr.children[arr.children.length - 1].y - itemWH;
                 }
-                
+
                 codeMapPlus.y -= itemWH
                 /*var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
@@ -180,11 +184,11 @@ cc.Class({
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
-            }else{
+            } else {
                 var index = arr.children.indexOf(upCommand);
-                var com =  arr.children[index-1]
+                var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com,newCommand,true)
+                this.insertCommand(com, newCommand, true)
             }
         }
 
