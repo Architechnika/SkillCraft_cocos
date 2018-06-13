@@ -169,15 +169,15 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                  //  y = arr.children[arr.children.length - 1].y - itemWH;
-                    y =arr.children[arr.children.length - 1].y-100;
+                    //  y = arr.children[arr.children.length - 1].y - itemWH;
+                    y = arr.children[arr.children.length - 1].y - 100;
                 }
                 if(!isReplace)
                 codeMapPlus.y -= itemWH
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
-                roadCommands.splice(index,0,newCommand)
+                roadCommands.splice(index, 0, newCommand)
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
             } else {
                 var index = arr.children.indexOf(upCommand);
@@ -188,9 +188,8 @@ cc.Class({
         }
 
     },
-    
-        deleteCommand(comm) {
-        var arr  = cc.director._globalVariables.codeMapNode;
+    deleteCommand(comm) {
+        var arr = cc.director._globalVariables.codeMapNode;
         var roadCommands = cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands;
         if (arr) {
             var itemH = comm.height;
@@ -225,15 +224,13 @@ cc.Class({
 
             }
             cc.director._globalVariables.lastDeleteCommandH = itemH;
-            for(var i=0;i<roadCommands.length;i++)
-                {
-                    var el = roadCommands[i]
-                    if(el == comm)
-                        {
-                            roadCommands.splice(i,1)
-                            break;
-                        }
+            for (var i = 0; i < roadCommands.length; i++) {
+                var el = roadCommands[i]
+                if (el == comm) {
+                    roadCommands.splice(i, 1)
+                    break;
                 }
+            }
             arr.removeChild(comm);
         }
     },
