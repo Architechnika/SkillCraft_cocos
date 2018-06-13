@@ -24,11 +24,16 @@ cc.Class({
         //Инициализируем глобальные переменные игры в класс ДИРЕКТОРА
         if (!cc.director._globalVariables) {//Выполняется когда игра только запустилась
             cc.director._globalVariables = this;
-            //staticData - переменные которые хранят данные передаваемые между сценами
             cc.director._globalVariables.player_cellCounter = 0;
+            //Переменные связанные с уровнем робота-----------------------------------------------------
             cc.director._globalVariables.player_gExp = 0; //Этот параметр будет загружен из сохранения
+            cc.director._globalVariables.player_pLvlExp = 0;//Количество опыта для предыдущего уровня
+            cc.director._globalVariables.player_nLvlExp = 100;//Количество опыта для следующего уровня
+            cc.director._globalVariables.player_lvl = 1;
+            //------------------------------------------------------------------------------------------
             cc.director._globalVariables.player_totalSeconds = 0; //Время которое потребовалось роботу для прохождения лабиринта
             cc.director._globalVariables.player_totalBoxes = 0;
+            cc.director._globalVariables.player_totalErrors = 0;
         }
         cc.director._globalVariables.commandAddState = this.commandAddState;
         cc.director._globalVariables.oldSelectRoad = undefined;

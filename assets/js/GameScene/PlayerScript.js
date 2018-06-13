@@ -44,8 +44,10 @@ cc.Class({
                 } else if (other.tag == 5) { //Робот доехал до финиша
                     this._isFinish = true;
                 } else {
-                    if(other.name.split("_")[0] != "command")
+                    if(other.name.split("_")[0] != "command"){
+                        cc.director._globalVariables.player_totalErrors++;
                         this._playerErrorAction("Робот врезался в стену");
+                    }
                 }
             } else {
                 if (other.node !== this._currentFieldElement && other.tag !== 3) { //Если это не коллизия с ТЕКУЩЕЙ КЛЕТКОЙ то обрабатываем
@@ -112,7 +114,6 @@ cc.Class({
         if (this._isFinish) { //ТОЧКА ДОСТИЖЕНИЯ ФИНИША ЗДЕСЬ----------------------------------------------------------------------------------------------
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
-            cc.director._globalVariables.currentLabSize += 2;
             cc.director.getScene().destroy();
             //ПЕРЕХОД НА СЦЕНУ С РЕЗУЛЬТАТОМ ПРОХОЖДЕНИЯ ЛАБИРИНТА
             cc.director.loadScene("EndGameScene");
