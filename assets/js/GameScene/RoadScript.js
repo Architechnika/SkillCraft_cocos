@@ -53,9 +53,10 @@ cc.Class({
             cc.director._setScrollVisible(false, true);
         } else {
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
-          //  cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
+            cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("okButton").active = true;//Отображаем кнопку ОК
             cc.director._setScrollVisible(true, true);
         }
+        cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToRightScroll(cc.director._globalVariables.scrollNode._rightScrollCommands);
     },
 
     onLoad() {
