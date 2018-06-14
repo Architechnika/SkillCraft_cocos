@@ -93,5 +93,10 @@ cc.Class({
         //Инициализируем указатель но обьект игрока
         this._playerObj = cc.director._globalVariables.gameNode.getChildByName("Player").getComponent("PlayerScript");
     },
+    
+    update(){
+        //Обновляем лэйбл отображающий собранные ящики
+        cc.director._globalVariables.labelBoxes.node._components[0].string = cc.director._globalVariables.player_totalBoxes;
+    },
 
 });

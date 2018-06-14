@@ -37,14 +37,14 @@ cc.Class({
                     this._underFieldElements.push(other.node);
                 } else if (other.tag == 1) { //Если это дорога(или вход или выход)
                     this._currentFieldElement = other.node;
-                    cc.director._globalVariables.player_cellCounter++;//Счетчик того сколько клеток проехал робот
+                    cc.director._globalVariables.player_cellCounter++; //Счетчик того сколько клеток проехал робот
                     //Добавляем команды из клетки поля в стек команд
                     this._addCommands(this._currentFieldElement);
                     this._underFieldElements.splice(0, this._underFieldElements.length);
                 } else if (other.tag == 5) { //Робот доехал до финиша
                     this._isFinish = true;
                 } else {
-                    if(other.name.split("_")[0] != "command"){
+                    if (other.name.split("_")[0] != "command") {
                         cc.director._globalVariables.player_totalErrors++;
                         this._playerErrorAction("Робот врезался в стену");
                     }
@@ -65,10 +65,10 @@ cc.Class({
                             this._rightFieldElement = other.node;
                             break;
                     }
-                   /* console.log("front : " + this._frontFieldElement.name)
-                    console.log("back : " + this._backFieldElement.name)
-                    console.log("left : " + this._leftFieldElement.name)
-                    console.log("right : " + this._rightFieldElement.name)*/
+                    /* console.log("front : " + this._frontFieldElement.name)
+                     console.log("back : " + this._backFieldElement.name)
+                     console.log("left : " + this._leftFieldElement.name)
+                     console.log("right : " + this._rightFieldElement.name)*/
                 }
             }
         }
@@ -98,11 +98,11 @@ cc.Class({
     prevStep() {
         if (this.node.getNumberOfRunningActions() == 0) {
             var p = this._movedPoints.shift();
-            if(p)
+            if (p)
                 this.moveTo(p.point, p.direction, true);
         }
     },
-    makeStep(){
+    makeStep() {
         if (this.node.getNumberOfRunningActions() == 0) {
             this.makeAMove(true);
         }
@@ -127,11 +127,12 @@ cc.Class({
                 var el = this._underFieldElements[0];
                 this.inventory.push(this._underFieldElements[0]._prefab);
                 //Увеличиваем счетчик собранных ящиков
-                if(el.name == "gameObject_box")
+                if (el.name == "gameObject_box")
                     cc.director._globalVariables.player_totalBoxes++;
                 //Обновляем инфу на экране о собранных ящиках
-                cc.director._globalVariables.labelBoxes.node._components[0].string = cc.director._globalVariables.player_totalBoxes+"";
+                cc.director._globalVariables.labelBoxes.node._components[0].string = cc.director._globalVariables.player_totalBoxes + "";
                 this._underFieldElements[0].destroy();
+                this._currentFieldElement.getComponent("RoadScript").isGameObjectName = null;
                 this.makeAMove();
             } else { //Иначе это команда передвинуться в точку------------------------------------
                 var res = this.moveTo(pr.point, pr.direction);
@@ -152,6 +153,11 @@ cc.Class({
         this.node.x = this._startElement.x;
         this.node.y = this._startElement.y;
         this._addedCommands = [];
+        if (this._playerStarted) {
+            cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("startButton").active = true;
+            cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("stopButton").active = false;
+            this._playerStarted = false;
+        }
     },
     //Вызывает движение робота к точке x,y за playerSpeedDelay секунд
     moveTo(p, dir, dontRemember) {
@@ -220,7 +226,7 @@ cc.Class({
         if (isAnim) return angle;
         this.node.rotation = angle;
     },
-    
+
     //Логика обработки команд
     _processMove() {
         var errStr = "";
@@ -233,39 +239,36 @@ cc.Class({
                 point: p
             };
         }
-        if(this.commands[0]._children[0].getComponent("command_if_script")){//Если верхняя команда в стеке это команда из блока с условием IF
+        if (this.commands[0]._children[0].getComponent("command_if_script")) { //Если верхняя команда в стеке это команда из блока с условием IF
             var commScript = this.commands[0]._children[0].getComponent("command_if_script");
             var whatToDo = commScript.getCommand(this);
-            if(!whatToDo) errStr = "Ошибка при обработке команды IF";
-            else{
+            if (!whatToDo) errStr = "Ошибка при обработке команды IF";
+            else {
                 this.commands.shift();
-                for(var i = whatToDo.length - 1; i >= 0; i--)
+                for (var i = whatToDo.length - 1; i >= 0; i--)
                     this.commands.unshift(whatToDo[i]);
             }
-        }
-        else if(this.commands[0]._children[0].getComponent("command_repeatif_script")){//Если верхняя команда в стеке это команда из блока с условием REPEATIF
+        } else if (this.commands[0]._children[0].getComponent("command_repeatif_script")) { //Если верхняя команда в стеке это команда из блока с условием REPEATIF
             var commScript = this.commands[0]._children[0].getComponent("command_repeatif_script");
             var whatToDo = commScript.getCommand(this);
-            if(!whatToDo) errStr = "Ошибка при обработке команды REPEATIF";
-            else{
-                if(!whatToDo || whatToDo.length == 0)
+            if (!whatToDo) errStr = "Ошибка при обработке команды REPEATIF";
+            else {
+                if (!whatToDo || whatToDo.length == 0)
                     this.commands.shift();
-                for(var i = whatToDo.length - 1; i >= 0; i--)
+                for (var i = whatToDo.length - 1; i >= 0; i--)
                     this.commands.unshift(whatToDo[i]);
             }
-        }
-        else if(this.commands[0]._children[0].getComponent("command_counter_script")){//Если верхняя команда в стеке это команда из блока с условием COUNT
+        } else if (this.commands[0]._children[0].getComponent("command_counter_script")) { //Если верхняя команда в стеке это команда из блока с условием COUNT
             var commScript = this.commands[0]._children[0].getComponent("command_counter_script");
             var whatToDo = commScript.getCommand(this);
-            if(!whatToDo) errStr = "Ошибка при обработке команды COUNT";
-            else{
-                if(!whatToDo || whatToDo.length == 0)
+            if (!whatToDo) errStr = "Ошибка при обработке команды COUNT";
+            else {
+                if (!whatToDo || whatToDo.length == 0)
                     this.commands.shift();
-                for(var i = whatToDo.length - 1; i >= 0; i--)
+                for (var i = whatToDo.length - 1; i >= 0; i--)
                     this.commands.unshift(whatToDo[i]);
             }
-        }
-        else if(this.commands[0].getComponent("command_simple_script")){//Обработка простых команд
+        } else if (this.commands[0].getComponent("command_simple_script")) { //Обработка простых команд
             //Получаем скрипт из элемента команды для того чтобы получить логику команды
             var commScript = this.commands[0].getComponent("command_simple_script");
             if (commScript) {
@@ -275,11 +278,10 @@ cc.Class({
                 //Если вернулось undefined - ошибка
                 if (!whatToDo) {
                     errStr = "Робот не может туда поехать";
-                }
-                else{ 
-                    if (whatToDo.x && whatToDo.y) {//Если точка то надо передвинуться
+                } else {
+                    if (whatToDo.x && whatToDo.y) { //Если точка то надо передвинуться
                         p = whatToDo;
-                    } else if (dir == "pickup") {//Если команда подобрать элемент
+                    } else if (dir == "pickup") { //Если команда подобрать элемент
                         if (whatToDo) {
                             p = whatToDo;
                         } else {
@@ -315,7 +317,7 @@ cc.Class({
         this.commands = [];
         for (var i = comms.length - 1; i >= 0; i--) {
             var clone = this._cloneNode(comms[i]);
-            if(clone)
+            if (clone)
                 this.commands.unshift(clone);
         }
         this._addedCommands.push(element);
@@ -323,7 +325,7 @@ cc.Class({
 
     _cloneNode(node) {
         var copy = cc.instantiate(node);
-        if(!copy) return undefined;
+        if (!copy) return undefined;
         copy.parent = cc.director.getScene();
         copy.setPosition(0, 0);
         return copy;
