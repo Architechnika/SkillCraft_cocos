@@ -43,6 +43,13 @@ cc.Class({
             coinCount: 0,
             isSaved: false,
             rouColCount: 0,
+            cellCounter: 0,
+            gExp: 0,
+            pLvlExp: 0,
+            nLvlExp: 100,
+            lvl: 1,
+            totalBoxes: 0,
+            totalErrors: 0,
 
         }
         if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
@@ -50,7 +57,14 @@ cc.Class({
             this.arrayRoadCommands = this.arrayCopy(this.saveData.arrayRoadCommandsNames);
             this.arrayRoadCommands = this.parseRoadsCommands(this.saveData.arrayRoadCommandsNames);
             this.isFieldDataLoaded = false;
-            cc.director._globalVariables.currentLabSize = this.saveData.rouColCount
+            cc.director._globalVariables.currentLabSize = this.saveData.rouColCount;
+            cc.director._globalVariables.player_cellCounter = this.saveData.cellCounter;
+            cc.director._globalVariables.player_gExp = this.saveData.gExp;
+            cc.director._globalVariables.player_pLvlExp = this.saveData.pLvlExp;
+            cc.director._globalVariables.player_nLvlExp = this.saveData.nLvlExp;
+            cc.director._globalVariables.player_lvl = this.saveData.lvl;
+            cc.director._globalVariables.player_totalBoxes = this.saveData.totalBoxes;
+            cc.director._globalVariables.player_totalErrors = this.saveData.totalErrors;
         }
     },
 
@@ -155,7 +169,7 @@ cc.Class({
             }
             for (var i = 0; i < this.roadElemsArr.length; i++) {
                 var road = this.roadElemsArr[i];
-                if(road.name.indexOf("filed_start") >=0) //таким образом мы не сохраняем первую команду под роботом, чтобы не загрузить его каждый раз, он всегда создаеться и вовремя ново игры и при загрузке
+                if (road.name.indexOf("filed_start") >= 0) //таким образом мы не сохраняем первую команду под роботом, чтобы не загрузить его каждый раз, он всегда создаеться и вовремя ново игры и при загрузке
                     continue;
                 var i_r = road.getComponent("RoadScript").getI();
                 var j_r = road.getComponent("RoadScript").getJ();
@@ -172,6 +186,17 @@ cc.Class({
                         this.arrayRoadGameObjectsNames[i_r][j_r] = road.getComponent("RoadScript").isGameObjectName
                 }
             }
+            //
+            this.saveData.rouColCount = cc.director._globalVariables.currentLabSize;
+            this.saveData.cellCounter = cc.director._globalVariables.player_cellCounter;
+            this.saveData.gExp = cc.director._globalVariables.player_gExp;
+            this.saveData.pLvlExp = cc.director._globalVariables.player_pLvlExp;
+            this.saveData.nLvlExp = cc.director._globalVariables.player_nLvlExp;
+            this.saveData.lvl = cc.director._globalVariables.player_lvl;
+            this.saveData.totalBoxes = cc.director._globalVariables.player_totalBoxes;
+            this.saveData.totalErrors = cc.director._globalVariables.player_totalErrors;
+            //
+
             this.saveData.arrayRoadCommandsNames = this.arrayCopy(this.arrayRoadCommandsNames); // кидаем в объект saveData бинарный массив для хранения имел команд кодмапа для каждой дороги
             this.saveData.arrayRoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames); //массив игровый объектов на дороге
             this.saveData.time = this.time;
@@ -279,7 +304,7 @@ cc.Class({
 
     update(dt) {
         this._timeCounter += dt;
-        if(this._timeCounter > 5){
+        if (this._timeCounter > 5) {
             this.save();
             this._timeCounter = 0;
         }
