@@ -50,6 +50,7 @@ cc.Class({
             this.arrayRoadCommands = this.arrayCopy(this.saveData.arrayRoadCommandsNames);
             this.arrayRoadCommands = this.parseRoadsCommands(this.saveData.arrayRoadCommandsNames);
             this.isFieldDataLoaded = false;
+            cc.director._globalVariables.currentLabSize = this.saveData.rouColCount
         }
     },
 
