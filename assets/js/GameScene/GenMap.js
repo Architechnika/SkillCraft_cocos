@@ -87,7 +87,7 @@ cc.Class({
         }
         cc.director._globalVariables.localStorageScript.roadElemsArr = roadElemsForScript; //храним массив дорог где потенциально могут быть скрипты
         //Если включены ящики, то спавним их на поле в случайных местах
-        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") 
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") // ЗАГРУЗКА ПАРАМЕТРОВ ------------------------------------------------
         {
             //загружаем из сохранений
             var objs = cc.director._globalVariables.localStorageScript.saveData.arrayRoadGameObjectsNames;
@@ -101,7 +101,8 @@ cc.Class({
                             // road.getComponent("RoadScript").roadCommands = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children
                             for (var ic = 0; ic < cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children.length; ic++) {
                                 var el = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children[ic]
-                                road.getComponent("RoadScript").roadCommands.push(cc.instantiate(el))
+                                if(road.group != "Entry")
+                                    road.getComponent("RoadScript").roadCommands.push(cc.instantiate(el))
                             }
                         }
                     }
@@ -122,7 +123,7 @@ cc.Class({
             }
             cc.director._globalVariables.localStorageScript.isFieldDataLoaded = true;
             cc.sys.localStorage.setItem("isNewGame","true")
-        } else if (this.isBoxesSpawn && this.gameObjects.length > 0) {
+        } else if (this.isBoxesSpawn && this.gameObjects.length > 0) { // ГЕНЕРАЦИЯ НОВОГО ЛАБИРИНТА -----------------------------------------------
             var totalBoxes = Math.floor(cc.director._globalVariables.currentLabSize / 2);
             totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;
             totalBoxes = totalBoxes > roadElemsArr.length ? roadElemsArr.length : totalBoxes;

@@ -73,6 +73,7 @@ cc.Class({
                 break;
             case this.menuButton:
                 {
+                    cc.director._globalVariables.localStorageScript.save();
                     cc.director.loadScene("MainMenuScene");
                 }
                 break;

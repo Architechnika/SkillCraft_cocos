@@ -50,6 +50,7 @@ cc.Class({
             lvl: 1,
             totalBoxes: 0,
             totalErrors: 0,
+            totalLabs: 0,
 
         }
         if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
@@ -65,6 +66,7 @@ cc.Class({
             cc.director._globalVariables.player_lvl = this.saveData.lvl;
             cc.director._globalVariables.player_totalBoxes = this.saveData.totalBoxes;
             cc.director._globalVariables.player_totalErrors = this.saveData.totalErrors;
+            cc.director._globalVariables.player_totalLabs = this.saveData.totalLabs;
         }
     },
 
@@ -195,6 +197,7 @@ cc.Class({
             this.saveData.lvl = cc.director._globalVariables.player_lvl;
             this.saveData.totalBoxes = cc.director._globalVariables.player_totalBoxes;
             this.saveData.totalErrors = cc.director._globalVariables.player_totalErrors;
+            this.saveData.totalLabs = cc.director._globalVariables.player_totalLabs;
             //
 
             this.saveData.arrayRoadCommandsNames = this.arrayCopy(this.arrayRoadCommandsNames); // кидаем в объект saveData бинарный массив для хранения имел команд кодмапа для каждой дороги
