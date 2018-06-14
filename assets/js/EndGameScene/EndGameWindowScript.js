@@ -27,7 +27,7 @@ cc.Class({
         if (cc.director._globalVariables.player_totalErrors == 0) {//Если лабиринт пройден без ошибок, то применяем бонусы
             //Если лабиринт пройден оптимальным способом, то увеличивыаем дискрет опыта в два раза
             diff *= cc.director._globalVariables.player_cellCounter > maxC ? 1 : 2;
-        } else diff *= cc.director._globalVariables.player_totalErrors < 10 : (cc.director._globalVariables.player_totalErrors / 10) : 0;//Если ошибки были, то уменьшаем опыт
+        } else diff *= cc.director._globalVariables.player_totalErrors < 10 ? (cc.director._globalVariables.player_totalErrors / 10) : 0;//Если ошибки были, то уменьшаем опыт
         console.log("DIFF: " + diff);
         cc.director._globalVariables.player_gExp += diff;
         if (cc.director._globalVariables.player_gExp >= cc.director._globalVariables.player_nLvlExp) {
