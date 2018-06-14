@@ -113,6 +113,18 @@ cc.Class({
             this.node.addChild(comm);
         }
     },
+    loadedCommands()
+    {
+        var road = cc.director._globalVariables.selectedRoad;
+        if (road) {
+            var roadCommands = road.getComponent("RoadScript").roadCommands;
+            for(var i=0;i<roadCommands.length;i++)
+                {
+                    var el = roadCommands[i];
+                    this.addCommand(el)
+                }
+        }
+    },
     insertCommand(upCommand, newCommand, isInsert, isReplace) {
         //        console.log(cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM").parent.children)
         var newCommand = cc.instantiate(newCommand)
