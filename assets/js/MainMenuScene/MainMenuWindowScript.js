@@ -15,7 +15,11 @@ cc.Class({
 
     onNewGameButtonClick(button) {
         if (button.currentTarget._name == "newGameButton") {
-            cc.sys.localStorage.setItem("isNewGame",true)
+            cc.sys.localStorage.setItem("isNewGame",true);
+            if(cc.director._globalVariables){
+                if(cc.director._globalVariables.currentLabSize)
+                    cc.director._globalVariables.currentLabSize = 3;
+            }
             cc.director.loadScene("GameScene");
         }
     },

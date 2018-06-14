@@ -7,6 +7,8 @@ cc.Class({
 
     properties: {
         startButton: cc.Node,
+        stopButton: cc.Node,
+        okButton: cc.Node,
         prevStepButton: cc.Node,
         nextStepButton: cc.Node,
         reloadButton: cc.Node,
@@ -19,12 +21,43 @@ cc.Class({
         switch (event.target) {
             case this.startButton:
                 {
+                    //Отображаем кнопку стоп
+                    this.stopButton.active = true;
+                    this.startButton.active = false;
+                    this.okButton.active = false;
+                    //Запускаем робота
                     this._playerObj.play();
+                }
+                break;
+                cc.director._globalVariables.selectedRoad
+            case this.stopButton:
+                {
+                    //Отображаем кнопку старт
+                    this.startButton.active = true;
+                    this.stopButton.active = false;
+                    this.okButton.active = false;
+                    //Запускаем робота
+                    this._playerObj.stop();
+                }
+                break;
+            case this.okButton:
+                {
+                    //Отображаем кнопку в зависимости от состояния робота
+                    if (this._playerObj._playerStarted) {
+                        this.startButton.active = false;
+                        this.stopButton.active = true;
+                    } else {
+                        this.startButton.active = true;
+                        this.stopButton.active = false;
+                    }
+                    this.okButton.active = false;
+                    //Скрываем скролл
+                    cc.director._setScrollVisible(false, false);
                 }
                 break;
             case this.prevStepButton:
                 {
-                     this._playerObj.prevStep();
+                    this._playerObj.prevStep();
                 }
                 break;
             case this.nextStepButton:
@@ -49,7 +82,7 @@ cc.Class({
     },
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         var onePerc = (cc.director._globalVariables.player_nLvlExp - cc.director._globalVariables.player_pLvlExp) / 100;
         var gExp_perc = (cc.director._globalVariables.player_gExp - cc.director._globalVariables.player_pLvlExp) / onePerc;
         this.exp_progressBar._components[1].progress = gExp_perc / 100;

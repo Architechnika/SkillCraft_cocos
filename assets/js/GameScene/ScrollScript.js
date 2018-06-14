@@ -64,6 +64,7 @@ cc.Class({
             type: cc.Prefab
         },
         _commandsMode: "",
+        _rightScrollCommands: "",
     },
     //
     // LIFE-CYCLE CALLBACKS:
@@ -71,6 +72,8 @@ cc.Class({
     // onLoad () {},
 
     start() {
+        this._rightScrollCommands = this.LegendCommands;
+        this.node._rightScrollCommands = this._rightScrollCommands;
         this.setCommandsState();
         cc.director._setScrollVisible(false, false);
     },
@@ -81,7 +84,7 @@ cc.Class({
     },
     //Установка команд в скролл в зависимости от выбранного состояния
     setCommandsState() {
-        this.addToRightScroll(this.LegendCommands);
+        this.addToRightScroll(this._rightScrollCommands);
     },
     //При удалении из левого скрола, команда должна удалится отовсюду
     removeFromLeftScroll(element) {

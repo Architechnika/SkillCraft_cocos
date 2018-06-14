@@ -25,6 +25,7 @@ cc.Class({
     
     onReplaceClick(event) {
         cc.director._globalVariables.addCommandMode = "replace";
+        cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToRightScroll(cc.director._globalVariables.scrollNode._rightScrollCommands);
         cc.director._setScrollVisible(true, false);
         cc.director._globalVariables.codeMapMenu.active = false;
     },
@@ -36,6 +37,7 @@ cc.Class({
     onAddClick(event) {
         //console.log(event.target.name);
         cc.director._globalVariables.addCommandMode = "add";
+        cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToRightScroll(cc.director._globalVariables.scrollNode._rightScrollCommands);
         cc.director._setScrollVisible(true, false);
         cc.director._globalVariables.codeMapMenu.active = false;
     },
