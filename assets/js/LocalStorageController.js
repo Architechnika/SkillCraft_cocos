@@ -278,7 +278,7 @@ cc.Class({
 
     update(dt) {
         this._timeCounter += dt;
-        if(this._timeCounter > 5000){
+        if(this._timeCounter > 5){
             this.save();
             this._timeCounter = 0;
         }
