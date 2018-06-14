@@ -87,7 +87,8 @@ cc.Class({
         }
         cc.director._globalVariables.localStorageScript.roadElemsArr = roadElemsForScript; //храним массив дорог где потенциально могут быть скрипты
         //Если включены ящики, то спавним их на поле в случайных местах
-        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
+        if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.director._globalVariables.localStorageScript.isFieldDataLoaded == false && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") 
+        {
             //загружаем из сохранений
             var objs = cc.director._globalVariables.localStorageScript.saveData.arrayRoadGameObjectsNames;
             for (var i = 0; i < objs.length - 1; i++) {
@@ -120,6 +121,7 @@ cc.Class({
                 }
             }
             cc.director._globalVariables.localStorageScript.isFieldDataLoaded = true;
+            cc.sys.localStorage.setItem("isNewGame","true")
         } else if (this.isBoxesSpawn && this.gameObjects.length > 0) {
             var totalBoxes = Math.floor(cc.director._globalVariables.currentLabSize / 2);
             totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;

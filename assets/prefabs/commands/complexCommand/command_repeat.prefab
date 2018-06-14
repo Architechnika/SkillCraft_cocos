@@ -709,8 +709,10 @@
     "_fontSize": 38,
     "_lineHeight": 40,
     "_enableWrapText": false,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "5a35ec5b-752e-488d-9c98-c551df00d864"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$string": "0",
     "_N$horizontalAlign": 1,
