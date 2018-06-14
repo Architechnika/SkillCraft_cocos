@@ -69,14 +69,26 @@ cc.Class({
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
-                //cc.director._globalVariables.codeMapNode.width = 0;
-                //this._changeAnchor(0.5);
                 var x = 0; //this.node.x + ();
                 var y = 0;
                 var itemWH = 0;
                 var maxW = 0;
                 for (var i = 0; i < roadCommands.length; i++) {
                     var el = roadCommands[i];
+
+
+                    var isChild = false;
+                    for (var j = 0; j < this.node.children.length; j++) {
+                        var ch = this.node.children[j];
+                        if (el == ch) {
+                            isChild = true;
+                          //  break;
+                        }
+                    }
+                    if (!isChild) {
+                        this.addCommand(el)
+                    }
+
                     el.anchorX = 0;
                     el.anchorY = 1;
                     el.scaleX = el.scaleY = this.defaultElementScale;
@@ -84,14 +96,13 @@ cc.Class({
                     if (el.width > maxW)
                         maxW = el.width;
                     el.resetTransform;
-
                     el.x = x;
                     el.y = y;
                     var bC = el.getComponent(cc.BoxCollider);
                     if (bC)
                         bC.offset.x = 50;
                     y -= itemWH;
-                    //cc.director._globalVariables.codeMapNode.width = this._getWFromChildren(el, cc.director._globalVariables.codeMapNode.width, el);//Math.abs(el.x + (el.width * el.scaleX));
+
                 }
                 //Добавляем плюсик вниз
                 this.plus.anchorX = 0;
@@ -113,16 +124,14 @@ cc.Class({
             this.node.addChild(comm);
         }
     },
-    loadedCommands()
-    {
+    loadedCommands() {
         var road = cc.director._globalVariables.selectedRoad;
         if (road) {
             var roadCommands = road.getComponent("RoadScript").roadCommands;
-            for(var i=0;i<roadCommands.length;i++)
-                {
-                    var el = roadCommands[i];
-                    this.addCommand(el)
-                }
+            for (var i = 0; i < roadCommands.length; i++) {
+                var el = roadCommands[i];
+                this.addCommand(el)
+            }
         }
     },
     insertCommand(upCommand, newCommand, isInsert, isReplace) {
@@ -152,7 +161,7 @@ cc.Class({
             }
 
 
-           // this.node.width += w;
+            // this.node.width += w;
 
             //
             var x = 0;
@@ -163,7 +172,7 @@ cc.Class({
                 var isCheckPos = false;
                 var index = 0;
                 //arr.height += itemWH;
-               // this.node.height += itemWH;
+                // this.node.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -199,9 +208,9 @@ cc.Class({
                 return;
             }
         }
-        console.log(this.node.height+" 1")
+        console.log(this.node.height + " 1")
         cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
-        console.log(this.node.height+" 1")
+        console.log(this.node.height + " 1")
     },
     deleteCommand(comm) {
         var arr = cc.director._globalVariables.codeMapNode;

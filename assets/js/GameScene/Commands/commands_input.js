@@ -34,7 +34,7 @@ cc.Class({
                         cc.director._setScrollVisible(false, true);
                     element = obj;
                     roadComm.push(element);
-                    cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").addCommand(element)
+                  //  cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").addCommand(element)
                     cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
                 }
             }
