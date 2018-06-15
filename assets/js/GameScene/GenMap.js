@@ -150,12 +150,12 @@ cc.Class({
             var scr = plObj.getComponent("PlayerScript");
             scr._startElement = startElem;
             scr.parentNode = this;
-            scr.setToStart();
             //Задаем размер элемента
             var scW = (startElem.width * startElem.scaleX) * this.playerSize / plObj.width;
             var scH = (startElem.height * startElem.scaleY) * this.playerSize / plObj.height;
             plObj.scaleX = plObj.scaleY = scW > scH ? scH : scW;
             this.node.addChild(plObj);
+            scr.setToStart();
         }
     },
 
