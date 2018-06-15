@@ -227,7 +227,8 @@
     "parentNode": null,
     "lookDirection": "up",
     "commands": [],
-    "inventory": []
+    "inventory": [],
+    "autoMoveCam": true
   },
   {
     "__type__": "cc.PrefabInfo",

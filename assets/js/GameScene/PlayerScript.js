@@ -25,6 +25,7 @@ cc.Class({
         lookDirection: "up",
         commands: [],
         inventory: [],
+        autoMoveCam: false,
     },
 
     //Обработчик коллизий
@@ -329,5 +330,27 @@ cc.Class({
         copy.parent = cc.director.getScene();
         copy.setPosition(0, 0);
         return copy;
+    },
+    //Передвигает и масштабирует камеру так, чтобы робот был в центре
+    _robotCamFocus(){
+        if(cc.director._globalVariables.player_lvl > 2){//Если поле достаточно большое, то его надо ресайзить и сдвигать чтобы следовать за роботом
+            if(cc.director._globalVariables.player_lvl == 3){//Если уровень игрока 3(поле 7 на 7)
+                cc.director._globalVariables.gameNode.scaleY = cc.director._globalVariables.gameNode.scaleX = 1.25;
+            } else {//Если поле больше чем 7 на 7
+                cc.director._globalVariables.gameNode.scaleY = cc.director._globalVariables.gameNode.scaleX = ((cc.director._globalVariables.player_lvl - 3) * 0.5) + 1.25;
+            }
+            var rW = this.node.getBoundingBoxToWorld();
+            var gnW = cc.director._globalVariables.gameNode.worldCenter;
+            var discX = gnW.x - rW.x;
+            var discY = gnW.y - rW.y;
+            cc.director._globalVariables.gameNode.getComponent("ResizeScript").move(discX,discY, cc.director._globalVariables.gameNode);   
+        }
+    },
+    
+    update(dt){
+        //Если включен режим следования за роботом, то двигаем поле так чтобы робот был в центре экрана
+        if(this.autoMoveCam && this._playerStarted){
+            this._robotCamFocus();
+        }
     }
 });

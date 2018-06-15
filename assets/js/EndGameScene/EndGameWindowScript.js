@@ -38,7 +38,7 @@ cc.Class({
         cc.director._globalVariables.player_gExp += diff;
         if (cc.director._globalVariables.player_gExp >= cc.director._globalVariables.player_nLvlExp) {
             cc.director._globalVariables.player_pLvlExp = cc.director._globalVariables.player_nLvlExp;
-            cc.director._globalVariables.player_nLvlExp *= 3;
+            cc.director._globalVariables.player_nLvlExp *= 1.5;
             cc.director._globalVariables.player_lvl++; //Повышаем уровень
             //При повышении уровня, повышаем и сложность лабиринта
             cc.director._globalVariables.currentLabSize += 2;

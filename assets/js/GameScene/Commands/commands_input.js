@@ -260,6 +260,7 @@ cc.Class({
         var elem = event.target;
         var menuObj = cc.director._globalVariables.codeMapMenu;
         var wElem = elem.getBoundingBoxToWorld(); //Получаем координаты элемента в мировых координатах
+        console.log(wElem);
         //Инициализируем его размеры
         var spl = event.target.name.split("_")[1];
         if (spl && spl == "block") { //Если это блок со сложной командой то меню надо располагать не в центре а в левом верхнем элементе
