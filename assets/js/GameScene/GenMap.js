@@ -101,7 +101,7 @@ cc.Class({
                             // road.getComponent("RoadScript").roadCommands = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children
                             for (var ic = 0; ic < cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children.length; ic++) {
                                 var el = cc.director._globalVariables.localStorageScript.arrayRoadCommands[i][j].children[ic]
-                                if(road.group != "Entry")
+                                if (road.group != "Entry")
                                     road.getComponent("RoadScript").roadCommands.push(cc.instantiate(el))
                             }
                         }
@@ -114,6 +114,8 @@ cc.Class({
                         obj.scaleY = (road.height * road.scaleY) * this.boxSize / obj.height;
                         if (road !== null && typeof road === 'object' && road.getComponent("RoadScript"))
                             road.getComponent("RoadScript").isGameObjectName = obj.name;
+                        //ОСТАВЛЯЕМ ССЫЛКУ НА ДОРОГУ НА КОТОРОЙ СТОИТ ЯЩИК
+                        obj.roadNode = road;
                         this.node.addChild(obj);
                         this.global_GameObjects.push(obj);
                     }
@@ -122,7 +124,7 @@ cc.Class({
                 }
             }
             cc.director._globalVariables.localStorageScript.isFieldDataLoaded = true;
-            cc.sys.localStorage.setItem("isNewGame","true")
+            cc.sys.localStorage.setItem("isNewGame", "true")
         } else if (this.isBoxesSpawn && this.gameObjects.length > 0) { // ГЕНЕРАЦИЯ НОВОГО ЛАБИРИНТА -----------------------------------------------
             var totalBoxes = Math.floor(cc.director._globalVariables.currentLabSize / 2);
             totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;
@@ -139,6 +141,8 @@ cc.Class({
                 //Задаем размер элемента
                 el.scaleX = (r_el.width * r_el.scaleX) * this.boxSize / el.width;
                 el.scaleY = (r_el.height * r_el.scaleY) * this.boxSize / el.height;
+                //ОСТАВЛЯЕМ ССЫЛКУ НА ДОРОГУ НА КОТОРОЙ СТОИТ ЯЩИК
+                el.roadNode = r_el;
                 this.node.addChild(el);
                 this.global_GameObjects.push(el);
                 roadElemsArr.splice(rndIndx, 1);

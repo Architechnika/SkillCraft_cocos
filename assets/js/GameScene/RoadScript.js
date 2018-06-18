@@ -27,8 +27,9 @@ cc.Class({
         //Если начали нажатие в кодмапе а закончили на поле то не обрабатываем это нажатие
         if (t.isMoved || (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn !== "GameNode")) 
             return;
+        var node = event.target;
         //Если мы отпускаем клик после того как подвигали поле то не обрабатываем его
-        if (this.parent.isMoved)
+        if (node.parent.isMoved)
             return;
         cc.director._globalVariables.commandAddState = "road";
          cc.director._globalVariables.lastAddCommandH = 0// зануляем, чтобы при загрузке команд лишний раз не заходил
@@ -36,18 +37,18 @@ cc.Class({
         if(!cc.director._globalVariables.codeMapNode.active)
             cc.director._globalVariables.codeMapNode.active = true;
         var tmp = cc.director._globalVariables.oldSelectRoad;
-        if (tmp != undefined && tmp != this) {
+        if (tmp != undefined && tmp != node) {
             tmp.getChildByName("sprite").getComponent(cc.Sprite).enabled = false;
             cc.director._globalVariables.scrollNode.getComponent("ScrollScript").clearLeftScroll();
         }
-        cc.director._globalVariables.selectedRoad = this;
+        cc.director._globalVariables.selectedRoad = node;
         if (cc.director._globalVariables.oldSelectRoad !== cc.director._globalVariables.selectedRoad) {
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
-            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(this.roadCommands);
-            this.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
-            cc.director._globalVariables.oldSelectRoad = this;
+            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(node.roadCommands);
+            node.getChildByName("sprite").getComponent(cc.Sprite).enabled = true
+            cc.director._globalVariables.oldSelectRoad = node;
         }
-        if (this.roadCommands.length > 0) {
+        if (node.roadCommands.length > 0) {
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._setScrollVisible(false, true);
