@@ -6,28 +6,35 @@ cc.Class({
     },
 
     start() {
-        if (cc.director._globalVariables.isToolTipActive) { //Если тултипы вообще включены
-            this.node._isMouseEntered = false; //БУФЕР ДЛЯ ХРАНЕНИЯ ФЛАГА О ТОМ ЗАШЛА ЛИ МЫШКА В НОДУ ИЛИ НЕТ
-            this.node._mousePos = cc.p(0, 0); //БУФЕР ДЛЯ ХРАНЕНИЯ КООРДИНАТ МЫШИ
-            this.toolTipText = this._getToolTipData("rus"); //ИНИЦИАЛИЗИРУЕМ МАССИВ ТЕКСТА ТУЛТИПОВ В ЗАВИСИМОСТИ ОТ ПАРАМЕТРОВ НАСТРОЕК ЯЗЫКА
-            //Добавляем обработчики событий мыши
-            this.node.on(cc.Node.EventType.MOUSE_LEAVE, this._onLeaveMouseEvent);
-            this.node.on(cc.Node.EventType.MOUSE_ENTER, this._onEnterMouseEvent);
-            this.node.on(cc.Node.EventType.MOUSE_MOVE, this._onMouseMoveEvent);
-            this.node.on(cc.Node.EventType.MOUSE_UP, this._onMouseUpEvent);
-            this.node.on(cc.Node.EventType.MOUSE_DOWN, this._onLeaveMouseEvent);
-        }
+
+        this.node._isMouseEntered = false; //БУФЕР ДЛЯ ХРАНЕНИЯ ФЛАГА О ТОМ ЗАШЛА ЛИ МЫШКА В НОДУ ИЛИ НЕТ
+        this.node._mousePos = cc.p(0, 0); //БУФЕР ДЛЯ ХРАНЕНИЯ КООРДИНАТ МЫШИ
+        this.node._showSelectingItem = this._showSelectingItem;
+        this.node._hideSelectingItem = this._hideSelectingItem;
+        this.toolTipText = this._getToolTipData("rus"); //ИНИЦИАЛИЗИРУЕМ МАССИВ ТЕКСТА ТУЛТИПОВ В ЗАВИСИМОСТИ ОТ ПАРАМЕТРОВ НАСТРОЕК ЯЗЫКА
+        //Добавляем обработчики событий мыши
+        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this._onLeaveMouseEvent);
+        this.node.on(cc.Node.EventType.MOUSE_ENTER, this._onEnterMouseEvent);
+        this.node.on(cc.Node.EventType.MOUSE_MOVE, this._onMouseMoveEvent);
+        this.node.on(cc.Node.EventType.MOUSE_UP, this._onMouseUpEvent);
+        this.node.on(cc.Node.EventType.MOUSE_DOWN, this._onLeaveMouseEvent);
     },
     //Обработчики событий мыши
     _onEnterMouseEvent(event) {
-        this._isMouseEntered = true;
+        if (cc.director._globalVariables.isToolTipActive) //Если тултипы вообще включены
+            this._isMouseEntered = true;
+        if(cc.director._globalVariables.isSelectByMouseMove)
+            this._showSelectingItem(this);//Отображаем выделение на обьекте
     },
 
     _onLeaveMouseEvent(event) {
-        //Сбрасываем счетчик и обнуляем флаг
-        this._timeCounter = 0;
-        this._isMouseEntered = false;
-        cc.director._globalVariables.toolTipLabel.node.active = false;
+        if (cc.director._globalVariables.isToolTipActive) {
+            //Сбрасываем счетчик и обнуляем флаг
+            this._timeCounter = 0;
+            this._isMouseEntered = false;
+            cc.director._globalVariables.toolTipLabel.node.active = false;
+        }
+        this._hideSelectingItem(this);//Скрываем выделение на обьекте
     },
 
     //В этом скрипте нужен свой обработчик mouseUp потому что события мыши тут перехватываются и не доходят до нужной ноды(потому что робот, ящики и все кроме поля, это отдельные элементы)
@@ -65,16 +72,47 @@ cc.Class({
                 this._timeCounter += dt * 1000; //Отсчитываем милисекунды
                 if (this._timeCounter > cc.director._globalVariables.toolTipDelay) { //Если прошло достаточно времени, то показываем тултип
                     //Показываем тултип
-                    cc.director._globalVariables.toolTipLabel.string = this._getToolTipText(this.node);
-                    cc.director._globalVariables.toolTipLabel.node.x = this.node._mousePos.x;
-                    cc.director._globalVariables.toolTipLabel.node.y = this.node._mousePos.y;
-                    cc.director._globalVariables.toolTipLabel.node.active = true;
+                    this._showToolTip(this._getToolTipText(this.node));
+                    //Отображаем выделение на обьекте
+                    this._showSelectingItem(this.node);
                     //Сбрасываем счетчик и обнуляем флаг
                     this._timeCounter = 0;
                     this._isMouseEntered = false;
                 }
             }
         }
+    },
+    
+    //Отображает выделение на ноде
+    _showSelectingItem(node){
+        //Отрисовываем выделение на элементе
+        var selSprite = node.getChildByName("selectingSprite");
+        if (!selSprite) return;//Если у него нету спрайта выделения то ничего не делаем
+        var ord = (node.name == "Player" || node.name == "gameObject_box") ? 2 : 1;
+        node.setLocalZOrder(ord);
+        selSprite.active = true;//Отображаем спрайт выделения
+    },
+    
+    //Скрываем выделение на ноде
+    _hideSelectingItem(node){
+        //Убираем выделение на элементе
+        var selSprite = node.getChildByName("selectingSprite");
+        if (!selSprite) return;//Если у него нету спрайта выделения то ничего не делаем
+        var ord = (node.name == "Player" || node.name == "gameObject_box") ? 2 : 0;
+        node.setLocalZOrder(ord);
+        selSprite.active = false;//Скрываем спрайт выделения
+    },
+    
+    //Выводит текст на тултип, позиционирует его по сохраненной точке и делает тултип активным
+    _showToolTip(text) {
+        cc.director._globalVariables.toolTipLabel.string = text;
+        cc.director._globalVariables.toolTipLabel.node.x = this.node._mousePos.x + 10;
+        cc.director._globalVariables.toolTipLabel.node.y = this.node._mousePos.y - 10;
+        /*console.log("1: " + this.node.width + " -- " + this.node.height)
+        var wC = this.node.getBoundingBoxToWorld();
+        console.log(wC.scaleX + " == " + wC.scaleY);
+        console.log(cc.director._globalVariables.toolTipLabel.node.getBoundingBoxToWorld());*/
+        cc.director._globalVariables.toolTipLabel.node.active = true;
     },
 
     //Возвращает нужный текст для тултипа в зависимости от типа и имени ноды

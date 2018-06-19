@@ -4677,7 +4677,8 @@
     "currentLabSize": 3,
     "isDebug": false,
     "isToolTipActive": true,
-    "toolTipDelay": 1000,
+    "isSelectByMouseMove": true,
+    "toolTipDelay": 1500,
     "playerSpeed": 0.3,
     "_collisionManager": null,
     "collisionManager": null,
@@ -4709,7 +4710,9 @@
     },
     "_N$maxWidth": 300,
     "_N$lineHeight": 30,
-    "_N$imageAtlas": null,
+    "_N$imageAtlas": {
+      "__uuid__": "17faa6a0-065a-4669-a44c-6a08ce5e8d9a"
+    },
     "_N$handleTouchEvent": true
   },
   {
@@ -4754,8 +4757,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -140,
-      "y": -26
+      "x": -304,
+      "y": -17
     },
     "_skewX": 0,
     "_skewY": 0,

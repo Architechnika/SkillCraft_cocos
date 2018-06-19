@@ -117,6 +117,7 @@ cc.Class({
                         //ОСТАВЛЯЕМ ССЫЛКУ НА ДОРОГУ НА КОТОРОЙ СТОИТ ЯЩИК
                         obj.roadNode = road;
                         this.node.addChild(obj);
+                        obj.setLocalZOrder(2);//Ящик должен быть поверх всех элементов поля
                         this.global_GameObjects.push(obj);
                     }
                     if (road.group == "Entry")
@@ -144,6 +145,7 @@ cc.Class({
                 //ОСТАВЛЯЕМ ССЫЛКУ НА ДОРОГУ НА КОТОРОЙ СТОИТ ЯЩИК
                 el.roadNode = r_el;
                 this.node.addChild(el);
+                el.setLocalZOrder(2);//Ящик должен быть поверх всех элементов поля
                 this.global_GameObjects.push(el);
                 roadElemsArr.splice(rndIndx, 1);
             }
@@ -159,6 +161,7 @@ cc.Class({
             var scH = (startElem.height * startElem.scaleY) * this.playerSize / plObj.height;
             plObj.scaleX = plObj.scaleY = scW > scH ? scH : scW;
             this.node.addChild(plObj);
+            plObj.setLocalZOrder(2);//Робот должен быть поверх всех элементов поля
             scr.setToStart();
         }
     },

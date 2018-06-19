@@ -7,6 +7,7 @@ cc.Class({
         currentLabSize: 3, //Текущий размер лабиринта
         isDebug: false, //Дебаг режим для всей игры
         isToolTipActive: true, //Вкл или выкл режим с тултипами
+        isSelectByMouseMove: false, //Включает режим отображения выделения на элементах при наведении мыши
         toolTipDelay: 1000,
         playerSpeed: 0.7,
         _oldSelectRoad: undefined, //Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
@@ -55,6 +56,7 @@ cc.Class({
         cc.director._globalVariables.eventDownedOn = undefined;
         cc.director._globalVariables.toolTipLabel = this.toolTipLabel;
         cc.director._globalVariables.toolTipDelay = this.toolTipDelay;
+        cc.director._globalVariables.isSelectByMouseMove = this.isSelectByMouseMove;
 
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibleRight, visibleLeft) {
