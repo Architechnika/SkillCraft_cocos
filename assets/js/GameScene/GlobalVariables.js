@@ -18,6 +18,7 @@ cc.Class({
         lastDeleteCommandH: 0,
         labelBoxes: cc.Label,
         localStorageScript: null,
+       // isMove: null,
     },
 
     onLoad() {

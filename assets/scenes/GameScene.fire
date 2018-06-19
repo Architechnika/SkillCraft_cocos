@@ -973,7 +973,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "853fe133-4001-45fe-bd5d-68b3403d674f"
+      "__uuid__": "6e1adf6b-6c0a-4776-bf22-32ecb0ea45ec"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -4683,7 +4683,8 @@
     "labelBoxes": {
       "__id__": 104
     },
-    "localStorageScript": null
+    "localStorageScript": null,
+    "isMove": null
   },
   {
     "__type__": "31c32ezshtI+Y7LlTi1PBaN",

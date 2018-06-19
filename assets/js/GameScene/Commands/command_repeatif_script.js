@@ -28,21 +28,19 @@ cc.Class({
             this.node.addChild(element);
         }
     },
-        deleteLine() {
+    deleteLine() {
         var element = this.node.getChildByName("command_line");
         if (element != null) {
             var itemWH = element.width;
             var bott = this.node.getChildByName("nodeCommandPos")
             bott.y += itemWH;
             this.node.removeChild(element);
-            for(var i=0;i<this.node.children.length;i++)
-                {
-                    var el = this.node.children[i];
-                    if(el.name == "command_line")
-                        {
-                            el.y +=itemWH
-                        }
+            for (var i = 0; i < this.node.children.length; i++) {
+                var el = this.node.children[i];
+                if (el.name == "command_line") {
+                    el.y += itemWH
                 }
+            }
         }
     },
     addCommand(comm) {
@@ -85,14 +83,14 @@ cc.Class({
             }
         }
     },
-        deleteCommand(comm) {
+    deleteCommand(comm) {
         var commands = this.node.getChildByName("commands");
         //var elseCommands = this.node.getChildByName("bottom").getChildByName("elseCommands");
         var arr = undefined;
-        if(comm.parent == commands)
+        if (comm.parent == commands)
             arr = commands;
         //if(comm.parent == elseCommands)
-          //  arr = elseCommands;
+        //  arr = elseCommands;
         if (arr) {
             var itemH = comm.height;
             var itemW = comm.width;
@@ -108,32 +106,30 @@ cc.Class({
                     w = this.node.parent.width - (p.x + p.width); //Вычисляем разность между + и крайней правой точкой элемента(дискрет)
                 }
             }
-            
+
             arr.height -= itemH;
             this.node.parent.height -= itemH
             this.node.parent.width -= w;
-            
+
             var lineCount = itemH / h;
             for (var i = 0; i < lineCount; i++) {
-                if(arr.name == "commands")
-                this.deleteLine();
-               // else this.deleteElseLine();
+                if (arr.name == "commands")
+                    this.deleteLine();
+                // else this.deleteElseLine();
             }
-            
+
             var isGo = false; //переменная которая означает что можно уже изменять координаты элементов
-            for (var i = 0; i < arr.children.length; i++) 
-                 //если удаляем элемент то нужно нижние элементы сдвинуть наверх
+            for (var i = 0; i < arr.children.length; i++)
+            //если удаляем элемент то нужно нижние элементы сдвинуть наверх
             {
                 var el = arr.children[i];
-                if(isGo || el.name=="command_plus")
-                    {
-                        el.y+=itemH
-                    }
-                if(el == comm)
-                    {
-                        isGo = true;
-                    }
-                
+                if (isGo || el.name == "command_plus") {
+                    el.y += itemH
+                }
+                if (el == comm) {
+                    isGo = true;
+                }
+
             }
             cc.director._globalVariables.lastDeleteCommandH = itemH;
             arr.removeChild(comm);
@@ -142,8 +138,8 @@ cc.Class({
 
         }
     },
-    
-    insertCommand(upCommand, newCommand, isInsert,isReplace) {
+
+    insertCommand(upCommand, newCommand, isInsert, isReplace) {
         console.log(upCommand.name + " " + newCommand.name)
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
@@ -161,7 +157,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-
+            if (itemWH > this._H)
+                itemWH = 0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -171,19 +168,19 @@ cc.Class({
                     w = this.node.parent.width >= this._maxW ? 0 : 100;
             }
 
-            
+
             this.node.parent.width += w;
 
             //
-            var x = 0;
+            var x = 50;
             var y = 0;
-        if (isInsert) {
+            if (isInsert) {
 
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
-            arr.height += itemWH;
-            this.node.parent.height += itemWH;
+                arr.height += itemWH;
+                this.node.parent.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -201,11 +198,13 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                   // y =  arr.children[arr.children.length-1].y-itemWH;
-                    y =arr.children[arr.children.length - 1].y-100;
+                    // y =  arr.children[arr.children.length-1].y-itemWH;
+                    //  y =arr.children[arr.children.length - 1].y-100;
+                    var endEl = arr.children[arr.children.length - 1];
+                    y = (endEl.y - endEl.height);
                 }
-                if(!isReplace)
-                codeMapPlus.y -= itemWH
+                if (!isReplace)
+                    codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
                     this.addLine();
@@ -214,11 +213,11 @@ cc.Class({
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
-            }else{
+            } else {
                 var index = arr.children.indexOf(upCommand);
-                var com =  arr.children[index-1]
+                var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com,newCommand,true,true)
+                this.insertCommand(com, newCommand, true, true)
             }
         }
 
@@ -268,8 +267,8 @@ cc.Class({
                 return;
             }
         }
-        
-                //
+
+        //
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H > this.node.parent.height) {
             var itemWH = this.node.height;
             var lineCount = cc.director._globalVariables.lastDeleteCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
@@ -309,7 +308,7 @@ cc.Class({
             }
         }
         //
-        
+
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;

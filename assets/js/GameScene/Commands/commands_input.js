@@ -15,6 +15,8 @@ cc.Class({
             type: cc.Prefab
         },
     },
+    objScr: null,
+    e: null,
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -34,7 +36,7 @@ cc.Class({
                         cc.director._setScrollVisible(false, true);
                     element = obj;
                     roadComm.push(element);
-                  //  cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").addCommand(element)
+                    //  cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").addCommand(element)
                     cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToLeftScroll(element);
                 }
             }
@@ -89,18 +91,20 @@ cc.Class({
 
     //Возвращает инстанс сложной команды из простой
     _getComplexCommandFromSimple(simple) {
-        if (simple.name == "command_block_if") {
-            simple = cc.instantiate(this.ifBlock);
-            var ifScript = simple.getChildByName("command_block_if").getComponent("command_if_script")
-            ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-        } else if (simple.name == "command_block_repeatif") {
-            simple = cc.instantiate(this.repeatIfBlock);
-            var repeatifScript = simple.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
-            repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
-        } else if (simple.name == "command_block_repeat") {
-            simple = cc.instantiate(this.counterBlock);
-            var repeatifScript = simple.getChildByName("command_block_repeat").getComponent("command_counter_script")
-            repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+        if (simple != null) {
+            if (simple.name == "command_block_if") {
+                simple = cc.instantiate(this.ifBlock);
+                var ifScript = simple.getChildByName("command_block_if").getComponent("command_if_script")
+                ifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+            } else if (simple.name == "command_block_repeatif") {
+                simple = cc.instantiate(this.repeatIfBlock);
+                var repeatifScript = simple.getChildByName("command_block_repeatif").getComponent("command_repeatif_script")
+                repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+            } else if (simple.name == "command_block_repeat") {
+                simple = cc.instantiate(this.counterBlock);
+                var repeatifScript = simple.getChildByName("command_block_repeat").getComponent("command_counter_script")
+                repeatifScript.gameNode = this.parent.parent.parent.parent.parent.getChildByName("GameNode");
+            }
         }
         return simple;
     },
@@ -134,11 +138,14 @@ cc.Class({
         this.node.counterAddHandler = this.counterAddHandler;
         this.node.codeViewElementClickHandler = this.codeViewElementClickHandler;
         this.node._getComplexCommandFromSimple = this._getComplexCommandFromSimple
+        this.node.getScript = this.getScript;
         //
         this.node.on('mouseup', function (event) {
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned) //Это для того чтобы клики не срабатывали при смещениях
                 return false;
             if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content") //Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
+                return false;
+            if (cc.director._globalVariables.eventDownedOn == "command_menu")
                 return false;
             if (cc.director._globalVariables.addCommandMode) { //Если включен режим добавления команды после существующей команды ИЛИ замены команды в кодмапе
                 if (cc.director._globalVariables.eventDownedOn != "command_menu") { //Это флаг проверки чтобы не было срабатываний пересекающихся ивентов
@@ -238,21 +245,58 @@ cc.Class({
             this._cLC = 0;
     },
 
+    getScript(obj) {
+        if (obj.name == "CodeMapNode")
+            return obj.getComponent("GenCodeMap");
+        if (obj.name == "commands") {
+            obj = obj.parent;
+        } else if (obj.name == "elseCommands") {
+            obj = obj.parent.parent;
+        } else {
+            obj = obj.parent.parent.parent;
+        }
+        var objScr = obj.getComponent("command_if_script") ? obj.getComponent("command_if_script") : undefined;
+        objScr = obj.getComponent("command_repeatif_script") ? obj.getComponent("command_repeatif_script") : objScr;
+        objScr = obj.getComponent("command_counter_script") ? obj.getComponent("command_counter_script") : objScr;
+        return objScr;
+    },
+
     //Обработчик нажатия на элементы в кодмапе(Отрисовка меню управления элементами)
     codeViewElementClickHandler(event) {
         //Если включен режим перемещения элементов кодмапа, то перемещаем
         if (cc.director._globalVariables.codeMapMenu.isMove) {
             console.log("перемещаем")
-            var objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
+            this.objScr = cc.director._globalVariables.codeMapMenu.getScriptComplexCommand();
             cc.director._globalVariables.codeMapMenu._targetNode.active = true; //Делаем команду видимой
-            if (objScr.obj.node) { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
-                if (objScr.obj.node.name == "command_block_if" || objScr.obj.node.name == "command_block_repeat" || objScr.obj.node.name == "command_block_repeatif") {
-                    objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
-                    objScr.obj.insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+            if (this.objScr.obj.node) { //ЭТО В МАССИВЕ ВЛОЖЕННЫХ КОМАНД
+                if (this.objScr.obj.node.name == "command_block_if" || this.objScr.obj.node.name == "command_block_repeat" || this.objScr.obj.node.name == "command_block_repeatif") {
+                    //                    this.objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
+                    this.e = event;
+                    //  cc.director._globalVariables.isMove = true
+                    if (this.e.target.name.split("_")[1] == "block") {
+                        var par = null;
+                        if (this.e.target.parent.parent.parent.name == "CodeMapNode") 
+                        {
+                            par = this.e.target.parent.parent.parent
+                            this.objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
+                        } else par = this.e.target.parent;
+                        this.getScript(par).insertCommand(this.e.target.parent.parent, cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+                    } else {
+                        this.getScript(this.e.target.parent).insertCommand(this.e.target, cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+                    }
+                    this.objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
                 }
             } else {
                 cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
-                cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+                //  cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").insertCommand(this._getComplexCommandFromSimple(event.target), cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+                this.e = event;
+                //  cc.director._globalVariables.isMove = true
+                if (this.e.target.name.split("_")[1] == "block") {
+                    this.getScript(this.e.target.parent).insertCommand(this.e.target.parent.parent, cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+                } else {
+                    this.getScript(this.e.target.parent).insertCommand(this.e.target, cc.director._globalVariables.codeMapMenu._targetNode, true, true);
+                }
+                // cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
             }
             cc.director._globalVariables.codeMapMenu.isMove = false;
             return;
@@ -309,5 +353,6 @@ cc.Class({
     start() {
 
     },
-    // update (dt) {},
+    //    update(dt) {
+    //    },
 });

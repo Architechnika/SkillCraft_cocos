@@ -10,6 +10,7 @@ cc.Class({
     },
     _lastAddCommandH: 0,
     _isNeedGeneration: false,
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -17,6 +18,8 @@ cc.Class({
         this._W = 300;
         this._maxW = 400;
         this._isNeedGeneration = false;
+        this.isMove = false;
+        this.node.insertCommand = this.insertCommand;
     },
 
     start() {},
@@ -108,7 +111,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-
+            if(itemWH > this._H)
+            itemWH =0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -149,7 +153,8 @@ cc.Class({
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
                     // y = arr.children[arr.children.length - 1].y - itemWH;
-                    y = arr.children[arr.children.length - 1].y - 100;
+                    var endEl = arr.children[arr.children.length - 1];
+                    y = (endEl.y - endEl.height);
                 }
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
@@ -162,16 +167,17 @@ cc.Class({
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
+               
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
+                //    console.log(itemWH+" "+arr.height+" "+this.node.parent.height)
             } else {
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
                 this.insertCommand(com, newCommand, true, true)
             }
-              cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
-
     },
     addElseCommand(comm) {
         if (comm != null) {
@@ -235,7 +241,7 @@ cc.Class({
         if (element != null) {
             var itemWH = element.width;
             var bott = this.node.getChildByName("bottom")
-            pos.y+=itemWH;
+            pos.y += itemWH;
             bott.removeChild(element);
             for (var i = 0; i < bott.children.length; i++) {
                 var el = bott.children[i];
@@ -302,10 +308,9 @@ cc.Class({
         }
     },
     update(dt) {
-        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height) {
+        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height ) {
             var itemWH = this.node.height;
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
-
             // this.node.parent.parent.height += cc.director._globalVariables.lastAddCommandH;
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {
@@ -345,7 +350,6 @@ cc.Class({
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H > this.node.parent.height) {
             var itemWH = this.node.height;
             var lineCount = cc.director._globalVariables.lastDeleteCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
-
             // this.node.parent.parent.height += cc.director._globalVariables.lastAddCommandH;
             if (this.node.parent.parent.name == "commands") {
                 for (var i = 0; i < lineCount; i++) {

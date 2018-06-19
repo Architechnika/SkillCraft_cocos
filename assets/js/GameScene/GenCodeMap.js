@@ -82,7 +82,7 @@ cc.Class({
                         var ch = this.node.children[j];
                         if (el == ch) {
                             isChild = true;
-                          //  break;
+                            //  break;
                         }
                     }
                     if (!isChild) {
@@ -102,7 +102,6 @@ cc.Class({
                     if (bC)
                         bC.offset.x = 50;
                     y -= itemWH;
-
                 }
                 //Добавляем плюсик вниз
                 this.plus.anchorX = 0;
@@ -150,7 +149,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-
+            if(itemWH > this._H)
+            itemWH =0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -191,7 +191,9 @@ cc.Class({
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
                     //  y = arr.children[arr.children.length - 1].y - itemWH;
-                    y = arr.children[arr.children.length - 1].y - 100;
+                    //y = arr.children[arr.children.length - 1].y - 100;
+                    var endEl = arr.children[arr.children.length - 1];
+                    y = (endEl.y - endEl.height);
                 }
                 if (!isReplace)
                     codeMapPlus.y -= itemWH
