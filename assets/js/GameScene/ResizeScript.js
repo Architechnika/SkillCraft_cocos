@@ -15,6 +15,8 @@ cc.Class({
 
     //Инициализируем внутренние переменные для node 
     declaration() {
+        var wN = this.node.getBoundingBoxToWorld();
+        this.node.worldCenter = cc.p(wN.x + (wN.width / 2), wN.y + (wN.height / 2));
         this.node.FBP = { //Точки по которым проверяется выход за границы области для отрисовки поля
             ul: {
                 x: this.node.x,
@@ -36,13 +38,17 @@ cc.Class({
         this.node.resizeToMouse = this.resizeToMouse;
         //Методы
         this.node.move = this.move;
+        this.node.scroll = this.scroll;
+        this.node.reset = this.reset;
     },
 
     onLoad() {
         this.declaration();
         //Инициализируем события нажатий мыши
         //Скролл колесиком мыши
-        this.node.on('mousewheel', this.scroll);
+        this.node.on('mousewheel', function(event){
+            this.scroll(event,this);
+        });
         //Нажатие мышки
         this.node.on('mousedown', function (event) {
             cc.director._globalVariables.eventDownedOn = this.name;
@@ -55,7 +61,7 @@ cc.Class({
                 shY = event._y - event._prevY;
             if (cc.director._globalVariables.eventDownedOn && cc.director._globalVariables.eventDownedOn == this.name && (shX !== 0 || shY !== 0)) { //Если мышка зажата, то двигаем поле
                 this.isMoved = true;
-                this.move(shX, shY);
+                this.move(shX, shY, this);
             }
         });
         this.node.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
@@ -76,64 +82,65 @@ cc.Class({
     },
 
     //Функция обрабатывающая события скролинга(в центр)
-    scroll(event) {
-        var diff = event._scrollY < 0 ? this.scrollStep : -this.scrollStep;
+    scroll(event, obj) {
+        var diff = event._scrollY < 0 ? obj.scrollStep : -obj.scrollStep;
         //Меняем размер
-        this.setScale(this.scaleX + diff, this.scaleY + diff);
+        obj.setScale(obj.scaleX + diff, obj.scaleY + diff);
+        console.log(obj.name + ": " + obj.scaleX + "  -  " + obj.scaleY);
         //Проверяем на минимальный размер
-        if (this.scaleX < this._minScaleX) this.scaleX = this._minScaleX;
-        if (this.scaleY < this._minScaleY) this.scaleY = this._minScaleY;
-        if (this.maximumScaleX != 0 && this.scaleX > this.maximumScaleX) this.scaleX = this.maximumScaleX;
-        if (this.maximumScaleY != 0 && this.scaleY > this.maximumScaleY) this.scaleX = this.maximumScaleY;
-        var dx = this.resizeToMouse ? (this.width / 2 - event._x) : 0;
-        var dy = this.resizeToMouse ? (this.height / 2 - event._y) : 0;
+        if (obj.scaleX < obj._minScaleX) obj.scaleX = obj._minScaleX;
+        if (obj.scaleY < obj._minScaleY) obj.scaleY = obj._minScaleY;
+        if (obj.maximumScaleX != 0 && obj.scaleX > obj.maximumScaleX) obj.scaleX = obj.maximumScaleX;
+        if (obj.maximumScaleY != 0 && obj.scaleY > obj.maximumScaleY) obj.scaleX = obj.maximumScaleY;
+        var dx = obj.resizeToMouse ? (obj.width / 2 - event._x) : 0;
+        var dy = obj.resizeToMouse ? (obj.height / 2 - event._y) : 0;
         //Смещаем туда куда указывает мышка(или тач)
-        this.move(dx, dy);
+        obj.move(dx, dy, obj);
     },
     //Функция для сдвига поля по дискрету
-    move(discX, discY) {
+    move(discX, discY, obj) {
         //Отключает отбражение меню на кодмапе если оно активно
         if(cc.director._globalVariables.codeMapMenu.active) 
             cc.director._globalVariables.codeMapMenu.active = false;
-        var x = this.x + discX,
-            y = this.y + discY;
+        var x = obj.x + discX,
+            y = obj.y + discY;
         //----------------
-        //this.x = x;
-        //this.y = y;return;
+        //obj.x = x;
+        //obj.y = y;return;
         //------------------
-        var oldX = this.x,
-            oldY = this.y;
-        var w = (this.width * this.scaleX),
-            h = (this.height * this.scaleY);
-        var rx = this.x + w,
-            ry = this.y - h;
+        var oldX = obj.x,
+            oldY = obj.y;
+        var w = (obj.width * obj.scaleX),
+            h = (obj.height * obj.scaleY);
+        var rx = obj.x + w,
+            ry = obj.y - h;
         //Если по x входит в диапазон
-        if (this.x <= this.FBP.ul.x) {
-            if (rx >= this.FBP.dr.x) {
-                if (x > this.FBP.ul.x)
-                    this.x = this.FBP.ul.x;
-                else if (rx + discX < this.FBP.dr.x)
-                    this.x = (this.FBP.dr.x - (this.width * this.scaleX));
+        if (obj.x <= obj.FBP.ul.x) {
+            if (rx >= obj.FBP.dr.x) {
+                if (x > obj.FBP.ul.x)
+                    obj.x = obj.FBP.ul.x;
+                else if (rx + discX < obj.FBP.dr.x)
+                    obj.x = (obj.FBP.dr.x - (obj.width * obj.scaleX));
                 else
-                    this.x = x;
-            } else this.x = (this.FBP.dr.x - (this.width * this.scaleX));
-        } else this.x = this.FBP.ul.x;
+                    obj.x = x;
+            } else obj.x = (obj.FBP.dr.x - (obj.width * obj.scaleX));
+        } else obj.x = obj.FBP.ul.x;
         //Если по У входит
-        if (this.y >= this.FBP.ul.y) {
-            if (ry <= this.FBP.dr.y) {
-                if (y < this.FBP.ul.y)
-                    this.y = this.FBP.ul.y;
-                else if (ry + discY > this.FBP.dr.y)
-                    this.y = this.FBP.dr.y + (this.height * this.scaleY);
+        if (obj.y >= obj.FBP.ul.y) {
+            if (ry <= obj.FBP.dr.y) {
+                if (y < obj.FBP.ul.y)
+                    obj.y = obj.FBP.ul.y;
+                else if (ry + discY > obj.FBP.dr.y)
+                    obj.y = obj.FBP.dr.y + (obj.height * obj.scaleY);
                 else
-                    this.y = y;
-            } else this.y = this.FBP.dr.y + (this.height * this.scaleY);
-        } else this.y = this.FBP.ul.y;
+                    obj.y = y;
+            } else obj.y = obj.FBP.dr.y + (obj.height * obj.scaleY);
+        } else obj.y = obj.FBP.ul.y;
         //Это если содержимое меньше заданной рамки, то все изменения отменяем
-        if (oldX == this.FBP.ul.x && rx < this.FBP.dr.x)
-            this.x = oldX;
-        if (oldY == this.FBP.ul.y && ry > this.FBP.dr.y)
-            this.y = oldY;
+        if (oldX == obj.FBP.ul.x && rx < obj.FBP.dr.x)
+            obj.x = oldX;
+        if (oldY == obj.FBP.ul.y && ry > obj.FBP.dr.y)
+            obj.y = oldY;
     },
     //Сбросит всю ноду к начальному состоянию - координаты размер
     reset() {

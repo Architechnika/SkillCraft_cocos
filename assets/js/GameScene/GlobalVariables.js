@@ -6,6 +6,8 @@ cc.Class({
     properties: {
         currentLabSize: 3, //Текущий размер лабиринта
         isDebug: false, //Дебаг режим для всей игры
+        isToolTipActive: true, //Вкл или выкл режим с тултипами
+        toolTipDelay: 1000,
         playerSpeed: 0.7,
         _oldSelectRoad: undefined, //Переменная для хранения ссылки на последнюю кликнутую дорогу на поле
         _collisionManager: null,
@@ -17,6 +19,7 @@ cc.Class({
         lastAddCommandH: 0, //высота последней добавленной команды в кодмап
         lastDeleteCommandH: 0,
         labelBoxes: cc.Label,
+        toolTipLabel: cc.RichText,
         localStorageScript: null,
        // isMove: null,
     },
@@ -51,6 +54,8 @@ cc.Class({
         cc.director._globalVariables.nodeCommandToInit = undefined; //ССылка но обьект в который мы добавляем значение(blockA blockB или countBlock в кодмапе)
         cc.director._globalVariables.addCommandMode = false; //Флаг для включения режима добавления команды к команде
         cc.director._globalVariables.eventDownedOn = undefined;
+        cc.director._globalVariables.toolTipLabel = this.toolTipLabel;
+        cc.director._globalVariables.toolTipDelay = this.toolTipDelay;
 
         //Функция скрывающая скролы
         cc.director._setScrollVisible = function (visibleRight, visibleLeft) {

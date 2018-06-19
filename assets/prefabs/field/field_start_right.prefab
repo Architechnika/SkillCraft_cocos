@@ -32,10 +32,13 @@
       },
       {
         "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 13
     },
     "_id": "",
     "_opacity": 255,
@@ -335,6 +338,16 @@
     "arri": 0,
     "arrj": 0,
     "isGameObjectName": null
+  },
+  {
+    "__type__": "dad17VhAlNE0JFhVz64ufMk",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_timeCounter": 0
   },
   {
     "__type__": "cc.PrefabInfo",
