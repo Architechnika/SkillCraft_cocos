@@ -139,7 +139,7 @@ cc.Class({
 
         }
     },
-        insertCommand(upCommand, newCommand, isInsert,isReplace) {
+    insertCommand(upCommand, newCommand, isInsert, isReplace) {
         console.log(upCommand.name + " " + newCommand.name)
         var newCommand = cc.instantiate(newCommand)
         var commands = this.node.getChildByName("commands");
@@ -157,7 +157,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-
+            if (itemWH > this._H)
+                itemWH = 0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -167,19 +168,19 @@ cc.Class({
                     w = this.node.parent.width >= this._maxW ? 0 : 100;
             }
 
-            
+
             this.node.parent.width += w;
 
             //
-            var x = 0;
+            var x = 50;
             var y = 0;
-        if (isInsert) {
+            if (isInsert) {
 
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
-            arr.height += itemWH;
-            this.node.parent.height += itemWH;
+                arr.height += itemWH;
+                this.node.parent.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -197,11 +198,13 @@ cc.Class({
                 }
                 if (!isCheckPos) {
                     //если инсертим к последнему элементу,
-                   // y =  arr.children[arr.children.length-1].y-itemWH;
-                    y =arr.children[arr.children.length - 1].y-100;
+                    // y =  arr.children[arr.children.length-1].y-itemWH;
+                    //  y =arr.children[arr.children.length - 1].y-100;
+                    var endEl = arr.children[arr.children.length - 1];
+                    y = (endEl.y - endEl.height);
                 }
-                if(!isReplace)
-                codeMapPlus.y -= itemWH
+                if (!isReplace)
+                    codeMapPlus.y -= itemWH
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
                     this.addLine();
@@ -210,11 +213,11 @@ cc.Class({
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
-            }else{
+            } else {
                 var index = arr.children.indexOf(upCommand);
-                var com =  arr.children[index-1]
+                var com = arr.children[index - 1]
                 this.deleteCommand(upCommand);
-                this.insertCommand(com,newCommand,true,true)
+                this.insertCommand(com, newCommand, true, true)
             }
         }
 

@@ -22,6 +22,7 @@ cc.Class({
         labelBoxes: cc.Label,
         toolTipLabel: cc.RichText,
         localStorageScript: null,
+       // isMove: null,
     },
 
     onLoad() {
