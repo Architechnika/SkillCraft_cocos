@@ -32,7 +32,7 @@ cc.Class({
             //Сбрасываем счетчик и обнуляем флаг
             this._timeCounter = 0;
             this._isMouseEntered = false;
-            cc.director._globalVariables.toolTipLabel.node.active = false;
+            cc.director._globalVariables.toolTipNode.active = false;
         }
         this._hideSelectingItem(this);//Скрываем выделение на обьекте
     },
@@ -68,7 +68,7 @@ cc.Class({
     update(dt) {
         if (cc.director._globalVariables.isToolTipActive) { //Если тултипы вообще включены
             //Если флаг того что мышка над нодой true и тултип ещё не показан другой нодой
-            if (this.node._isMouseEntered && !cc.director._globalVariables.toolTipLabel.node.active) {
+            if (this.node._isMouseEntered && !cc.director._globalVariables.toolTipNode.active) {
                 this._timeCounter += dt * 1000; //Отсчитываем милисекунды
                 if (this._timeCounter > cc.director._globalVariables.toolTipDelay) { //Если прошло достаточно времени, то показываем тултип
                     //Показываем тултип
@@ -105,14 +105,11 @@ cc.Class({
     
     //Выводит текст на тултип, позиционирует его по сохраненной точке и делает тултип активным
     _showToolTip(text) {
-        cc.director._globalVariables.toolTipLabel.string = text;
-        cc.director._globalVariables.toolTipLabel.node.x = this.node._mousePos.x + 10;
-        cc.director._globalVariables.toolTipLabel.node.y = this.node._mousePos.y - 10;
-        /*console.log("1: " + this.node.width + " -- " + this.node.height)
-        var wC = this.node.getBoundingBoxToWorld();
-        console.log(wC.scaleX + " == " + wC.scaleY);
-        console.log(cc.director._globalVariables.toolTipLabel.node.getBoundingBoxToWorld());*/
-        cc.director._globalVariables.toolTipLabel.node.active = true;
+        var lNode = cc.director._globalVariables.toolTipNode.getChildByName("toolTipText");
+        lNode.getComponent(cc.Label).string = text;
+        cc.director._globalVariables.toolTipNode.x = this.node._mousePos.x + 10;
+        cc.director._globalVariables.toolTipNode.y = this.node._mousePos.y - 10;
+        cc.director._globalVariables.toolTipNode.active = true;
     },
 
     //Возвращает нужный текст для тултипа в зависимости от типа и имени ноды

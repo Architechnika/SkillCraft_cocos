@@ -307,7 +307,8 @@ cc.Class({
     _playerErrorAction(message) {
         if (this.node._actionSeq)
             this.node.stopAction(this.node._actionSeq);
-        console.log(message);
+        //console.log(message);
+        cc.director._globalVariables.showMessageBox(message,0);
         this.setToStart();
     },
     //Добавляет команды в стек команд для исполнения
