@@ -13,6 +13,9 @@ cc.Class({
         label_errors: cc.Label,
         pageview_achiv: cc.PageView,
         progress_exp: cc.ProgressBar,
+        achivement_delay: 2000,
+        _counter: 0,
+        _activeAchivementPageIndxes: [],
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -21,6 +24,7 @@ cc.Class({
 
     start() {
         this.calcExp();
+        this._counter = 0;
     },
 
     //Рассчитывает прирост опыта из глобальных статических параметров
@@ -63,7 +67,7 @@ cc.Class({
         cc.director._globalVariables.player_totalBoxes = 0;
         cc.director._globalVariables.player_totalErrors = 0;
     },
-    
+
     //Обработчик кнопок
     buttonEventHandler(event) {
         if (event.target.name = "nextButton") { //Переход на следующий уровень
@@ -73,6 +77,38 @@ cc.Class({
         }
     },
 
-    update (dt) {
+    //Проверка полученных ачивок
+    _checkAchivements() {
+        var allPages = this.pageview_achiv.getPages();
+        for (var i = 0; i < allPages; i++) {
+            var isRemove = false;
+            switch (allPages[i].name) {
+                case "page_noErrors":
+                    if(cc.director._globalVariables.player_totalErrors > 0)
+                        isRemove = true;
+                    break;
+                case "page_allBoxes":
+                    break;
+                case "page_shortWay":
+                    break;
+                case "page_firstTry":
+                    break;
+            }
+            if(isRemove)
+                this.pageview_achiv.removePage(allPages[i]);
+        }
+    },
+
+    update(dt) {
+        this._counter += dt * 1000;
+        if (this._counter > this.achivement_delay) {
+            this._counter = 0;
+            //Рассчитываем индекс следующей странички
+            var currIndx = this.pageview_achiv.getCurrentPageIndex();
+            var lastIndx = this.pageview_achiv.getPages().length;
+            currIndx = currIndx + 1 >= lastIndx ? 0 : currIndx + 1;
+            //Перелистываем страничку в achivement pageView
+            this.pageview_achiv.scrollToPage(currIndx, 2); //PageScrollTime
+        }
     },
 });
