@@ -159,6 +159,7 @@ cc.Class({
                     } else {
                         cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd, false);
                     }
+                     cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
                     cc.director._globalVariables.addCommandMode = false;
                     cc.director._setScrollVisible(false, true);
                 }
@@ -298,6 +299,7 @@ cc.Class({
                 }
                 // cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
             }
+             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             cc.director._globalVariables.codeMapMenu.isMove = false;
             return;
         }

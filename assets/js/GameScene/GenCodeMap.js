@@ -149,7 +149,7 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-            if(itemWH > this._H)
+            if(itemWH > 400)
             itemWH =0;
             var h = 100;
             var w = 0;
@@ -171,8 +171,8 @@ cc.Class({
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
-                //arr.height += itemWH;
-                // this.node.height += itemWH;
+                arr.height += itemWH;
+                 this.node.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
@@ -205,8 +205,8 @@ cc.Class({
             } else {
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
-                this.deleteCommand(upCommand);
                 this.insertCommand(com, newCommand, true, true);
+                this.deleteCommand(upCommand);
                 return;
             }
         }

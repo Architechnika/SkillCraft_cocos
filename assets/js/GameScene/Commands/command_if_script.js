@@ -14,12 +14,13 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this._H = 400;
-        this._W = 300;
+        this._H = this.node.parent.height;
+        this._W = this.node.parent.width;
         this._maxW = 400;
         this._isNeedGeneration = false;
         this.isMove = false;
         this.node.insertCommand = this.insertCommand;
+        
     },
 
     start() {},
@@ -64,7 +65,7 @@ cc.Class({
                     h = comm.children[0].height;
                     //Если добавляем команду с шириной выходящей за ширину родителя, то инициализируем дискрет ширины
                     if (comm.name == "command_if" || comm.name == "command_repeatif")
-                        w = this.node.parent.width >= this._maxW ? 0 : 100;
+                        w = this.node.parent.width > this._maxW ? 0 : 100;
                 }
                 var codeMapPlus = cc.director._globalVariables.codeMapNode.getChildByName("command_plusCM");
                 codeMapPlus.y -= itemWH
@@ -111,8 +112,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-            if(itemWH > this._H)
-            itemWH =0;
+          //  if(itemWH > this._H)
+           // itemWH =0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -173,8 +174,10 @@ cc.Class({
             } else {
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
+                this.insertCommand(com, newCommand, true, false)
+                this.update();
                 this.deleteCommand(upCommand);
-                this.insertCommand(com, newCommand, true, true)
+//                this.insertCommand(com, newCommand, true, true)
             }
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
@@ -306,6 +309,7 @@ cc.Class({
         } else {
 
         }
+        this.update();
     },
     update(dt) {
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height ) {
@@ -391,8 +395,9 @@ cc.Class({
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
-            // if (this.node.parent.parent.parent.parent.name == "command_if")
-            this.node.parent.parent.parent.parent.width += d;
+            if(this.node.parent.parent.name == "elseCommands")
+                this.node.parent.parent.parent.parent.parent.width += d;
+            else this.node.parent.parent.parent.parent.width += d;
             if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
                 this._isNeedGeneration = true;
                 return;
