@@ -130,7 +130,7 @@ cc.Class({
             var x = 0;
             var y = 0;
             if (isInsert) {
-
+//
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
