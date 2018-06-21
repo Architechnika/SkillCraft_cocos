@@ -32,10 +32,13 @@
       },
       {
         "__id__": 8
+      },
+      {
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 10
     },
     "_id": "",
     "_opacity": 255,
@@ -275,6 +278,16 @@
     "ifBlock": null,
     "repeatIfBlock": null,
     "counterBlock": null
+  },
+  {
+    "__type__": "dad17VhAlNE0JFhVz64ufMk",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_timeCounter": 0
   },
   {
     "__type__": "cc.PrefabInfo",

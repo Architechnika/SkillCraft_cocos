@@ -86,7 +86,7 @@ cc.Class({
         var diff = event._scrollY < 0 ? obj.scrollStep : -obj.scrollStep;
         //Меняем размер
         obj.setScale(obj.scaleX + diff, obj.scaleY + diff);
-        console.log(obj.name + ": " + obj.scaleX + "  -  " + obj.scaleY);
+        //console.log(obj.name + ": " + obj.scaleX + "  -  " + obj.scaleY);
         //Проверяем на минимальный размер
         if (obj.scaleX < obj._minScaleX) obj.scaleX = obj._minScaleX;
         if (obj.scaleY < obj._minScaleY) obj.scaleY = obj._minScaleY;

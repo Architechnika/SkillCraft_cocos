@@ -112,7 +112,7 @@ cc.Class({
                 var bB = this.node.getBoundingBoxToWorld().size;
                 var k = Math.floor(bB.height / bB.width);
                 //console.log(bB.height / bB.width);
-                cc.director._globalVariables.codeMapNode.width = maxW;
+                cc.director._globalVariables.codeMapNode.width = maxW + 100;
                 cc.director._globalVariables.codeMapNode.height = Math.abs(this.plus.y - (this.plus.height * this.plus.scaleY));
             }
             //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();

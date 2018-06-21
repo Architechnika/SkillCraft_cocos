@@ -207,7 +207,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "reloadButton",
+    "_name": "reloadLevelButton",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -437,7 +437,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "nextButton",
+    "_name": "nextLevelButton",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2

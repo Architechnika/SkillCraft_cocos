@@ -35,10 +35,13 @@
       },
       {
         "__id__": 9
+      },
+      {
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 11
     },
     "_id": "",
     "_opacity": 255,
@@ -277,10 +280,7 @@
     "_enabled": true,
     "ifBlock": null,
     "repeatIfBlock": null,
-    "counterBlock": null,
-    "commandMenu": {
-      "__uuid__": "37f89b4b-af42-4973-9a1c-8f912517757e"
-    }
+    "counterBlock": null
   },
   {
     "__type__": "697aesPPfBAEahB/u4frNAi",
@@ -292,6 +292,16 @@
     "_enabled": true,
     "DIRECTION": "pickup",
     "commandType": "simple"
+  },
+  {
+    "__type__": "dad17VhAlNE0JFhVz64ufMk",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_timeCounter": 0
   },
   {
     "__type__": "cc.PrefabInfo",

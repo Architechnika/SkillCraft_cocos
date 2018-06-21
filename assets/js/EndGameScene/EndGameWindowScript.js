@@ -72,7 +72,7 @@ cc.Class({
     buttonEventHandler(event) {
         if (event.target.name = "nextButton") { //Переход на следующий уровень
             cc.director.loadScene("GameScene");
-        } else if (event.target.name = "reloadButton") {
+        } else if (event.target.name = "reloadButton") {//Рестарт уровня
             cc.director.loadScene("GameScene");
         }
     },
