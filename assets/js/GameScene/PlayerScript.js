@@ -89,6 +89,9 @@ cc.Class({
     play() {
         cc.director._globalVariables.codeMapNode.active = false;
         this._playerStarted = true;
+        this._addedCommands.splice(0,this._addedCommands.length);
+        //Добавляем команды из клетки поля в стек команд
+        this._addCommands(this._currentFieldElement);
         this.makeAMove();
     },
     stop() {
@@ -281,7 +284,8 @@ cc.Class({
                 dir = commScript.DIRECTION;
                 //Если вернулось undefined - ошибка
                 if (!whatToDo) {
-                    errStr = "Робот не может туда поехать";
+                    if(dir == "pickup") errStr = "Подбирать нечего";
+                    else errStr = "Робот не может туда поехать";
                 } else {
                     if (whatToDo.x && whatToDo.y) { //Если точка то надо передвинуться
                         p = whatToDo;
@@ -307,7 +311,8 @@ cc.Class({
     _playerErrorAction(message) {
         if (this.node._actionSeq)
             this.node.stopAction(this.node._actionSeq);
-        console.log(message);
+        //console.log(message);
+        cc.director._globalVariables.showMessageBox(message, 0);
         this.setToStart();
     },
     //Добавляет команды в стек команд для исполнения
@@ -335,29 +340,28 @@ cc.Class({
         return copy;
     },
     //Передвигает и масштабирует камеру так, чтобы робот был в центре
-    _robotCamFocus(){
-        if(cc.director._globalVariables.player_lvl > 2){//Если поле достаточно большое, то его надо ресайзить и сдвигать чтобы следовать за роботом
-            if(cc.director._globalVariables.player_lvl == 3){//Если уровень игрока 3(поле 7 на 7)
+    _robotCamFocus() {
+        if (cc.director._globalVariables.player_lvl > 2) { //Если поле достаточно большое, то его надо ресайзить и сдвигать чтобы следовать за роботом
+            if (cc.director._globalVariables.player_lvl == 3) { //Если уровень игрока 3(поле 7 на 7)
                 cc.director._globalVariables.gameNode.scaleY = cc.director._globalVariables.gameNode.scaleX = 1.25;
-            } else {//Если поле больше чем 7 на 7
+            } else { //Если поле больше чем 7 на 7
                 cc.director._globalVariables.gameNode.scaleY = cc.director._globalVariables.gameNode.scaleX = ((cc.director._globalVariables.player_lvl - 3) * 0.5) + 1.25;
             }
-            try{
+            try {
                 var rW = this.node.getBoundingBoxToWorld();
                 var gnW = cc.director._globalVariables.gameNode.worldCenter;
                 var discX = gnW.x - rW.x;
                 var discY = gnW.y - rW.y;
-                cc.director._globalVariables.gameNode.getComponent("ResizeScript").move(discX,discY, cc.director._globalVariables.gameNode);   
-            }
-            catch(err){
+                cc.director._globalVariables.gameNode.getComponent("ResizeScript").move(discX, discY, cc.director._globalVariables.gameNode);
+            } catch (err) {
                 console.log(err);
             }
         }
     },
-    
-    update(dt){
+
+    update(dt) {
         //Если включен режим следования за роботом, то двигаем поле так чтобы робот был в центре экрана
-        if(this.autoMoveCam && this._playerStarted){
+        if (this.autoMoveCam && this._playerStarted) {
             this._robotCamFocus();
         }
     }
