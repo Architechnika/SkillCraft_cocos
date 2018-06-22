@@ -79,6 +79,7 @@ cc.Class({
             cc.director._globalVariables.player_totalBoxes = this.saveData.totalBoxes;
             cc.director._globalVariables.player_totalErrors = this.saveData.totalErrors;
             cc.director._globalVariables.player_totalLabs = this.saveData.totalLabs;
+            cc.director._globalVariables.player_totalSeconds = this.saveData.time;
         }
     },
 
