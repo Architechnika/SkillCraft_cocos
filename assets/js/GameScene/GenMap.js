@@ -117,7 +117,7 @@ cc.Class({
                         //ОСТАВЛЯЕМ ССЫЛКУ НА ДОРОГУ НА КОТОРОЙ СТОИТ ЯЩИК
                         obj.roadNode = road;
                         this.node.addChild(obj);
-                        obj.setLocalZOrder(2);//Ящик должен быть поверх всех элементов поля
+                        obj.setLocalZOrder(2); //Ящик должен быть поверх всех элементов поля
                         this.global_GameObjects.push(obj);
                     }
                     if (road.group == "Entry")
@@ -127,6 +127,7 @@ cc.Class({
             cc.director._globalVariables.localStorageScript.isFieldDataLoaded = true;
             cc.sys.localStorage.setItem("isNewGame", "true")
         } else if (this.isBoxesSpawn && this.gameObjects.length > 0) { // ГЕНЕРАЦИЯ НОВОГО ЛАБИРИНТА -----------------------------------------------
+
             var totalBoxes = Math.floor(cc.director._globalVariables.currentLabSize / 2);
             totalBoxes = totalBoxes > this.maxBoxesCount ? this.maxBoxesCount : totalBoxes;
             totalBoxes = totalBoxes > roadElemsArr.length ? roadElemsArr.length : totalBoxes;
@@ -145,7 +146,7 @@ cc.Class({
                 //ОСТАВЛЯЕМ ССЫЛКУ НА ДОРОГУ НА КОТОРОЙ СТОИТ ЯЩИК
                 el.roadNode = r_el;
                 this.node.addChild(el);
-                el.setLocalZOrder(2);//Ящик должен быть поверх всех элементов поля
+                el.setLocalZOrder(2); //Ящик должен быть поверх всех элементов поля
                 this.global_GameObjects.push(el);
                 roadElemsArr.splice(rndIndx, 1);
             }
@@ -161,13 +162,13 @@ cc.Class({
             var scH = (startElem.height * startElem.scaleY) * this.playerSize / plObj.height;
             plObj.scaleX = plObj.scaleY = scW > scH ? scH : scW;
             this.node.addChild(plObj);
-            plObj.setLocalZOrder(2);//Робот должен быть поверх всех элементов поля
+            plObj.setLocalZOrder(2); //Робот должен быть поверх всех элементов поля
             scr.setToStart();
         }
     },
 
     generateMap(w, h, labSize) {
-        //Получаем массив сгенерированного поля
+        //Получаем массив сгенерированного поля 
         var bin;
         if (cc.director._globalVariables.localStorageScript.saveData.isSaved == true && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
             if (cc.director._globalVariables.localStorageScript.saveData.arrayBinRoad) {

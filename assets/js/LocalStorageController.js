@@ -31,14 +31,17 @@ cc.Class({
     key: "save",
     arrayRoadCommands: null,
     isFieldDataLoaded: false,
+    isFristSave:null,
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
         this.key = "save";
+        this.isFristSave = true;
         this.saveData = {
             arrayRoadCommandsNames: [],
             arrayBinRoad: [],
             arrayRoadGameObjectsNames: [],
+            reLoadGameObjectsNames:[],
             time: 0,
             coinCount: 0,
             isSaved: false,
@@ -53,8 +56,10 @@ cc.Class({
             totalLabs: 0,
 
         }
+        if(cc.sys.localStorage.getItem(this.key))
+             this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
         if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
-            this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
+//            this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
             this.arrayRoadCommands = this.arrayCopy(this.saveData.arrayRoadCommandsNames);
             this.arrayRoadCommands = this.parseRoadsCommands(this.saveData.arrayRoadCommandsNames);
             this.isFieldDataLoaded = false;
@@ -188,6 +193,11 @@ cc.Class({
                         this.arrayRoadGameObjectsNames[i_r][j_r] = road.getComponent("RoadScript").isGameObjectName
                 }
             }
+            if(this.isFristSave)
+                {
+                    this.saveData.reLoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames);
+                    this.isFristSave = false;
+                }
             //
             this.saveData.rouColCount = cc.director._globalVariables.currentLabSize;
             this.saveData.cellCounter = cc.director._globalVariables.player_cellCounter;
@@ -199,7 +209,6 @@ cc.Class({
             this.saveData.totalErrors = cc.director._globalVariables.player_totalErrors;
             this.saveData.totalLabs = cc.director._globalVariables.player_totalLabs;
             //
-
             this.saveData.arrayRoadCommandsNames = this.arrayCopy(this.arrayRoadCommandsNames); // кидаем в объект saveData бинарный массив для хранения имел команд кодмапа для каждой дороги
             this.saveData.arrayRoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames); //массив игровый объектов на дороге
             this.saveData.time = this.time;
