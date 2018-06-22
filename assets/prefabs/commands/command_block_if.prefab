@@ -35,10 +35,13 @@
       },
       {
         "__id__": 9
+      },
+      {
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 11
     },
     "_id": "",
     "_opacity": 255,
@@ -295,6 +298,16 @@
     "counterBlock": {
       "__uuid__": "7385305e-f8cc-4bc3-9cb8-7bc2b4bcef35"
     }
+  },
+  {
+    "__type__": "dad17VhAlNE0JFhVz64ufMk",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_timeCounter": 0
   },
   {
     "__type__": "cc.PrefabInfo",

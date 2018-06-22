@@ -72,10 +72,14 @@ cc.Class({
     buttonEventHandler(event) {
         if (event.target.name == "nextButton") { //Переход на следующий уровень
             cc.director.loadScene("GameScene");
+<<<<<<< HEAD
         } else if (event.target.name == "reloadButton") {
             // cc.sys.localStorage.setItem("isReloadGame", true);
             cc.sys.localStorage.setItem("isNewGame", false)
              this.reLoadSerrings();
+=======
+        } else if (event.target.name = "reloadButton") {//Рестарт уровня
+>>>>>>> 971923d00ff2f6f91a377bd09f681fa8939fcf4b
             cc.director.loadScene("GameScene");
            // cc.director._globalVariables.localStorageScript.reLoadSerrings();
         }

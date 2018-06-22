@@ -69,6 +69,16 @@
       false,
       false,
       true
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
     ]
   ],
   "design-resolution-height": 1200,
@@ -83,7 +93,8 @@
     "Entry",
     "Exit",
     "GameObjects",
-    "Commands"
+    "Commands",
+    "GUI"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {

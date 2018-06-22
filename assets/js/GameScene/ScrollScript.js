@@ -47,7 +47,7 @@ cc.Class({
             type: cc.Prefab
         },
         //Цыфры для блока итераций
-        blockCountCommands:{
+        blockCountCommands: {
             default: [],
             type: cc.Prefab
         },
@@ -123,28 +123,30 @@ cc.Class({
 
         if (scrollName == "leftScroll")
             columnCount = 1;
-        if (arr && !Array.isArray(arr)) {
-            if (!arr.active)
-                arr.active = true;
-            if (arr.name == "command_if")
-                arr = cc.instantiate(this.blockIF);
-            else if (arr.name == "command_repeatif")
-                arr = cc.instantiate(this.blockRepeatIF);
-            else if (arr.name == "command_repeat")
-                arr = cc.instantiate(this.blockCount);//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
-            cont.addChild(cc.instantiate(arr));
-        } else {
-            for (var i = 0; i < arr.length; i++) {
-                //if(arr[i].name == "command_block_repeat") continue;//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
-                if (!arr[i].active)
-                    arr[i].active = true;
-                if (arr[i].name == "command_if")
-                    cont.addChild(cc.instantiate(this.blockIF));
-                else if (arr[i].name == "command_repeatif")
-                    cont.addChild(cc.instantiate(this.blockRepeatIF));
-                else if (arr[i].name == "command_repeat")
-                    cont.addChild(cc.instantiate(this.blockCount));
-                else cont.addChild(cc.instantiate(arr[i]));
+        if (arr) {
+            if (!Array.isArray(arr)) {
+                if (!arr.active)
+                    arr.active = true;
+                if (arr.name == "command_if")
+                    arr = cc.instantiate(this.blockIF);
+                else if (arr.name == "command_repeatif")
+                    arr = cc.instantiate(this.blockRepeatIF);
+                else if (arr.name == "command_repeat")
+                    arr = cc.instantiate(this.blockCount); //--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
+                cont.addChild(cc.instantiate(arr));
+            } else {
+                for (var i = 0; i < arr.length; i++) {
+                    //if(arr[i].name == "command_block_repeat") continue;//--------------ОТМЕНА ДОБАВЛЕНИЯ БЛОКА СЧЕТЧИКА
+                    if (!arr[i].active)
+                        arr[i].active = true;
+                    if (arr[i].name == "command_if")
+                        cont.addChild(cc.instantiate(this.blockIF));
+                    else if (arr[i].name == "command_repeatif")
+                        cont.addChild(cc.instantiate(this.blockRepeatIF));
+                    else if (arr[i].name == "command_repeat")
+                        cont.addChild(cc.instantiate(this.blockCount));
+                    else cont.addChild(cc.instantiate(arr[i]));
+                }
             }
         }
         cont.anchorX = 1;
