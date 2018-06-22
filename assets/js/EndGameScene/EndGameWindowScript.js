@@ -100,6 +100,7 @@ cc.Class({
         this.saveData.arrayRoadCommandsNames = this.saveData.arrayBinRoad;
         this.saveData.totalErrors = 0;
         this.saveData.totalLabs = this.saveData.reLoadTotalLabs;
+        this.saveData.totalBoxes = this.saveData.reLoadTotalBoxes;
         cc.sys.localStorage.setItem("save", JSON.stringify(this.saveData))
         return true;
     },

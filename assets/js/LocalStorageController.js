@@ -48,6 +48,7 @@ cc.Class({
             reLoadNLvlExp: 100,
             reLoadLvl: 1,
             reLoadTotalLabs: 0,
+            reLoadTotalBoxes: 0,
             time: 0,
             coinCount: 0,
             isSaved: false,
@@ -206,6 +207,7 @@ cc.Class({
                     this.saveData.reLoadNLvlExp = cc.director._globalVariables.player_nLvlExp;
                     this.saveData.reLoadLvl = cc.director._globalVariables.player_lvl;
                     this.saveData.reLoadTotalLabs = cc.director._globalVariables.player_totalLabs;
+                    this.saveData.reLoadTotalBoxes = cc.director._globalVariables.player_totalBoxes;
                     this.isFristSave = false;
             }
             //
