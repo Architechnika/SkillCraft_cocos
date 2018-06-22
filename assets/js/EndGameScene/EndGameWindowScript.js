@@ -63,7 +63,6 @@ cc.Class({
         if (event.target.name == "nextLevelButton") { //Переход на следующий уровень
             cc.director.loadScene("GameScene");
         } else if (event.target.name == "reloadLevelButton") {
-            this.reLoadSerrings();
             if(this.reLoadSerrings())
                 cc.sys.localStorage.setItem("isNewGame", false)
             cc.director.loadScene("GameScene");
