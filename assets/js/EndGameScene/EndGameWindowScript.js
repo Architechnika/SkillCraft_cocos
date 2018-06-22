@@ -50,17 +50,7 @@ cc.Class({
         //Увеличиваем счетчик лабиринтов
         cc.director._globalVariables.player_totalLabs++;
         //Отображаем результаты на экране
-        var secS = cc.director._globalVariables.player_totalSeconds;
-        var sec = Math.floor(secS % 60);
-        var min = Math.floor(secS / 60);
-        var text = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
-        this.label_time.string = text;
-        this.label_totalLabs.string = cc.director._globalVariables.player_totalLabs;
-        this.label_level.string = cc.director._globalVariables.player_lvl;
-        this.label_errors.string = cc.director._globalVariables.player_totalErrors;
-        var onePerc = (cc.director._globalVariables.player_nLvlExp - cc.director._globalVariables.player_pLvlExp) / 100;
-        var gExp_perc = (cc.director._globalVariables.player_gExp - cc.director._globalVariables.player_pLvlExp) / onePerc;
-        this.progress_exp.progress = gExp_perc / 100;
+        this._showResultsOnScreen();
         //Очищаем временные переменные
         cc.director._globalVariables.player_cellCounter = 0;
         cc.director._globalVariables.player_totalSeconds = 0;
@@ -77,6 +67,21 @@ cc.Class({
         }
     },
 
+    //Отображает значения всех нужных переменных на экране(время пррохождения, ошибки, опыт и тд)
+    _showResultsOnScreen(){
+        var secS = cc.director._globalVariables.player_totalSeconds;
+        var sec = Math.floor(secS % 60);
+        var min = Math.floor(secS / 60);
+        var text = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
+        this.label_time.string = text;
+        this.label_totalLabs.string = cc.director._globalVariables.player_totalLabs;
+        this.label_level.string = cc.director._globalVariables.player_lvl;
+        this.label_errors.string = cc.director._globalVariables.player_totalErrors;
+        var onePerc = (cc.director._globalVariables.player_nLvlExp - cc.director._globalVariables.player_pLvlExp) / 100;
+        var gExp_perc = (cc.director._globalVariables.player_gExp - cc.director._globalVariables.player_pLvlExp) / onePerc;
+        this.progress_exp.progress = gExp_perc / 100;
+    },
+    
     //Проверка полученных ачивок
     _checkAchivements() {
         var allPages = this.pageview_achiv.getPages();
