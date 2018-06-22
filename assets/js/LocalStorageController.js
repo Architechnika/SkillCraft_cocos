@@ -320,6 +320,10 @@ cc.Class({
             this.save();
             this._timeCounter = 0;
         }
+        if(this.isFristSave)
+            {
+                this.save();
+            }
         //console.log(this.saveData.arrayRoadCommandsNames)
         // console.log(this.arrayRoadCommandsNames)
     },
