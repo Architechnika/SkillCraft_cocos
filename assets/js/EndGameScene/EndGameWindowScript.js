@@ -49,18 +49,16 @@ cc.Class({
         }
         //Увеличиваем счетчик лабиринтов
         cc.director._globalVariables.player_totalLabs++;
-        //Отображаем результаты на экране
-        this._showResultsOnScreen();
-        //Очищаем временные переменные
-        cc.director._globalVariables.player_cellCounter = 0;
-        cc.director._globalVariables.player_totalSeconds = 0;
-        cc.director._globalVariables.player_totalBoxes = 0;
-        cc.director._globalVariables.player_totalErrors = 0;
     },
 
     //Обработчик кнопок
     buttonEventHandler(event) {
         if (event.target.name == "nextLevelButton") { //Переход на следующий уровень
+            //Очищаем временные переменные
+            cc.director._globalVariables.player_cellCounter = 0;
+            cc.director._globalVariables.player_totalSeconds = 0;
+            cc.director._globalVariables.player_totalBoxes = 0;
+            cc.director._globalVariables.player_totalErrors = 0;
             cc.director.loadScene("GameScene");
         } else if (event.target.name == "reloadLevelButton") {
             if(this.reLoadSerrings())
@@ -68,24 +66,8 @@ cc.Class({
             cc.director.loadScene("GameScene");
         }
     },
-    
-    //Отображает значения всех нужных переменных на экране(время пррохождения, ошибки, опыт и тд)
-    _showResultsOnScreen(){
-        var secS = cc.director._globalVariables.player_totalSeconds;
-        var sec = Math.floor(secS % 60);
-        var min = Math.floor(secS / 60);
-        var text = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
-        this.label_time.string = text;
-        this.label_totalLabs.string = cc.director._globalVariables.player_totalLabs;
-        this.label_level.string = cc.director._globalVariables.player_lvl;
-        this.label_errors.string = cc.director._globalVariables.player_totalErrors;
-        var onePerc = (cc.director._globalVariables.player_nLvlExp - cc.director._globalVariables.player_pLvlExp) / 100;
-        var gExp_perc = (cc.director._globalVariables.player_gExp - cc.director._globalVariables.player_pLvlExp) / onePerc;
-        this.progress_exp.progress = gExp_perc / 100;
-    },
-    
+    //Функция, которая вызывается когда идет перезагрузка уровня, она чистит те данные которые перезагружать не нужно
     reLoadSerrings() {
-        //функция, которая вызывается когда идет перезагрузка уровня, она чистит те данные которые перезагружать не нужно
         if (cc.sys.localStorage.getItem("save"))
             this.saveData = JSON.parse(cc.sys.localStorage.getItem("save"));
         else return false;
@@ -102,6 +84,7 @@ cc.Class({
         cc.sys.localStorage.setItem("save", JSON.stringify(this.saveData))
         return true;
     },
+    
     //Проверка полученных ачивок
     _checkAchivements() {
         var allPages = this.pageview_achiv.getPages();
@@ -125,15 +108,39 @@ cc.Class({
     },
 
     update(dt) {
-        this._counter += dt * 1000;
-        if (this._counter > this.achivement_delay) {
-            this._counter = 0;
-            //Рассчитываем индекс следующей странички
-            var currIndx = this.pageview_achiv.getCurrentPageIndex();
-            var lastIndx = this.pageview_achiv.getPages().length;
-            currIndx = currIndx + 1 >= lastIndx ? 0 : currIndx + 1;
-            //Перелистываем страничку в achivement pageView
-            this.pageview_achiv.scrollToPage(currIndx, 2); //PageScrollTime
+        if(!this._makeAnimStep()){
+            this._counter += dt * 1000;
+            if (this._counter > this.achivement_delay) {
+                this._counter = 0;
+                //Рассчитываем индекс следующей странички
+                var currIndx = this.pageview_achiv.getCurrentPageIndex();
+                var lastIndx = this.pageview_achiv.getPages().length;
+                currIndx = currIndx + 1 >= lastIndx ? 0 : currIndx + 1;
+                //Перелистываем страничку в achivement pageView
+                this.pageview_achiv.scrollToPage(currIndx, 2); //PageScrollTime
+            }
         }
+    },
+    
+    //Функция выполняет шаг анимации прогресса на окне. Вызывается в update
+    //возвращает false если анимация закончена, true - если анимация продолжается
+    _makeAnimStep(){
+        this._showResultsOnScreen();
+        return false;
+    },
+    
+    //Отображает значения всех нужных переменных на экране(время пррохождения, ошибки, опыт и тд)
+    _showResultsOnScreen(){
+        var secS = cc.director._globalVariables.player_totalSeconds;
+        var sec = Math.floor(secS % 60);
+        var min = Math.floor(secS / 60);
+        var text = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
+        this.label_time.string = text;
+        this.label_totalLabs.string = cc.director._globalVariables.player_totalLabs;
+        this.label_level.string = cc.director._globalVariables.player_lvl;
+        this.label_errors.string = cc.director._globalVariables.player_totalErrors;
+        var onePerc = (cc.director._globalVariables.player_nLvlExp - cc.director._globalVariables.player_pLvlExp) / 100;
+        var gExp_perc = (cc.director._globalVariables.player_gExp - cc.director._globalVariables.player_pLvlExp) / onePerc;
+        this.progress_exp.progress = gExp_perc / 100;
     },
 });
