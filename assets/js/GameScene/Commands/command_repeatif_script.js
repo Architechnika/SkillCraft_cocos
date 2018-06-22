@@ -231,8 +231,8 @@ cc.Class({
     update(dt) {
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height) {
             var itemWH = this.node.height;
-            if (this._H)
-                var d = this.node.parent.height - this._H
+          //  if (this._H)
+              //  var d = this.node.parent.height - this._H
 
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
             //  console.log(cc.director._gobalVariables.lastAddCommandH)

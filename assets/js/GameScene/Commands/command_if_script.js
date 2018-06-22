@@ -20,7 +20,7 @@ cc.Class({
         this._isNeedGeneration = false;
         this.isMove = false;
         this.node.insertCommand = this.insertCommand;
-        
+
     },
 
     start() {},
@@ -112,8 +112,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-          //  if(itemWH > this._H)
-           // itemWH =0;
+            //  if(itemWH > this._H)
+            // itemWH =0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -130,7 +130,7 @@ cc.Class({
             var x = 0;
             var y = 0;
             if (isInsert) {
-//
+                //
                 var isGo = false;
                 var isCheckPos = false;
                 var index = 0;
@@ -157,27 +157,28 @@ cc.Class({
                     var endEl = arr.children[arr.children.length - 1];
                     y = (endEl.y - endEl.height);
                 }
+
+                if (!isReplace)
+                    codeMapPlus.y -= itemWH
+
                 var lineCount = itemWH / h;
                 for (var i = 0; i < lineCount; i++) {
                     if (arr.name == "commands")
                         this.addLine();
                     else this.addElseLine();
                 }
-                if (!isReplace)
-                    codeMapPlus.y -= itemWH
                 newCommand.x = x;
                 newCommand.y = y;
                 arr.insertChild(newCommand, index + 1);
-               
+
                 cc.director._globalVariables.lastAddCommandH = newCommand.height;
-                //    console.log(itemWH+" "+arr.height+" "+this.node.parent.height)
             } else {
                 var index = arr.children.indexOf(upCommand);
                 var com = arr.children[index - 1]
-                this.insertCommand(com, newCommand, true, false)
+                this.insertCommand(com, newCommand, true, true)
                 this.update();
                 this.deleteCommand(upCommand);
-//                this.insertCommand(com, newCommand, true, true)
+                //                this.insertCommand(com, newCommand, true, true)
             }
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
         }
@@ -309,10 +310,10 @@ cc.Class({
         } else {
 
         }
-        this.update();
+       // this.update();
     },
     update(dt) {
-        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height ) {
+        if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._H < this.node.parent.height) {
             var itemWH = this.node.height;
             var lineCount = cc.director._globalVariables.lastAddCommandH / 100; //количество линий которые нужно добавить родителю данного элемента в зависимости от того кого мы добавили ему в дочерние"его размеров"
             // this.node.parent.parent.height += cc.director._globalVariables.lastAddCommandH;
@@ -395,7 +396,7 @@ cc.Class({
         if (this.node.parent.name != "content" && (this.node.parent.parent.name == "commands" || this.node.parent.parent.name == "elseCommands") && this._W != this.node.parent.width) {
             var d = this.node.parent.width - this._W;
             this._W += d;
-            if(this.node.parent.parent.name == "elseCommands")
+            if (this.node.parent.parent.name == "elseCommands")
                 this.node.parent.parent.parent.parent.parent.width += d;
             else this.node.parent.parent.parent.parent.width += d;
             if (this.node.parent.parent.parent.parent.parent.name == "CodeMapNode" || this.node.parent.parent.parent.parent.parent.parent.name == "CodeMapNode") {
