@@ -61,17 +61,20 @@ cc.Class({
             cc.director._globalVariables.player_totalErrors = 0;
             cc.director.loadScene("GameScene");
         } else if (event.target.name == "reloadLevelButton") {
-            if(this.reLoadSerrings())
+            if(this.reLoadSettings())
                 cc.sys.localStorage.setItem("isNewGame", false)
             cc.director.loadScene("GameScene");
         }
     },
     //Функция, которая вызывается когда идет перезагрузка уровня, она чистит те данные которые перезагружать не нужно
-    reLoadSerrings() {
+    reLoadSettings() {
         if (cc.sys.localStorage.getItem("save"))
             this.saveData = JSON.parse(cc.sys.localStorage.getItem("save"));
         else return false;
-        
+        cc.director._globalVariables.player_cellCounter = 0;
+        cc.director._globalVariables.player_totalSeconds = 0;
+        cc.director._globalVariables.player_totalBoxes = 0;
+        cc.director._globalVariables.player_totalErrors = 0;
         this.saveData.cellCounter = 0
         this.saveData.gExp = this.saveData.reLoadGExp
         this.saveData.pLvlExp =  this.saveData.reLoadPLvlExp
