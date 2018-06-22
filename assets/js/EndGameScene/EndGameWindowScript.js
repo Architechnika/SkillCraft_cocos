@@ -89,16 +89,17 @@ cc.Class({
         if (cc.sys.localStorage.getItem("save"))
             this.saveData = JSON.parse(cc.sys.localStorage.getItem("save"));
         else return false;
+        
         this.saveData.cellCounter = 0
-        this.saveData.gExp = 0
-        this.saveData.pLvlExp = 0
-        this.saveData.nLvlExp = 0
-        this.saveData.lvl = 1
+        this.saveData.gExp = this.saveData.reLoadGExp
+        this.saveData.pLvlExp =  this.saveData.reLoadPLvlExp
+        this.saveData.nLvlExp = this.saveData.reLoadNLvlExp
+        this.saveData.lvl = this.saveData.reLoadLvl
         this.saveData.time = 0;
         this.saveData.arrayRoadGameObjectsNames = this.saveData.reLoadGameObjectsNames;
         this.saveData.arrayRoadCommandsNames = this.saveData.arrayBinRoad;
-        //  this.saveData.totalBoxes = cc.director._globalVariables.player_totalBoxes;
-        this.saveData.totalErrors = 0
+        this.saveData.totalErrors = 0;
+        this.saveData.totalLabs = this.saveData.reLoadTotalLabs;
         cc.sys.localStorage.setItem("save", JSON.stringify(this.saveData))
         return true;
     },
