@@ -70,12 +70,36 @@ cc.Class({
 
     //Обработчик кнопок
     buttonEventHandler(event) {
-        if (event.target.name = "nextButton") { //Переход на следующий уровень
+        if (event.target.name == "nextButton") { //Переход на следующий уровень
             cc.director.loadScene("GameScene");
-        } else if (event.target.name = "reloadButton") {
+        } else if (event.target.name == "reloadButton") {
+            // cc.sys.localStorage.setItem("isReloadGame", true);
+            cc.sys.localStorage.setItem("isNewGame", false)
+             this.reLoadSerrings();
             cc.director.loadScene("GameScene");
+           // cc.director._globalVariables.localStorageScript.reLoadSerrings();
         }
     },
+
+    reLoadSerrings() {
+        //функция, которая вызываеться когда идет перезагрузка уровня, она чистить те данные которые перезагружать не нужно
+        if (cc.sys.localStorage.getItem("save"))
+            this.saveData = JSON.parse(cc.sys.localStorage.getItem("save"));
+        else return false;
+        this.saveData.cellCounter = 0
+        this.saveData.gExp = 0
+        this.saveData.pLvlExp = 0
+        this.saveData.nLvlExp = 0
+        this.saveData.lvl = 1
+        this.saveData.time = 0;
+        this.saveData.arrayRoadGameObjectsNames = this.saveData.reLoadGameObjectsNames;
+        this.saveData.arrayRoadCommandsNames = this.saveData.arrayBinRoad;
+        //  this.saveData.totalBoxes = cc.director._globalVariables.player_totalBoxes;
+        this.saveData.totalErrors = 0
+        cc.sys.localStorage.setItem("save", JSON.stringify(this.saveData))
+        return true;
+    },
+
 
     //Проверка полученных ачивок
     _checkAchivements() {
@@ -84,7 +108,7 @@ cc.Class({
             var isRemove = false;
             switch (allPages[i].name) {
                 case "page_noErrors":
-                    if(cc.director._globalVariables.player_totalErrors > 0)
+                    if (cc.director._globalVariables.player_totalErrors > 0)
                         isRemove = true;
                     break;
                 case "page_allBoxes":
@@ -94,7 +118,7 @@ cc.Class({
                 case "page_firstTry":
                     break;
             }
-            if(isRemove)
+            if (isRemove)
                 this.pageview_achiv.removePage(allPages[i]);
         }
     },
