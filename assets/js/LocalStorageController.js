@@ -31,7 +31,7 @@ cc.Class({
     key: "save",
     arrayRoadCommands: null,
     isFieldDataLoaded: false,
-    isFristSave:null,
+    isFristSave: null,
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -41,7 +41,14 @@ cc.Class({
             arrayRoadCommandsNames: [],
             arrayBinRoad: [],
             arrayRoadGameObjectsNames: [],
-            reLoadGameObjectsNames:[],
+            reLoadGameObjectsNames: [],
+            reLoadCoinCount: 0,
+            reLoadGExp: 0,
+            reLoadPLvlExp: 0,
+            reLoadNLvlExp: 100,
+            reLoadLvl: 1,
+            reLoadTotalLabs: 0,
+            reLoadTotalBoxes: 0,
             time: 0,
             coinCount: 0,
             isSaved: false,
@@ -56,10 +63,10 @@ cc.Class({
             totalLabs: 0,
 
         }
-        if(cc.sys.localStorage.getItem(this.key))
-             this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
+        if (cc.sys.localStorage.getItem(this.key))
+            this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
         if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
-//            this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
+            //            this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
             this.arrayRoadCommands = this.arrayCopy(this.saveData.arrayRoadCommandsNames);
             this.arrayRoadCommands = this.parseRoadsCommands(this.saveData.arrayRoadCommandsNames);
             this.isFieldDataLoaded = false;
@@ -193,11 +200,16 @@ cc.Class({
                         this.arrayRoadGameObjectsNames[i_r][j_r] = road.getComponent("RoadScript").isGameObjectName
                 }
             }
-            if(this.isFristSave)
-                {
-                    this.saveData.reLoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames);
+            if (this.isFristSave) {
+                this.saveData.reLoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames);
+                    this.saveData.reLoadGExp = cc.director._globalVariables.player_gExp;
+                    this.saveData.reLoadPLvlExp = cc.director._globalVariables.player_pLvlExp;
+                    this.saveData.reLoadNLvlExp = cc.director._globalVariables.player_nLvlExp;
+                    this.saveData.reLoadLvl = cc.director._globalVariables.player_lvl;
+                    this.saveData.reLoadTotalLabs = cc.director._globalVariables.player_totalLabs;
+                    this.saveData.reLoadTotalBoxes = cc.director._globalVariables.player_totalBoxes;
                     this.isFristSave = false;
-                }
+            }
             //
             this.saveData.rouColCount = cc.director._globalVariables.currentLabSize;
             this.saveData.cellCounter = cc.director._globalVariables.player_cellCounter;
@@ -320,10 +332,9 @@ cc.Class({
             this.save();
             this._timeCounter = 0;
         }
-        if(this.isFristSave)
-            {
-                this.save();
-            }
+        if (this.isFristSave) {
+            this.save();
+        }
         //console.log(this.saveData.arrayRoadCommandsNames)
         // console.log(this.arrayRoadCommandsNames)
     },
