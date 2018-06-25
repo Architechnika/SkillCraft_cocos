@@ -120,6 +120,8 @@ cc.Class({
             console.log("FINISH");
             //this.node.parent.getComponent("GlobalVariables").currentLabSize += 2;
             cc.director.getScene().destroy();
+            //Запоминаем сколько всего ящиков на поле
+            cc.director._globalVariables.totalBoxesOnMap = cc.director._globalVariables.gameNode.getComponent("GenMap").global_GameObjects.length;
             //ПЕРЕХОД НА СЦЕНУ С РЕЗУЛЬТАТОМ ПРОХОЖДЕНИЯ ЛАБИРИНТА
             cc.director.loadScene("EndGameScene");
             return;
@@ -163,6 +165,7 @@ cc.Class({
             cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("stopButton").active = false;
             this._playerStarted = false;
         }
+        cc.director._globalVariables.player_totalTry++;
         //Выводим робота в центр камеры
         this._robotCamFocus();
     },

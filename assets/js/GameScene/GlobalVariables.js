@@ -31,6 +31,7 @@ cc.Class({
         if (!cc.director._globalVariables) {//Выполняется когда игра только запустилась
             cc.director._globalVariables = this;
             cc.director._globalVariables.player_cellCounter = 0;
+            cc.director._globalVariables.player_totalTry = 0;
             //Переменные связанные с уровнем робота-----------------------------------------------------
             cc.director._globalVariables.player_gExp = 0; //Этот параметр будет загружен из сохранения
             cc.director._globalVariables.player_pLvlExp = 0;//Количество опыта для предыдущего уровня
