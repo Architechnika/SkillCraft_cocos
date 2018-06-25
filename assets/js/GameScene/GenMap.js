@@ -65,7 +65,8 @@ cc.Class({
                 element.scaleX = elemSizeX / element.width;
                 element.scaleY = elemSizeY / element.height;
                 element.x = stX + ((element.width * element.scaleX) / 2);
-                element.y = stY - ((element.height * element.scaleY) / 2);;
+                element.y = stY - ((element.height * element.scaleY) / 2);
+
                 //Если это элемент содержащий скрипт дороги, то запоминаем его в отдельный массив
                 if (element.getComponent("RoadScript")) {
                     var spl = element.name.split("_");

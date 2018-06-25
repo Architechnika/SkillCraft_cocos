@@ -5304,7 +5304,7 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": false,
+    "_enabled": true,
     "_spriteFrame": {
       "__uuid__": "6e1adf6b-6c0a-4776-bf22-32ecb0ea45ec"
     },
