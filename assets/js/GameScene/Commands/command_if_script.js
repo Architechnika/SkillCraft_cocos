@@ -15,7 +15,7 @@ cc.Class({
 
     onLoad() {
         this._H = this.node.parent.height;
-        this._W = this.node.parent.width;
+        this._W = 400;
         this._maxW = 400;
         this._isNeedGeneration = false;
         this.isMove = false;
@@ -178,6 +178,7 @@ cc.Class({
                 this.insertCommand(com, newCommand, true, true)
                 this.update();
                 this.deleteCommand(upCommand);
+               //  this.update();
                 //                this.insertCommand(com, newCommand, true, true)
             }
             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();

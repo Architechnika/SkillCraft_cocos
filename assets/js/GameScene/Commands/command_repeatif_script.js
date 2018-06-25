@@ -11,7 +11,7 @@ cc.Class({
 
     onLoad() {
         this._H = this.node.parent.height;
-        this._W = this.node.parent.width;
+        this._W = 400;
         this._maxW = 400;
         this._isNeedGeneration = false;
     },
