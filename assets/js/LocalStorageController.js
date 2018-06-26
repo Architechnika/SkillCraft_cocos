@@ -224,7 +224,7 @@ cc.Class({
             //
             this.saveData.arrayRoadCommandsNames = this.arrayCopy(this.arrayRoadCommandsNames); // кидаем в объект saveData бинарный массив для хранения имел команд кодмапа для каждой дороги
             this.saveData.arrayRoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames); //массив игровый объектов на дороге
-            this.saveData.time = this.time;
+            this.saveData.time = cc.director._globalVariables.player_totalSeconds
             this.saveData.isSaved = true;
             if (cc.director._globalVariables)
                 this.saveData.rouColCount = cc.director._globalVariables.currentLabSize;
