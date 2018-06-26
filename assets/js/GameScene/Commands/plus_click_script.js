@@ -38,7 +38,7 @@ cc.Class({
             }
             scrollScript.addToLeftScroll(elems, true);
             cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("okButton").active = true;//Отображаем кнопку ОК
-            cc.director._setScrollVisible(true);
+            cc.director._setScrollVisible(true,true);
         });
     },
     

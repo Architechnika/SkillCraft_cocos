@@ -159,7 +159,7 @@ cc.Class({
                     } else {
                         cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").insertCommand(cc.director._globalVariables.codeMapMenu._targetNode, this._getComplexCommandFromSimple(event.target), isAdd, false);
                     }
-                     cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+                    cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
                     cc.director._globalVariables.addCommandMode = false;
                     cc.director._setScrollVisible(false, true);
                 }
@@ -191,7 +191,7 @@ cc.Class({
                 //Вызываем обработчик для добавления итерации в countblock
                 this.counterAddHandler(name == "command_backspace" ? "-1" : name.split("_")[2], obj.parent.getComponent("command_counter_script"));
                 return;
-            } else if (obj.name == "command_ifandor_add") { //Если пользователь нажал на кнопку добавления условия blockB                
+            } else if (obj.name == "command_ifandor_add" && name !== "command_interact_delete") { //Если пользователь нажал на кнопку добавления условия blockB    
                 var isNoBCommands = false;
                 for (var i = 0; i < obj.parent._children.length; i++) {
                     if (obj.parent._children[i].name == "command_block_b") {
@@ -215,20 +215,64 @@ cc.Class({
                             break;
                         }
                     }
-                    var x = obj.x;
-                    obj.x += copy.width;
+                    if (copy === undefined) {
+                        console.log("AHTUNG ERROR COPY IS UNDEFINED");
+                    } else {
+                        var x = obj.x;
+                        obj.x += copy.width;
 
-                    copy.x = x;
-                    copy.y = obj.y;
-                    copy.width = obj.width;
-                    copy.height = obj.height;
-                    copy.active = true;
+                        copy.x = x;
+                        copy.y = obj.y;
+                        copy.width = obj.width;
+                        copy.height = obj.height;
+                        copy.active = true;
+                        copy.isCopy = true;
 
-                    obj.parent.addChild(copy);
-                    obj.parent.parent.width += copy.width;
-                    cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+                        obj.parent.addChild(copy);
+                        obj.parent.parent.width += copy.width;
+                        cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+                    }
                 }
-            } else {
+            } else if (name == "command_interact_delete") { //Если выбрано удаление элемента
+                //Проверяем - сколько элементов уже в условиях, если только один, то его надо удалить и на его место поместить command_block_b
+                var thereIsOnlyOne = true;
+                var activeInteractElems = [];
+                for (var i = 0; i < obj.parent._children.length; i++) {
+                    if (obj.parent._children[i].active) {
+                        if (obj.parent._children[i].name == "command_block_b") { //Если элемент command_block_b активен то ничего делать не надо
+                            break;
+                        } else {
+                            var spl = obj.parent._children[i].name.split("_");
+                            if (spl && spl.length > 1 && spl[1] == "interact") { //Если это элемент interact 
+                                activeInteractElems.push(obj.parent._children[i]); //Записываем его в массив активных элементов
+                                if (activeInteractElems.length > 1) { //Если насчитали больше одного элемента то выходим
+                                    thereIsOnlyOne = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!thereIsOnlyOne) { //Если там не один элемент, то применяем алгоритм удаления
+                    var plusObj = obj.parent.getChildByName("command_ifandor_add"); //Ищем элемент с плюсиком
+                    //Смещаем все элементы справа от удаляемого на величину удаляемого элемента
+                    for (var i = 0; i < obj.parent._children.length; i++) {
+                        if (obj.parent._children[i].x > obj.x)
+                            obj.parent._children[i].x -= obj.width;
+                    }
+                    //Уменьшаем ширину всего блока команды на ширину удаляемого обьекта
+                    obj.parent.parent.width -= obj.width;
+                    //Удаляем элемент
+                    if (obj.isCopy) {
+                        obj.parent.removeChild(obj);
+                        var n = obj.name;
+                        obj.destroy();
+                    } else obj.active = false;
+                } else if (activeInteractElems.length == 1) { //Иначе если там один элемент и это не command_block_b
+                    activeInteractElems[0].active = false; //То делаем его не активным
+                    obj.parent.getChildByName("command_block_b").active = true; //А command_block_b делаем активным
+                }
+            } else { //Если добавление происходит при клике на command_block_b
                 for (var i = 0; i < obj.parent._children.length; i++) {
                     if (obj.parent._children[i].name == name) {
                         obj.active = false;
@@ -278,8 +322,7 @@ cc.Class({
                     //  cc.director._globalVariables.isMove = true
                     if (this.e.target.name.split("_")[1] == "block") {
                         var par = null;
-                        if (this.e.target.parent.parent.parent.name == "CodeMapNode") 
-                        {
+                        if (this.e.target.parent.parent.parent.name == "CodeMapNode") {
                             par = this.e.target.parent.parent.parent
                             this.objScr.obj.deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
                         } else par = this.e.target.parent;
@@ -301,7 +344,7 @@ cc.Class({
                 }
                 // cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").deleteCommand(cc.director._globalVariables.codeMapMenu._targetNode);
             }
-             cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
+            cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").generation();
             cc.director._globalVariables.codeMapMenu.isMove = false;
             return;
         }
