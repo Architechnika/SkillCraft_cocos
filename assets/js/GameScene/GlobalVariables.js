@@ -49,6 +49,7 @@ cc.Class({
         cc.director._globalVariables.gameNode = this.node.getChildByName("GameNode");
         cc.director._globalVariables.scrollNode = this.node.getChildByName("ScrollsNode");
         cc.director._globalVariables.guiNode = this.node.getChildByName("GUINode");
+        cc.director._globalVariables.mainCanvasNode = this.node;
         cc.director._globalVariables.codeMapNode = this.node.getChildByName("CodeMapMask").getChildByName("CodeMapNode");
         cc.director._globalVariables.codeMapMenu = this.node.parent.getChildByName("command_menu");
         cc.director._globalVariables.labelBoxes = this.labelBoxes;

@@ -351,7 +351,6 @@ cc.Class({
         var elem = event.target;
         var menuObj = cc.director._globalVariables.codeMapMenu;
         var wElem = elem.getBoundingBoxToWorld(); //Получаем координаты элемента в мировых координатах
-        console.log(wElem);
         //Инициализируем его размеры
         var spl = event.target.name.split("_")[1];
         if (spl && spl == "block") { //Если это блок со сложной командой то меню надо располагать не в центре а в левом верхнем элементе
@@ -367,6 +366,13 @@ cc.Class({
         menuObj.height = elem.height;
         menuObj.scaleX = cc.director._globalVariables.codeMapNode.scaleX;
         menuObj.scaleY = cc.director._globalVariables.codeMapNode.scaleY;
+        //Проверяем не выходит ли меню за экран
+        var camBox = cc.director._globalVariables.mainCanvasNode.getBoundingBoxToWorld();//Получаем координаты видимой части игры в мировых координатах
+        var wMenuObj = menuObj.getBoundingBoxToWorld();
+        console.log(wMenuObj.x + " : " + wMenuObj.y)
+        console.log((wMenuObj.x - (wMenuObj.width / 2)));
+        console.log((wMenuObj.y + (wMenuObj.height / 2)));
+        console.log(camBox);
         //Делаем элемент активным
         menuObj.active = true;
         //Останавливаем дальнейшее распространение события

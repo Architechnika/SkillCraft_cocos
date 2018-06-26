@@ -180,6 +180,8 @@ cc.Class({
                     return this.toolTipText.commands.repeatif;
                 case "command_block_repeat":
                     return this.toolTipText.commands.repeat;
+                case "command_block_repeat_button":
+                    return this.toolTipText.commands.repeat;
                 case "command_counter":
                     return this.toolTipText.commands.counter;
                 case "command_drop":
