@@ -12,6 +12,7 @@ cc.Class({
     start() {
         //Добавляем обработчики событий мыши
         this.node.on(cc.Node.EventType.MOUSE_UP, this._onMouseUpEvent);
+        this.node.on(cc.Node.EventType.MOUSE_DOWN, this._onMouseDownEvent);
         //Пробрасываем на ноду методы и данные, чтобы их можно было получить извне
         this.node.textLabel = this.textLabel;
         this.node.okButton = this.okButton;
@@ -41,6 +42,8 @@ cc.Class({
                 this.cancelButton.active = true;
             }
         }
+    },
+    _onMouseDownEvent(event) {
     },
     //Обработчик клика мышкой
     _onMouseUpEvent(event) {
