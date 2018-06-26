@@ -293,6 +293,8 @@ cc.Class({
     getScript(obj) {
         if (obj.name == "CodeMapNode")
             return obj.getComponent("GenCodeMap");
+        if( obj.parent.parent.name == "CodeMapNode")
+            return  obj.parent.parent.getComponent("GenCodeMap");
         if (obj.name == "commands") {
             obj = obj.parent;
         } else if (obj.name == "elseCommands") {
