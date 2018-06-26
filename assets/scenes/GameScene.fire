@@ -980,7 +980,7 @@
     "node": {
       "__id__": 12
     },
-    "_enabled": true,
+    "_enabled": false,
     "_spriteFrame": {
       "__uuid__": "853fe133-4001-45fe-bd5d-68b3403d674f"
     },
@@ -2244,6 +2244,9 @@
       },
       {
         "__uuid__": "f4f50d29-aacb-453e-8473-f50eb73d64a9"
+      },
+      {
+        "__uuid__": "2d451006-52ed-46fb-85e3-105b5a354be6"
       }
     ],
     "blockCountCommands": [

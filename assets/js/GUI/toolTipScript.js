@@ -198,6 +198,8 @@ cc.Class({
                     return this.toolTipText.commands.interactRoad;
                 case "command_interact_wall":
                     return this.toolTipText.commands.interactWall;
+                case "command_interact_delete":
+                    return this.toolTipText.commands.interactDelete;
                 case "command_look_center":
                     return this.toolTipText.commands.lookCenter;
                 case "command_look_down":
@@ -279,6 +281,7 @@ cc.Class({
                     interactExit: "Выход из лабиринта. Условие выполнится если на этой клетке находится выход из лабиринта",
                     interactRoad: "Дорога в лабиринте. Условие выполнится если на этой клетке находится дорога",
                     interactWall: "Стена в лабиринте. Условие выполнится если на этой клетке находится стена",
+                    interactDelete: "Удаление условия. При выборе этого элемента удалит текущее условие",
                     lookCenter: "Посмотреть на клетку на которой стоит робот",
                     lookDown: "Посмотреть назад по отношению к тому куда смотрит робот",
                     lookLeft: "Посмотреть налево по отношению к тому куда смотрит робот",
