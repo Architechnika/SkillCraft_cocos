@@ -368,11 +368,16 @@ cc.Class({
         menuObj.scaleY = cc.director._globalVariables.codeMapNode.scaleY;
         //Проверяем не выходит ли меню за экран
         var camBox = cc.director._globalVariables.mainCanvasNode.getBoundingBoxToWorld();//Получаем координаты видимой части игры в мировых координатах
-        var wMenuObj = menuObj.getBoundingBoxToWorld();
-        console.log(wMenuObj.x + " : " + wMenuObj.y)
-        console.log((wMenuObj.x - (wMenuObj.width / 2)));
-        console.log((wMenuObj.y + (wMenuObj.height / 2)));
+        console.log(menuObj.x + " : " + menuObj.y)
+        console.log((menuObj.x - (menuObj.width / 2)));
+        console.log((menuObj.y + (menuObj.height / 2)));
         console.log(camBox);
+        console.log(cc.view.getVisibleSizeInPixel());
+        /*if(menuObj.y + (menuObj.height / 2) < 618){
+            var disc = menuObj.height * menuObj.scaleY;
+            menuObj.y += disc;
+            cc.director._globalVariables.codeMapNode.y -= disc;
+        }*/
         //Делаем элемент активным
         menuObj.active = true;
         //Останавливаем дальнейшее распространение события
