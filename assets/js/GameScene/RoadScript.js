@@ -58,6 +58,10 @@ cc.Class({
             cc.director._setScrollVisible(true, true);
         }
         cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToRightScroll(cc.director._globalVariables.scrollNode._rightScrollCommands);
+        var playerReadedCommands = cc.director._globalVariables.gameNode.getChildByName("Player").getComponent("PlayerScript")._addedCommands;
+        if(playerReadedCommands && playerReadedCommands.length > 0 && playerReadedCommands.includes(node)){
+            playerReadedCommands.splice(playerReadedCommands.indexOf(node),1);
+        }
     },
 
     onLoad() {

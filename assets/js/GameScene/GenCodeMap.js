@@ -66,6 +66,12 @@ cc.Class({
         if (road) {
             //  this.clear();
             this.node.resetTransform;
+            var buffCoord = {
+                x: this.node.x,
+                y: this.node.y,
+                scaleX: this.node.scaleX,
+                scaleY: this.node.scaleY,
+            };
             this.node.getComponent("ResizeScript").reset();
             var roadCommands = road.getComponent("RoadScript").roadCommands;
             if (roadCommands.length > 0) {
@@ -75,8 +81,6 @@ cc.Class({
                 var maxW = 0;
                 for (var i = 0; i < roadCommands.length; i++) {
                     var el = roadCommands[i];
-
-
                     var isChild = false;
                     for (var j = 0; j < this.node.children.length; j++) {
                         var ch = this.node.children[j];
@@ -114,8 +118,17 @@ cc.Class({
                 //console.log(bB.height / bB.width);
                 cc.director._globalVariables.codeMapNode.width = maxW + 100;
                 cc.director._globalVariables.codeMapNode.height = Math.abs(this.plus.y - (this.plus.height * this.plus.scaleY));
+                this.node.x = buffCoord.x;
+                this.node.y = buffCoord.y;
+                //Тут при необходимости можно сдвинуть ноду на величину новых добавленных элементов
+                this.node.scaleX = buffCoord.scaleX;
+                this.node.scaleY = buffCoord.scaleY;
+                //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
+            } else {
+                this.plus.y = this.plus.x = 0;
+                cc.director._globalVariables.codeMapNode.width = this.plus.width;
+                cc.director._globalVariables.codeMapNode.height = this.plus.height;
             }
-            //else cc.director._globalVariables.codeMapNode.getComponent("").resetNode();
         }
     },
     addCommand(comm) {
@@ -149,8 +162,8 @@ cc.Class({
             newCommand.x = upCommand.x
             newCommand.y = upCommand.y
             var itemWH = newCommand.height;
-            if(itemWH > 400)
-            itemWH =0;
+            if (itemWH > 400)
+                itemWH = 0;
             var h = 100;
             var w = 0;
             if (newCommand.name == "command_if" || newCommand.name == "command_repeat" || newCommand.name == "command_repeatif") {
@@ -172,7 +185,7 @@ cc.Class({
                 var isCheckPos = false;
                 var index = 0;
                 arr.height += itemWH;
-                 this.node.height += itemWH;
+                this.node.height += itemWH;
                 for (var i = 0; i < arr.children.length; i++) {
                     var el = arr.children[i];
                     if (isGo || el.name == "command_plus") {
