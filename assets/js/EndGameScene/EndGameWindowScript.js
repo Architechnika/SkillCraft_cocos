@@ -14,9 +14,9 @@ cc.Class({
         pageview_achiv: cc.PageView,
         progress_exp: cc.ProgressBar,
         achivement_delay: 3000, //Задержка с которой сменяются ачивки на экране
-        anim_delayTime: 3000, //Время на анимацию времени с опытом
-        anim_delayTotal: 250, //Время на анимацию всего лабиринтов пройдено
-        anim_delayErrs: 1000, //Время на анимацию ошибок допущено
+        anim_delayTime: 8000, //Время на анимацию времени с опытом
+        anim_delayTotal: 800, //Время на анимацию всего лабиринтов пройдено
+        anim_delayErrs: 2000, //Время на анимацию ошибок допущено
         _expK: 3, //Коэффициент прироста опыта - во сколько раз увеличивается необъходимое количество опыта для повышение уровня при каждом повышении уровня
         _counter: 0, //Счетчик времени
         _animTimeShowed: false, //Флаг анимации времени прохождения
@@ -29,6 +29,7 @@ cc.Class({
         _errorExp: 0, //Количество опыта которое вычитаетс когда есть ошибки(рассчитывается в calcExp)
         _errorExpConst: 0, //Буфер хранящий эталонное количество опыта которое вычитается из-за ошибок
         _totalLabsBuff: 0, //Буфер для хранения всего лабиринтов пройдено
+        _animDefScaleBuff: [], //Буфер для запоминания дефолтных размеров элементов(для отмены анимации)
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -111,38 +112,40 @@ cc.Class({
 
     //Проверка полученных ачивок
     _checkAchivements() {
+        this.pageview_achiv.node.active = true;
         //Если ошибки были допущены - то удаляем ачивку БЕЗ ОШИБОК
-        if(cc.director._globalVariables.player_totalErrors !== 0){
+        if (cc.director._globalVariables.player_totalErrors !== 0) {
             this._deleteAchivFromPageView("page_noErrors");
         }
         //Если собраны не все ящики - то удаляем ачивку СОБРАНЫ ВСЕ ЯЩИКИ
-        if(cc.director._globalVariables.totalBoxesOnMap !== cc.director._globalVariables.player_totalBoxes){
+        if (cc.director._globalVariables.totalBoxesOnMap !== cc.director._globalVariables.player_totalBoxes) {
             this._deleteAchivFromPageView("page_allBoxes");
         }
         //Если лабиринт пройден не оптимальным способом - то удаляем ачивку КРАТЧАЙШИЙ ПУТЬ
-        if(cc.director._globalVariables.player_cellCounter >= (cc.director._globalVariables.currentLabSize * 2)){
+        if (cc.director._globalVariables.player_cellCounter >= (cc.director._globalVariables.currentLabSize * 2)) {
             this._deleteAchivFromPageView("page_shortWay");
         }
         //Если лабиринт пройден не за одну попытку - то удаляем ачивку С ПЕРВОГО РАЗА
-        if(cc.director._globalVariables.player_totalTry > 1){
+        if (cc.director._globalVariables.player_totalTry > 1) {
             this._deleteAchivFromPageView("page_firstTry");
         }
         //Если ачивки вообще есть - то удаляем ачивку БЕЗ АЧИВКИ
-        if(this.pageview_achiv.getPages().length > 1){
+        if (this.pageview_achiv.getPages().length > 1) {
             this._deleteAchivFromPageView("page_noAchiv");
         }
+        this.pageview_achiv.node.active = false;
     },
     //Удаляет ачивку из pageview_achiv
-    _deleteAchivFromPageView(name){
+    _deleteAchivFromPageView(name) {
         var allPages = this.pageview_achiv.getPages();
-        for(var i = 0 ; i < allPages.length; i++){
-            if(allPages[i].name == name){
+        for (var i = 0; i < allPages.length; i++) {
+            if (allPages[i].name == name) {
                 this.pageview_achiv.removePage(allPages[i]);
                 break;
             }
         }
     },
-    
+
     //Функция обработчик для добавления опыта(и его вычитания)
     _setExp(diff) {
         //Если опыт игрока на первом уровне не применяем отрицательный дискрет
@@ -155,6 +158,8 @@ cc.Class({
             cc.director._globalVariables.player_lvl++; //Повышаем уровень
             //При повышении уровня, повышаем и сложность лабиринта
             cc.director._globalVariables.currentLabSize += 2;
+            //При повышении уровня запускаем анимацию визуализации повышения уровня на экране
+            this._startAnimScale(this.label_level.node); //Лейбл времени
         } else if (cc.director._globalVariables.player_gExp < cc.director._globalVariables.player_pLvlExp) { //Если уровень опустился
             cc.director._globalVariables.player_nLvlExp = cc.director._globalVariables.player_pLvlExp;
             cc.director._globalVariables.player_pLvlExp = cc.director._globalVariables.player_pLvlExp > 100 ? cc.director._globalVariables.player_pLvlExp / this._expK : 0;
@@ -167,6 +172,15 @@ cc.Class({
     update(dt) {
         this._counter += dt * 1000;
         if (!this._makeAnimStep()) {
+            if (!this.pageview_achiv.node.active) {
+                //Показываем ноду с ачивками
+                this.pageview_achiv.node.active = true;
+                this._startAnimScale(this.pageview_achiv.node);
+            }
+            if(!this.label_errors.node.active){
+                this.label_errors.node.active = true;
+                this._startAnimScale(this.label_errors.node);
+            }
             if (this._counter > this.achivement_delay) {
                 this._counter = 0;
                 //Рассчитываем индекс следующей странички
@@ -194,6 +208,9 @@ cc.Class({
             //Применяем прирост опыта
             this._setExp(exp_step);
             this._diffExp -= exp_step;
+            //Анимируем вывод
+            this._startAnimScale(this.label_time.node); //Лейбл времени
+            this._startAnimScale(this.progress_exp.node); //Полоска опыта
             //Выводим параметры на экран
             this._showResultsOnScreen(this._animTimeBuff,
                 cc.director._globalVariables.player_totalLabs,
@@ -219,11 +236,16 @@ cc.Class({
             if (this._totalLabsBuff == cc.director._globalVariables.player_totalLabs) {
                 //Увеличиваем счетчик лабиринтов
                 cc.director._globalVariables.player_totalLabs++;
+                //Активируем ноду вывода всего лабиринтов
+                if(!this.label_totalLabs.node.active)
+                    this.label_totalLabs.node.active = true;
+                //Анимируем вывод
+                this._startAnimScale(this.label_totalLabs.node); //Лейбл количества лабиринтов
                 //Выводим количество пройденных лабиринтов на экран
                 this._showResultsOnScreen(undefined, cc.director._globalVariables.player_totalLabs);
             }
             if (this._counter >= this.anim_delayTotal) { //Время на анимацию вышло
-                this._counter = this.anim_delayErrs;
+                this._counter = 0;
                 this._animTotalLabsShowed = true;
             }
             return true;
@@ -236,6 +258,12 @@ cc.Class({
                     //Применяем уменьшение опыта
                     this._setExp(exp_step);
                     this._errorExp -= exp_step;
+                    //Активируем ноду вывода всего лабиринтов
+                    if(!this.label_errors.node.active)
+                        this.label_errors.node.active = true;   
+                    //Анимируем вывод
+                    this._startAnimScale(this.label_errors.node); //Лейбл количества ошибок
+                    this._startAnimScale(this.progress_exp.node); //Полоска опыта
                     this._showResultsOnScreen(undefined, undefined, //Отображаем на экране
                         cc.director._globalVariables.player_lvl,
                         this._animErrsBuff,
@@ -247,10 +275,25 @@ cc.Class({
                 }
                 this._counter = 0;
             }
-
             return true;
         }
         return false;
+    },
+
+    //Запуск анимации SCALE для node
+    _startAnimScale(node) {
+        var animStrName = "scalingAnim";
+        //Для отдельных компонентов есть специальная анимация скейла
+        if (node.name == "progressBar")
+            animStrName = "scalingYAnim";
+        else if (node.name == "achiv_pageview") {
+            animStrName = "scalingXAnim";
+        } else if (node.name == "label_totalLabs" || node.name == "label_errors" || node.name == "label_level")
+            animStrName = "scalingLargeAnim";
+        var anim = node.getComponent(cc.Animation);
+        var animState = anim.getAnimationState(animStrName);
+        if (!animState._isPlaying)
+            anim.play(animStrName);
     },
 
     //Отображает значения всех нужных переменных на экране(время пррохождения, ошибки, опыт и тд)
