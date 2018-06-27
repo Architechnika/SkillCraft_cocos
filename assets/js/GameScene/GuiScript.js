@@ -50,7 +50,10 @@ cc.Class({
                         this.startButton.active = true;
                         this.stopButton.active = false;
                     }
+                    cc.director._globalVariables.nodeCommandToInit = undefined;
                     this.okButton.active = false;
+                    if(cc.director._globalVariables.scrollNode.getChildByName("label_counter").active)
+                        cc.director._globalVariables.scrollNode.getChildByName("label_counter").active = false;
                     //Скрываем скролл
                     cc.director._setScrollVisible(false, false);
                 }

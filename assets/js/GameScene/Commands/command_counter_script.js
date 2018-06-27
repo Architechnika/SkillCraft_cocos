@@ -238,7 +238,8 @@ cc.Class({
         label.string = this._counter.toString(); //Инитим лэйбл отображением итераций
         labelNode.active = true;
         script.addToRightScroll(script.blockCountCommands); //Добавляем в правый скролл набор команд для ввода цифр
-        cc.director._setScrollVisible(true); //Отображаем правый скролл
+        cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("okButton").active = true;
+        cc.director._setScrollVisible(true, false); //Отображаем правый скролл
     },
 
     update(dt) {
