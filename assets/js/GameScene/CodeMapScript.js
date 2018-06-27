@@ -12,4 +12,13 @@ cc.Class({
 
     },
     
+    //Обработчик кнопки сохранить скрипт
+    onButtonSaveClick(event){
+        console.log("Тут сохранять скрипт")
+    },
+    
+    //Обработчик кнопки очистить кодмап
+    onButtonClearClick(event){
+        console.log("Тут очищать кодмап");
+    },
 });
