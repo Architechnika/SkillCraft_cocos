@@ -57,7 +57,7 @@ cc.Class({
             //Получаем скрипт этой ноды
             var evNodeScript = event.target.getComponent("RoadScript");
             //Вызываем обработчик клика по этой ноде
-            evNodeScript._onRoadClick(event);
+            evNodeScript.onRoadClick(event);
         }
     },
 

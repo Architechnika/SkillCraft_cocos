@@ -18,7 +18,7 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    _onRoadClick(event) {
+    onRoadClick(event) {
         //Если лейбл отображения итераций в блоке count виден - скрываем его
         if(cc.director._globalVariables.scrollNode.getChildByName("label_counter").active)
             cc.director._globalVariables.scrollNode.getChildByName("label_counter").active = false;
@@ -65,9 +65,8 @@ cc.Class({
     },
 
     onLoad() {
-
         this.node.roadCommands = this.roadCommands
-        this.node.on('mouseup', this._onRoadClick);
+        //this.node.on('mouseup', this._onRoadClick);
     },
 
     start() {
