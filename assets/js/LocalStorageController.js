@@ -32,16 +32,19 @@ cc.Class({
     arrayRoadCommands: null,
     isFieldDataLoaded: false,
     isFristSave: null,
+    arrayLoadCommandBlocks: null,// массив для хранения сохраненных скриптов
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
         this.key = "save";
+        this.arrayLoadCommandBlocks = [];
         this.isFristSave = true;
         this.saveData = {
             arrayRoadCommandsNames: [],
             arrayBinRoad: [],
             arrayRoadGameObjectsNames: [],
             reLoadGameObjectsNames: [],
+            // arraySaveCommands: [],
             reLoadCoinCount: 0,
             reLoadGExp: 0,
             reLoadPLvlExp: 0,
@@ -63,8 +66,13 @@ cc.Class({
             totalLabs: 0,
 
         }
-        if (cc.sys.localStorage.getItem(this.key))
+        if (cc.sys.localStorage.getItem(this.key)) {
             this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
+            if (this.saveData.arraySaveCommands && this.saveData.arraySaveCommands.length > 0) {
+                this.commandBlocksParser(this.saveData.arraySaveCommands, this.arrayLoadCommandBlocks);
+                console.log(this.arrayLoadCommandBlocks)
+            }
+        }
         if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
             //            this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
             this.arrayRoadCommands = this.arrayCopy(this.saveData.arrayRoadCommandsNames);
@@ -203,13 +211,13 @@ cc.Class({
             }
             if (this.isFristSave) {
                 this.saveData.reLoadGameObjectsNames = this.arrayCopy(this.arrayRoadGameObjectsNames);
-                    this.saveData.reLoadGExp = cc.director._globalVariables.player_gExp;
-                    this.saveData.reLoadPLvlExp = cc.director._globalVariables.player_pLvlExp;
-                    this.saveData.reLoadNLvlExp = cc.director._globalVariables.player_nLvlExp;
-                    this.saveData.reLoadLvl = cc.director._globalVariables.player_lvl;
-                    this.saveData.reLoadTotalLabs = cc.director._globalVariables.player_totalLabs;
-                    this.saveData.reLoadTotalBoxes = cc.director._globalVariables.player_totalBoxes;
-                    this.isFristSave = false;
+                this.saveData.reLoadGExp = cc.director._globalVariables.player_gExp;
+                this.saveData.reLoadPLvlExp = cc.director._globalVariables.player_pLvlExp;
+                this.saveData.reLoadNLvlExp = cc.director._globalVariables.player_nLvlExp;
+                this.saveData.reLoadLvl = cc.director._globalVariables.player_lvl;
+                this.saveData.reLoadTotalLabs = cc.director._globalVariables.player_totalLabs;
+                this.saveData.reLoadTotalBoxes = cc.director._globalVariables.player_totalBoxes;
+                this.isFristSave = false;
             }
             //
             this.saveData.rouColCount = cc.director._globalVariables.currentLabSize;
@@ -326,7 +334,14 @@ cc.Class({
         var newArray = JSON.parse(JSON.stringify(arr))
         return newArray;
     },
-
+    commandBlocksParser(arrBlocksNames, arrBlock) {
+        for (var i = 0; i < arrBlocksNames.length; i += 2) {
+            var par = cc.instantiate(this.allcommands[31]);
+            arrBlock.push(arrBlocksNames[i]);
+            this.complexCommandParse(arrBlocksNames[i + 1], par, null)
+            arrBlock.push(par);
+        }
+    },
     update(dt) {
         this._timeCounter += dt;
         if (this._timeCounter > 5) {
