@@ -13,21 +13,8 @@ cc.Class({
 
     //Обработчик кнопки сохранить скрипт
     onButtonSaveClick(event) {
-        console.log("Тут сохранять скрипт")
-        cc.director._globalVariables.localStorageScript.save();
-        if(!cc.director._globalVariables.selectedRoad)
-            return;
-        var selRoadSrc = cc.director._globalVariables.selectedRoad.getComponent("RoadScript");
-        var saveData = cc.director._globalVariables.localStorageScript.saveData;
-        if (selRoadSrc && selRoadSrc !== undefined) {
-            if (saveData.arraySaveCommands) {} else {
-                saveData.arraySaveCommands = [];
-
-            }
-            saveData.arraySaveCommands.push("name")
-            saveData.arraySaveCommands.push(saveData.arrayRoadCommandsNames[selRoadSrc.getI()][selRoadSrc.getJ()])
-            cc.sys.localStorage.setItem(cc.director._globalVariables.localStorageScript.key, JSON.stringify(saveData))
-        }
+        //Сохраням текущий блок команд в локалсторейдж
+        cc.director._globalVariables.localStorageScript.saveCommandBlock();
     },
 
     //Обработчик кнопки очистить кодмап

@@ -28,6 +28,8 @@ cc.Class({
             if (road != undefined) {
                 var roadComm = road.getComponent("RoadScript").roadCommands;
                 if (roadComm != null) {
+                    //Если команд ещё не добавлено чистим скролл от префабов сохранений
+                    if (roadComm.length == 0) cc.director._globalVariables.scrollNode.getComponent("ScrollScript").clearLeftScroll();
                     var element = cc.instantiate(this);
                     //Проверяем добавляемый префаб на сложность
                     var obj = this._getComplexCommandFromSimple(element);
@@ -122,6 +124,33 @@ cc.Class({
         this.codeViewCommandClickHandler(event.target.name, cc.director._globalVariables.nodeCommandToInit);
     },
 
+    //Обработчик нажатий на сохраненный скрипт
+    onSavedCommandClick(event) {
+        var container = cc.director._globalVariables.selectedRoad.getComponent("RoadScript");
+        var container = container.roadCommands;
+        if(container.length > 0) return;
+        for (var i = 0; i < event.target.loadedCommands._children.length; i++) {
+            event.target.loadedCommands._children[i]._parent = null;
+            container.push(event.target.loadedCommands._children[i]);
+        }
+    },
+
+    //Обработчик удаления сохранения команды
+    onSavedCommandDeleteClick(event) {
+        var node = event.target.parent.loadedCommands; //Получаем нужный нам обьект
+        var delIndex = cc.director._globalVariables.localStorageScript.arrayLoadCommandBlocks.indexOf(node); //Получаем индекс этого элемента в массиве сохранений
+        //Удаляем обьект из локал сторейджа
+        var saveData = cc.director._globalVariables.localStorageScript.saveData;
+        saveData.arraySaveCommands.splice(delIndex - 1, 1);
+        saveData.arraySaveCommands.splice(delIndex - 1, 1);
+        cc.sys.localStorage.setItem(cc.director._globalVariables.localStorageScript.key, JSON.stringify(saveData))
+        //Удаляем обьект из буфера сохраненных команд
+        cc.director._globalVariables.localStorageScript.arrayLoadCommandBlocks.splice(delIndex - 1, 1); //Удаляем имя сохранение
+        cc.director._globalVariables.localStorageScript.arrayLoadCommandBlocks.splice(delIndex - 1, 1); //Удаляем само сохранение
+        //Перезагружаем левый скролл
+        cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addSavedCommands(cc.director._globalVariables.localStorageScript.arrayLoadCommandBlocks);
+    },
+
     onLoad() {
 
         this.node.ifBlock = this.ifBlock;
@@ -141,6 +170,7 @@ cc.Class({
         this.node.getScript = this.getScript;
         //
         this.node.on('mouseup', function (event) {
+            if (this.name == "command_saved") return false; //Не обрабатываем нажатия на кнопку с сохраненными командами тут(обработчик висит в сцене)
             if (cc.director._globalVariables.codeMapNode.getComponent("ResizeScript").isDowned) //Это для того чтобы клики не срабатывали при смещениях
                 return false;
             if (cc.director._globalVariables.eventDownedOn == "CodeMapNode" && event.target.parent.name == "content") //Если нажатие было начато в кодмапе а завершено в скроле то не обрабатываем
@@ -293,8 +323,8 @@ cc.Class({
     getScript(obj) {
         if (obj.name == "CodeMapNode")
             return obj.getComponent("GenCodeMap");
-        if( obj.parent.parent.name == "CodeMapNode")
-            return  obj.parent.parent.getComponent("GenCodeMap");
+        if (obj.parent.parent.name == "CodeMapNode")
+            return obj.parent.parent.getComponent("GenCodeMap");
         if (obj.name == "commands") {
             obj = obj.parent;
         } else if (obj.name == "elseCommands") {
@@ -367,7 +397,7 @@ cc.Class({
         menuObj.scaleX = cc.director._globalVariables.codeMapNode.scaleX;
         menuObj.scaleY = cc.director._globalVariables.codeMapNode.scaleY;
         //Проверяем не выходит ли меню за экран
-        
+
         //Делаем элемент активным
         menuObj.active = true;
         //Останавливаем дальнейшее распространение события

@@ -1,15 +1,6 @@
 /*
     Скрипт отвечающий за работу с файловой системой. Загрузка и сохранение пользовательских данных
 */
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
@@ -32,7 +23,7 @@ cc.Class({
     arrayRoadCommands: null,
     isFieldDataLoaded: false,
     isFristSave: null,
-    arrayLoadCommandBlocks: null,// массив для хранения сохраненных скриптов
+    arrayLoadCommandBlocks: null, // массив для хранения сохраненных скриптов
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -70,7 +61,6 @@ cc.Class({
             this.saveData = JSON.parse(cc.sys.localStorage.getItem(this.key));
             if (this.saveData.arraySaveCommands && this.saveData.arraySaveCommands.length > 0) {
                 this.commandBlocksParser(this.saveData.arraySaveCommands, this.arrayLoadCommandBlocks);
-                console.log(this.arrayLoadCommandBlocks)
             }
         }
         if (cc.sys.localStorage.getItem(this.key) && cc.sys.localStorage.getItem("isNewGame") && cc.sys.localStorage.getItem("isNewGame") == "false") {
@@ -239,6 +229,27 @@ cc.Class({
             cc.sys.localStorage.setItem(this.key, JSON.stringify(this.saveData))
         }
     },
+    //Cохраняет команду в локал сторейдж
+    saveCommandBlock() {
+        cc.director._globalVariables.localStorageScript.save();
+        if (!cc.director._globalVariables.selectedRoad)
+            return;
+        var selRoadSrc = cc.director._globalVariables.selectedRoad.getComponent("RoadScript");
+        var saveData = cc.director._globalVariables.localStorageScript.saveData;
+        if (selRoadSrc && selRoadSrc !== undefined) {
+            if (saveData.arraySaveCommands) {} else {
+                saveData.arraySaveCommands = [];
+
+            }
+            saveData.arraySaveCommands.push("name"); // + (Math.floor(Math.random() * (20 - 1)) + 1).toString())
+            saveData.arraySaveCommands.push(saveData.arrayRoadCommandsNames[selRoadSrc.getI()][selRoadSrc.getJ()])
+            cc.sys.localStorage.setItem(cc.director._globalVariables.localStorageScript.key, JSON.stringify(saveData))
+            if (this.saveData.arraySaveCommands && this.saveData.arraySaveCommands.length > 0) {
+                this.arrayLoadCommandBlocks = [];
+                this.commandBlocksParser(this.saveData.arraySaveCommands, this.arrayLoadCommandBlocks);
+            }
+        }
+    },
 
     parseRoadsCommands(arr) {
         var arrPref = this.arrayCopy(arr);
@@ -334,6 +345,7 @@ cc.Class({
         var newArray = JSON.parse(JSON.stringify(arr))
         return newArray;
     },
+
     commandBlocksParser(arrBlocksNames, arrBlock) {
         for (var i = 0; i < arrBlocksNames.length; i += 2) {
             var par = cc.instantiate(this.allcommands[31]);
@@ -342,6 +354,7 @@ cc.Class({
             arrBlock.push(par);
         }
     },
+
     update(dt) {
         this._timeCounter += dt;
         if (this._timeCounter > 5) {

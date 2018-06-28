@@ -55,6 +55,8 @@ cc.Class({
         } else {
             var rScroll = cc.director._globalVariables.scrollNode.getChildByName("rightScroll");
             cc.director._globalVariables.guiNode.getChildByName("buttons").getChildByName("okButton").active = true;//Отображаем кнопку ОК
+            //Добавляем набор команд загруженных из памяти в левый скролл
+            cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addSavedCommands(cc.director._globalVariables.localStorageScript.arrayLoadCommandBlocks);
             cc.director._setScrollVisible(true, true);
         }
         cc.director._globalVariables.scrollNode.getComponent("ScrollScript").addToRightScroll(cc.director._globalVariables.scrollNode._rightScrollCommands);

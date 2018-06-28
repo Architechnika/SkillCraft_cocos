@@ -63,6 +63,10 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
+        savedCommand: {
+            default: null,
+            type: cc.Prefab
+        },
         _commandsMode: "",
         _rightScrollCommands: "",
     },
@@ -77,7 +81,23 @@ cc.Class({
         this.setCommandsState();
         cc.director._setScrollVisible(false, false);
     },
-
+    //Добавляет набор сохраненных префабов в левый скролл
+    addSavedCommands(arr){
+        if(!arr && !arr.length && arr.length < 2) return;//Проверяем условия к массиву
+        //Очищаем скролл
+        this.clearLeftScroll();
+        var inpObjs = [];//Создаем массив добавляемых обьектов
+        //Обходим элементы массива-------------------------------------------------------------------АЛГОРИТМ ПРЕОБРАЗОВАНИЯ ЗАГРУЖЕННЫХ КОМАНД В ПРЕФАБЫ ДЛЯ СКРОЛА
+        for(var i = 0 ; i < arr.length; i+=2){
+            var obj = cc.instantiate(this.savedCommand);//Инстантим префаб сохраненной команды
+            var labelN = obj.getChildByName("Label")//Выводим название сохраненной команды
+            var label = labelN.getComponent(cc.Label);
+            label.string = arr[i].toString();
+            obj.loadedCommands = arr[i+1];//Инитим ссылку на команду 
+            inpObjs.push(obj)
+        }
+        this.itemsSort(inpObjs, "leftScroll");//Добавляем созданные префабы в скролл
+    },
     addToLeftScroll(elements, isClear) {
         if (isClear) this.clearLeftScroll();
         this.itemsSort(elements, "leftScroll");
@@ -145,6 +165,8 @@ cc.Class({
                         cont.addChild(cc.instantiate(this.blockRepeatIF));
                     else if (arr[i].name == "command_repeat")
                         cont.addChild(cc.instantiate(this.blockCount));
+                    else if (arr[i].name == "command_saved")
+                        cont.addChild(arr[i]);
                     else cont.addChild(cc.instantiate(arr[i]));
                 }
             }
