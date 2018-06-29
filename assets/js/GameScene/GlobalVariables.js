@@ -23,6 +23,7 @@ cc.Class({
         toolTipNode: cc.Node,
         localStorageScript: null,
         messageBoxWindow: cc.Node,
+        saveCommandWindow: cc.Node,
        // isMove: null,
     },
 
@@ -62,6 +63,7 @@ cc.Class({
         cc.director._globalVariables.toolTipDelay = this.toolTipDelay;
         cc.director._globalVariables.isSelectByMouseMove = this.isSelectByMouseMove;
         cc.director._globalVariables.messageBoxWindow = this.messageBoxWindow;
+        cc.director._globalVariables.saveCommandWindow = this.saveCommandWindow
         //Функция для того чтобы показать messageBox с текстом
         cc.director._globalVariables.showMessageBox = function(text,mode){
           cc.director._globalVariables.messageBoxWindow.getComponent("messageBoxScript").showText(text,mode);  

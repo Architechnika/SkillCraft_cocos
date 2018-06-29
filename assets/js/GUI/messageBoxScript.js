@@ -9,6 +9,9 @@ cc.Class({
         cancelButton: cc.Node,
     },
 
+    onLoad() {
+    },
+    
     start() {
         //Добавляем обработчики событий мыши
         this.node.on(cc.Node.EventType.MOUSE_UP, this._onMouseUpEvent);
@@ -44,16 +47,19 @@ cc.Class({
         }
     },
     _onMouseDownEvent(event) {
+        event.stopPropagation();
     },
     //Обработчик клика мышкой
     _onMouseUpEvent(event) {
-        if (event.target == this.okButton) { //Нажатие на кнопку ОК
-            this.active = false;
-        } else if (event.target == this.cancelButton) { //Нажатие на кнопку отменить
-            this.active = false;
-        } else { //Иначе просто отменяем событие клика
-            event.stopPropagation();
-        }
-    }
+        event.stopPropagation();
+    },
+    
+    onOkButtonClick(event){
+        this.node.active = false;
+    },
+    
+    onCancelButtonClick(event){
+        this.node.active = false;
+    },
 
 });

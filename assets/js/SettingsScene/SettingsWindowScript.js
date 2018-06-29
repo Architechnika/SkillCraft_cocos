@@ -40,5 +40,8 @@ cc.Class({
 
     },
 
+    onMenuButtonClick(event){
+        cc.director.loadScene("MainMenuScene");   
+    }
     // update (dt) {},
 });

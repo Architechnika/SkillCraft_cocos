@@ -230,6 +230,8 @@ cc.Class({
                     return this.toolTipText.commands.left;
                 case "command_right":
                     return this.toolTipText.commands.right;
+                case "command_saved":
+                    return this.toolTipText.commands.saved;
             }
             return node.name;
         }
@@ -291,6 +293,7 @@ cc.Class({
                     lookUp: "Посмотреть вперед по отношению к тому куда смотрит робот",
                     pickup: "Подобрать обьект. Если обьекта под роботом нет, то будет ошибка",
                     plus: "При нажатии откроется меню добавления команд",
+                    saved: "Это блок сохраненных команд. Нажми на него чтобы загрузить его в клетку"
                 },
                 error: "Ошибка с тултипами, что-то пошло не так. Возможно программист забыл написать тултип для этого элемента",
             };

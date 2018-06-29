@@ -13,12 +13,11 @@ cc.Class({
 
     //Обработчик кнопки сохранить скрипт
     onButtonSaveClick(event) {
-        //Сохраням текущий блок команд в локалсторейдж
-        cc.director._globalVariables.localStorageScript.saveCommandBlock();
+        cc.director._globalVariables.saveCommandWindow.active = true;
     },
 
     //Обработчик кнопки очистить кодмап
     onButtonClearClick(event) {
-        console.log("Тут очищать кодмап");
+        //Сема, сделаешь обработчик очистки кодмапа сегодня?(крестик рядом с сохранением)
     },
 });

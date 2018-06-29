@@ -230,7 +230,7 @@ cc.Class({
         }
     },
     //Cохраняет команду в локал сторейдж
-    saveCommandBlock() {
+    saveCommandBlock(name) {
         cc.director._globalVariables.localStorageScript.save();
         if (!cc.director._globalVariables.selectedRoad)
             return;
@@ -241,7 +241,7 @@ cc.Class({
                 saveData.arraySaveCommands = [];
 
             }
-            saveData.arraySaveCommands.push("name"); // + (Math.floor(Math.random() * (20 - 1)) + 1).toString())
+            saveData.arraySaveCommands.push(name);
             saveData.arraySaveCommands.push(saveData.arrayRoadCommandsNames[selRoadSrc.getI()][selRoadSrc.getJ()])
             cc.sys.localStorage.setItem(cc.director._globalVariables.localStorageScript.key, JSON.stringify(saveData))
             if (this.saveData.arraySaveCommands && this.saveData.arraySaveCommands.length > 0) {
