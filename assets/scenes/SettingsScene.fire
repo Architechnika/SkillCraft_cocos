@@ -66,10 +66,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 11
       },
       {
-        "__id__": 13
+        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -283,9 +283,6 @@
       },
       {
         "__id__": 9
-      },
-      {
-        "__id__": 11
       }
     ],
     "_prefab": null,
@@ -421,16 +418,6 @@
     "component": "SettingsWindowScript",
     "handler": "onMenuButtonClick",
     "customEventData": ""
-  },
-  {
-    "__type__": "dad17VhAlNE0JFhVz64ufMk",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 7
-    },
-    "_enabled": true,
-    "_timeCounter": 0
   },
   {
     "__type__": "cc.Canvas",

@@ -3,6 +3,7 @@ cc.Class({
 
     properties: {
         _timeCounter: 0,
+        _playerScript: undefined,
     },
 
     start() {
@@ -18,6 +19,12 @@ cc.Class({
         this.node.on(cc.Node.EventType.MOUSE_MOVE, this._onMouseMoveEvent);
         this.node.on(cc.Node.EventType.MOUSE_UP, this._onMouseUpEvent);
         this.node.on(cc.Node.EventType.MOUSE_DOWN, this._onLeaveMouseEvent);
+        try{
+            this._playerScript = cc.director._globalVariables.gameNode.getChildByName("Player").getComponent("PlayerScript");
+        }
+        catch (err){
+            console.log("Нету доступа к скрипту игрока")
+        }
     },
     //Обработчики событий мыши
     _onEnterMouseEvent(event) {
@@ -67,6 +74,7 @@ cc.Class({
     //----------------------------------------------------------------------------------
     update(dt) {
         if (cc.director._globalVariables.isToolTipActive) { //Если тултипы вообще включены
+            if(!this._playerScript || this._playerScript._playerStarted === undefined || this._playerScript._playerStarted) return;
             //Если флаг того что мышка над нодой true и тултип еще не показан другой нодой
             if (cc.director._globalVariables.toolTipNode && this.node._isMouseEntered && !cc.director._globalVariables.toolTipNode.active) {
                 this._timeCounter += dt * 1000; //Отсчитываем милисекунды
@@ -151,6 +159,12 @@ cc.Class({
                     return this.toolTipText.gui.stop;
                 case "okButton":
                     return this.toolTipText.gui.ok;
+                case "okButton":
+                    return this.toolTipText.gui.ok;
+                case "button_save":
+                    return this.toolTipText.gui.save;
+                case "button_clear":
+                    return this.toolTipText.gui.delete;
             }
         } else if (node.group == "Commands") {
             switch (node.name) {
@@ -258,6 +272,8 @@ cc.Class({
                     reload: "Кнопка НА СТАРТ. При нажатии на нее робот вернется на старт",
                     nextstep: "Кнопка сделать шаг. При нажатии на нее робот выполнит одну команду",
                     prevstep: "Кнопка вернуться на шаг. При нажатии на нее робот вернется на шаг назад",
+                    save: "Кнопка сохранения команд. Нажми на неё чтобы сохранить команды в этой клетке",
+                    delete: "Кнопка очистки команд в этой клетке. Будь осторожен - после удаления команды восстановить уже нельзя",
                 },
                 commands: {
                     and: "Логическое И в условиях",
