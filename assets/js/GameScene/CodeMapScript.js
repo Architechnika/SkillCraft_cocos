@@ -19,5 +19,8 @@ cc.Class({
     //Обработчик кнопки очистить кодмап
     onButtonClearClick(event) {
         //Сема, сделаешь обработчик очистки кодмапа сегодня?(крестик рядом с сохранением)
+        cc.director._globalVariables.codeMapNode.getComponent("GenCodeMap").clear();
+        cc.director._globalVariables.selectedRoad.getComponent("RoadScript").roadCommands.length = 0;
+        cc.director._globalVariables.localStorageScript.save();
     },
 });
