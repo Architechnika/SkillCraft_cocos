@@ -15,9 +15,6 @@
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 77
       }
     ],
     "_tag": -1,
@@ -72,16 +69,19 @@
       },
       {
         "__id__": 51
+      },
+      {
+        "__id__": 74
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 74
+        "__id__": 80
       },
       {
-        "__id__": 75
+        "__id__": 81
       },
       {
         "__id__": 82
@@ -2818,104 +2818,28 @@
     "playOnLoad": false
   },
   {
-    "__type__": "cc.Canvas",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "_designResolution": {
-      "__type__": "cc.Size",
-      "width": 960,
-      "height": 640
-    },
-    "_fitWidth": true,
-    "_fitHeight": true
-  },
-  {
-    "__type__": "86dd3NusdVNxJaTs1QyJg1M",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "label_time": {
-      "__id__": 57
-    },
-    "label_totalLabs": {
-      "__id__": 62
-    },
-    "label_level": {
-      "__id__": 67
-    },
-    "label_errors": {
-      "__id__": 72
-    },
-    "pageview_achiv": {
-      "__id__": 48
-    },
-    "progress_exp": {
-      "__id__": 76
-    },
-    "achivement_delay": 3500,
-    "anim_delayTime": 3000,
-    "anim_delayTotal": 250,
-    "anim_delayErrs": 1000,
-    "_expK": 3,
-    "_counter": 0,
-    "_animTimeShowed": false,
-    "_animTotalLabsShowed": false,
-    "_animErrsShowed": false,
-    "_animTimeBuff": 0,
-    "_animErrsBuff": 0,
-    "_diffExp": 0,
-    "_diffExpConst": 0,
-    "_errorExp": 0,
-    "_errorExpConst": 0,
-    "_totalLabsBuff": 0,
-    "_animDefScaleBuff": []
-  },
-  {
-    "__type__": "cc.ProgressBar",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 77
-    },
-    "_enabled": true,
-    "_N$totalLength": 500,
-    "_N$barSprite": {
-      "__id__": 79
-    },
-    "_N$mode": 0,
-    "_N$progress": 0.1,
-    "_N$reverse": false
-  },
-  {
     "__type__": "cc.Node",
     "_name": "progressBar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1
+      "__id__": 2
     },
     "_children": [
       {
-        "__id__": 78
+        "__id__": 75
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 80
+        "__id__": 77
       },
       {
-        "__id__": 76
+        "__id__": 78
       },
       {
-        "__id__": 81
+        "__id__": 79
       }
     ],
     "_prefab": null,
@@ -2945,8 +2869,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 244,
-      "y": 351
+      "x": -236,
+      "y": 31
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2960,14 +2884,14 @@
     "_name": "bar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 77
+      "__id__": 74
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 76
       }
     ],
     "_prefab": null,
@@ -3012,7 +2936,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 75
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3038,7 +2962,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 77
+      "__id__": 74
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -3060,11 +2984,27 @@
     "_atlas": null
   },
   {
+    "__type__": "cc.ProgressBar",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 74
+    },
+    "_enabled": true,
+    "_N$totalLength": 500,
+    "_N$barSprite": {
+      "__id__": 76
+    },
+    "_N$mode": 0,
+    "_N$progress": 0.1,
+    "_N$reverse": false
+  },
+  {
     "__type__": "cc.Animation",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 77
+      "__id__": 74
     },
     "_enabled": true,
     "_defaultClip": {
@@ -3076,6 +3016,66 @@
       }
     ],
     "playOnLoad": false
+  },
+  {
+    "__type__": "cc.Canvas",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_designResolution": {
+      "__type__": "cc.Size",
+      "width": 960,
+      "height": 640
+    },
+    "_fitWidth": true,
+    "_fitHeight": true
+  },
+  {
+    "__type__": "86dd3NusdVNxJaTs1QyJg1M",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "label_time": {
+      "__id__": 57
+    },
+    "label_totalLabs": {
+      "__id__": 62
+    },
+    "label_level": {
+      "__id__": 67
+    },
+    "label_errors": {
+      "__id__": 72
+    },
+    "pageview_achiv": {
+      "__id__": 48
+    },
+    "progress_exp": {
+      "__id__": 78
+    },
+    "achivement_delay": 3500,
+    "anim_delayTime": 3000,
+    "anim_delayTotal": 250,
+    "anim_delayErrs": 1000,
+    "_expK": 3,
+    "_counter": 0,
+    "_animTimeShowed": false,
+    "_animTotalLabsShowed": false,
+    "_animErrsShowed": false,
+    "_animTimeBuff": 0,
+    "_animErrsBuff": 0,
+    "_diffExp": 0,
+    "_diffExpConst": 0,
+    "_errorExp": 0,
+    "_errorExpConst": 0,
+    "_totalLabsBuff": 0,
+    "_animDefScaleBuff": []
   },
   {
     "__type__": "31c32ezshtI+Y7LlTi1PBaN",
